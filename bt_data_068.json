@@ -1,0 +1,56 @@
+{
+  "conf": 0.68,
+  "strategies": {
+    "A": {
+      "total_trades": 2025,
+      "wins": 1748,
+      "losses": 277,
+      "win_rate": 86.3,
+      "profit_factor": 16.53,
+      "total_pnl": 14790122,
+      "gross_profit": 15742232,
+      "gross_loss": 952110,
+      "avg_win": 9006,
+      "avg_loss": -3437,
+      "max_win": 151117,
+      "max_loss": -28192,
+      "max_drawdown": 36632,
+      "max_win_streak": 49,
+      "max_loss_streak": 10
+    },
+    "B": {
+      "total_trades": 1545,
+      "wins": 1359,
+      "losses": 186,
+      "win_rate": 88.0,
+      "profit_factor": 20.22,
+      "total_pnl": 18260428,
+      "gross_profit": 19210501,
+      "gross_loss": 950073,
+      "avg_win": 14136,
+      "avg_loss": -5108,
+      "max_win": 228913,
+      "max_loss": -50203,
+      "max_drawdown": 58487,
+      "max_win_streak": 36,
+      "max_loss_streak": 3
+    },
+    "D": {
+      "total_trades": 2502,
+      "wins": 1975,
+      "losses": 527,
+      "win_rate": 78.9,
+      "profit_factor": 12.67,
+      "total_pnl": 16213675,
+      "gross_profit": 17603545,
+      "gross_loss": 1389870,
+      "avg_win": 8913,
+      "avg_loss": -2637,
+      "max_win": 100360,
+      "max_loss": -2646,
+      "max_drawdown": 17829,
+      "max_win_streak": 36,
+      "max_loss_streak": 6
+    }
+  }
+}

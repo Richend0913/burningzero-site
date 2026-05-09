@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BURNING ZERO - AI Gold Trading Platform</title>
+<meta name="description" content="BURNING ZERO: ML-powered gold scalping platform with 88.0% win rate and PF 20.22. Fully automated XAU/USD trading via MT5.">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="i18n.js" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
+<script>if(typeof t==='undefined'){window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';}</script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Segoe UI', sans-serif;
+  background: #0a0a14;
+  color: #e0e0e0;
+  min-height: 100dvh;
+  line-height: 1.6;
+}
+a { text-decoration: none; color: inherit; }
+
+.page { max-width: 800px; margin: 0 auto; padding: 0 16px; }
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid #1e1e30;
+}
+.header-logo {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-link {
+  font-size: 13px;
+  color: #888;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.nav-link:hover { color: #ff6644; }
+
+/* ── Lang Picker ── */
+.lang-picker { position: relative; }
+.lang-btn { background: transparent; border: 1px solid #333; color: #888; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+.lang-menu { display: none; position: absolute; right: 0; top: 100%; background: #1a1a2a; border: 1px solid #333; border-radius: 8px; overflow: hidden; z-index: 100; min-width: 120px; }
+.lang-menu.open { display: block; }
+.lang-option { padding: 8px 16px; cursor: pointer; font-size: 13px; color: #ccc; }
+.lang-option:hover { background: #2a2a3e; }
+.lang-option.active { color: #ff6644; }
+
+/* ── Hero ── */
+.hero {
+  text-align: center;
+  padding: 60px 0 48px;
+}
+.hero-title {
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #ffffff, #cccccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-subtitle {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 36px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.hero-stat {
+  background: #12121e;
+  border: 1px solid #1e1e30;
+  border-radius: 12px;
+  padding: 20px 12px;
+  text-align: center;
+}
+.hero-stat-val {
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-stat-label {
+  font-size: 11px;
+  color: #666;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.hero-cta {
+  display: inline-block;
+  padding: 16px 48px;
+  background: linear-gradient(135deg, #ff4444, #ff6600);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 24px rgba(255, 68, 68, 0.3);
+}
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 32px rgba(255, 68, 68, 0.4);
+}
+.hero-cta:active { transform: scale(0.97); }
+
+.slots-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #12121e;
+  border: 1px solid #ff660044;
+  border-radius: 20px;
+  padding: 8px 20px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff6644;
+}
+.slots-count { color: #fff; }
+
+/* ── Section ── */
+.section {
+  padding: 48px 0;
+}
+.section-title {
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 32px;
+  color: #fff;
+}
+
+/* ── How it works ── */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.step {
+  background: #12121e;
+  border: 1px solid #1e1e30;
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+}
+.step-num {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+}
+.step-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.step-desc {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.5;
+}
+
+/* ── BT Cards ── */
+.bt-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.bt-card {
+  background: #12121e;
+  border: 1px solid #1e1e30;
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.bt-card:hover {
+  border-color: #ff6644;
+  transform: translateY(-2px);
+}
+.bt-card-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.bt-card-stats {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+.bt-card-stat {
+  text-align: center;
+}
+.bt-card-stat-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ff6644;
+}
+.bt-card-stat-label {
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.bt-card.featured {
+  border-color: #ff660044;
+  background: linear-gradient(135deg, #1a0e08, #12121e);
+}
+.bt-card.featured .bt-card-name {
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── FAQ ── */
+.faq-list {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.faq-item {
+  border-bottom: 1px solid #1e1e30;
+}
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ddd;
+  transition: color 0.15s;
+}
+.faq-q:hover { color: #ff6644; }
+.faq-q::after {
+  content: '+';
+  font-size: 20px;
+  color: #555;
+  transition: transform 0.2s;
+}
+.faq-item.open .faq-q::after {
+  transform: rotate(45deg);
+  color: #ff6644;
+}
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  font-size: 14px;
+  color: #888;
+  line-height: 1.7;
+}
+.faq-item.open .faq-a {
+  max-height: 300px;
+  padding-bottom: 18px;
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 48px 0 32px;
+  border-top: 1px solid #1e1e30;
+  margin-top: 24px;
+}
+.footer-logo {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+.footer-disclaimer {
+  font-size: 11px;
+  color: #555;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Strategy Cards ── */
+.strategy-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+.strategy-card {
+  background: #12121e;
+  border: 1px solid #1e1e30;
+  border-radius: 14px;
+  padding: 24px 20px;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.strategy-card:hover {
+  border-color: #ff660066;
+  transform: translateY(-2px);
+}
+.strategy-card.featured {
+  border-color: #ff660044;
+  background: linear-gradient(135deg, #1a0e08, #12121e);
+}
+.strategy-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.strategy-card-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+}
+.strategy-card.featured .strategy-card-name {
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.strategy-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.strategy-tag.current {
+  background: #1b3a1b;
+  color: #4CAF50;
+}
+.strategy-tag.new {
+  background: linear-gradient(135deg, #ff4444, #ff6600);
+  color: #fff;
+}
+.strategy-card-desc {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.strategy-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.strategy-metric {
+  background: #0e0e1a;
+  border-radius: 8px;
+  padding: 10px 6px;
+  text-align: center;
+}
+.strategy-metric-val {
+  font-size: 16px;
+  font-weight: 800;
+  color: #ff6644;
+}
+.strategy-metric-label {
+  font-size: 9px;
+  color: #666;
+  margin-top: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.strategy-pnl {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 13px;
+  color: #4CAF50;
+  font-weight: 700;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .hero-title { font-size: 26px; }
+  .hero-subtitle { font-size: 14px; }
+  .hero-stat-val { font-size: 22px; }
+  .hero-cta { padding: 14px 36px; font-size: 15px; }
+  .steps { grid-template-columns: 1fr; gap: 12px; }
+  .bt-cards { grid-template-columns: 1fr; }
+  .section-title { font-size: 19px; }
+  .strategy-metrics { grid-template-columns: repeat(2, 1fr); }
+  .strategy-card-name { font-size: 15px; }
+  .hero { padding: 40px 0 36px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── Header ── -->
+  <header class="header">
+    <div class="header-logo">BURNING ZERO</div>
+    <div class="header-right">
+      <a href="/app" class="nav-link" data-i18n="nav_app">App</a>
+      <a href="backtest.html" class="nav-link" data-i18n="nav_backtest">Backtest</a>
+      <div id="lang-picker-mount"></div>
+    </div>
+  </header>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <h1 class="hero-title" data-i18n="hero_title">AI-Powered Gold Trading</h1>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">Fully automated XAU/USD scalping driven by machine learning. Three models vote unanimously before every trade.</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val">88.0%</div>
+        <div class="hero-stat-label" data-i18n="hero_stats_wr">Win Rate</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">20.22</div>
+        <div class="hero-stat-label" data-i18n="hero_stats_pf">Profit Factor</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">1,545</div>
+        <div class="hero-stat-label" data-i18n="hero_stats_trades">Trades</div>
+      </div>
+    </div>
+
+    <div class="slots-badge">
+      <span class="slots-icon">🔥</span>
+      <span data-i18n="slots_limited">Limited to 10 users</span>
+      <span class="slots-count" id="slots-remaining"></span>
+    </div>
+    <br>
+    <a href="https://one.exnessonelink.com/a/71hmw54ihe?source=app" target="_blank" class="hero-cta" data-i18n="hero_cta">Open Free Account</a>
+  </section>
+
+  <!-- ── How it works ── -->
+  <section class="section">
+    <h2 class="section-title" data-i18n="how_title">How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title" data-i18n="how_step1_title">Open Account</div>
+        <div class="step-desc" data-i18n="how_step1_desc">Create a free Exness account through our partner link to unlock the platform.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title" data-i18n="how_step2_title">Register</div>
+        <div class="step-desc" data-i18n="how_step2_desc">Connect your MT5 account credentials. We verify your broker link and approve access.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title" data-i18n="how_step3_title">Auto-Trade</div>
+        <div class="step-desc" data-i18n="how_step3_desc">Our ML models analyze the market 24/5 and execute trades automatically on your account.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Backtest Results Preview ── -->
+  <section class="section">
+    <h2 class="section-title" data-i18n="bt_title">Backtest Results</h2>
+    <a href="backtest.html" class="bt-card featured" style="max-width:480px;margin:0 auto">
+      <div class="bt-card-name" data-i18n="bot_trinity">ZERO TRINITY</div>
+      <div class="bt-card-desc" data-i18n="bot_trinity_desc" style="font-size:11px;color:#888;margin-bottom:8px">3 Models Unanimous Vote</div>
+      <div class="bt-card-stats">
+        <div class="bt-card-stat">
+          <div class="bt-card-stat-val">88.0%</div>
+          <div class="bt-card-stat-label">WR</div>
+        </div>
+        <div class="bt-card-stat">
+          <div class="bt-card-stat-val">20.22</div>
+          <div class="bt-card-stat-label">PF</div>
+        </div>
+        <div class="bt-card-stat">
+          <div class="bt-card-stat-val">1,545</div>
+          <div class="bt-card-stat-label" data-i18n="hero_stats_trades">Trades</div>
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <!-- ── Strategies ── -->
+  <section class="section">
+    <h2 class="section-title" data-i18n="strategies_title">Trading Strategies</h2>
+    <div class="strategy-cards">
+
+      <div class="strategy-card">
+        <div class="strategy-card-header">
+          <span class="strategy-card-name" data-i18n="strategy_a_name">Strategy A: Fixed 4-bar</span>
+          <span class="strategy-tag current" data-i18n="strategy_a_tag">Current</span>
+        </div>
+        <div class="strategy-card-desc" data-i18n="strategy_a_desc">Conservative scalping. Exit after exactly 4 minutes.</div>
+        <div class="strategy-metrics">
+          <div class="strategy-metric"><div class="strategy-metric-val">86.3%</div><div class="strategy-metric-label">WR</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">16.53</div><div class="strategy-metric-label">PF</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">¥36,632</div><div class="strategy-metric-label" data-i18n="max_dd_label">Max DD</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">2,025</div><div class="strategy-metric-label" data-i18n="trades">Trades</div></div>
+        </div>
+        <div class="strategy-pnl">+14,790,122 JPY</div>
+      </div>
+
+      <div class="strategy-card featured">
+        <div class="strategy-card-header">
+          <span class="strategy-card-name" data-i18n="strategy_b_name">Strategy B: ML Dynamic Exit</span>
+          <span class="strategy-tag new" data-i18n="strategy_b_tag">NEW</span>
+        </div>
+        <div class="strategy-card-desc" data-i18n="strategy_b_desc">ML decides optimal exit timing. Holds winners longer.</div>
+        <div class="strategy-metrics">
+          <div class="strategy-metric"><div class="strategy-metric-val">88.0%</div><div class="strategy-metric-label">WR</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">20.22</div><div class="strategy-metric-label">PF</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">¥58,487</div><div class="strategy-metric-label" data-i18n="max_dd_label">Max DD</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">1,545</div><div class="strategy-metric-label" data-i18n="trades">Trades</div></div>
+        </div>
+        <div class="strategy-pnl">+18,260,428 JPY</div>
+      </div>
+
+      <div class="strategy-card">
+        <div class="strategy-card-header">
+          <span class="strategy-card-name" data-i18n="strategy_d_name">Strategy D: Hybrid Smart Exit</span>
+          <span class="strategy-tag new" data-i18n="strategy_d_tag">NEW</span>
+        </div>
+        <div class="strategy-card-desc" data-i18n="strategy_d_desc">Auto trailing stop + loss cut. Best risk-adjusted returns.</div>
+        <div class="strategy-metrics">
+          <div class="strategy-metric"><div class="strategy-metric-val">78.9%</div><div class="strategy-metric-label">WR</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">12.67</div><div class="strategy-metric-label">PF</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">¥17,829</div><div class="strategy-metric-label" data-i18n="max_dd_label">Max DD</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">2,502</div><div class="strategy-metric-label" data-i18n="trades">Trades</div></div>
+        </div>
+        <div class="strategy-pnl">+16,213,675 JPY</div>
+      </div>
+
+    </div>
+    <div style="text-align:center;margin-top:20px">
+      <a href="backtest.html" class="hero-cta" style="font-size:14px;padding:12px 32px" data-i18n="strategy_compare">Compare All Strategies</a>
+    </div>
+  </section>
+
+  <!-- ── FAQ ── -->
+  <section class="section">
+    <h2 class="section-title" data-i18n="faq_title">FAQ</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q1">Is this really free?</div>
+        <div class="faq-a" data-i18n="faq_a1">Yes. The platform is completely free to use. We earn a commission from the broker when you trade, so there is no cost to you.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q2">What broker do I need?</div>
+        <div class="faq-a" data-i18n="faq_a2">You need an Exness MT5 account opened through our partner link. This is how we verify eligibility and keep the service free.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q3">How does the AI decide when to trade?</div>
+        <div class="faq-a" data-i18n="faq_a3">Three independent ML models (LightGBM, XGBoost, CatBoost) analyze 100+ features. A trade is only placed when all three models agree on direction, achieving a 75% win rate in backtesting.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q4">What is the minimum deposit?</div>
+        <div class="faq-a" data-i18n="faq_a4">Exness has no fixed minimum for most account types. We recommend starting with at least $100 and using 0.01 lot size to manage risk properly.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <div class="footer-logo">BURNING ZERO</div>
+    <p class="footer-disclaimer">Trading involves risk. Past performance does not guarantee future results. You should not invest money you cannot afford to lose. BURNING ZERO is not a financial advisor.</p>
+  </footer>
+
+</div>
+
+<script>
+// FAQ accordion
+function toggleFaq(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+}
+
+// i18n init
+document.addEventListener('DOMContentLoaded', function() {
+  // Render language picker
+  if (typeof renderLangPicker === 'function') {
+    document.getElementById('lang-picker-mount').innerHTML = renderLangPicker();
+  }
+  // Apply translations
+  if (typeof setLang === 'function' && typeof currentLang !== 'undefined') {
+    setLang(currentLang);
+  }
+  // Fetch remaining slots
+  fetch('/api/slots').then(r=>r.json()).then(d=>{
+    const el = document.getElementById('slots-remaining');
+    if(el) el.textContent = d.remaining + '/10';
+  });
+});
+</script>
+
+</body>
+</html>

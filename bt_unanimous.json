@@ -1,0 +1,439 @@
+{
+  "symbol": "XAUUSD",
+  "model": "unanimous",
+  "bot_name": "ZERO TRINITY",
+  "lot": "Fixed 0.1L",
+  "period": "2021/01/01 ~ 2026/05/05",
+  "summary": {
+    "total_trades": 67643,
+    "wins": 46283,
+    "losses": 21360,
+    "win_rate": 68.4,
+    "profit_factor": 4.37,
+    "total_pnl": 81847180,
+    "gross_profit": 106134177,
+    "gross_loss": 24286997,
+    "avg_win": 2052,
+    "avg_loss": -1007,
+    "max_win": 162033,
+    "max_loss": -49550,
+    "max_drawdown": 646789,
+    "max_win_streak": 30,
+    "max_loss_streak": 5
+  },
+  "long_short": {
+    "buy_trades": 34713,
+    "buy_wins": 23751,
+    "buy_wr": 68.4,
+    "buy_pnl": 42002294,
+    "sell_trades": 32930,
+    "sell_wins": 22531,
+    "sell_wr": 68.4,
+    "sell_pnl": 39844886
+  },
+  "monthly": [
+    {
+      "month": "2021",
+      "trades": 12840,
+      "wr": 65.2,
+      "pnl": 7344480
+    },
+    {
+      "month": "2022",
+      "trades": 12560,
+      "wr": 66.2,
+      "pnl": 7543536
+    },
+    {
+      "month": "2023",
+      "trades": 12924,
+      "wr": 60.8,
+      "pnl": 5359583
+    },
+    {
+      "month": "2024",
+      "trades": 12527,
+      "wr": 69.2,
+      "pnl": 10569030
+    },
+    {
+      "month": "2025",
+      "trades": 12346,
+      "wr": 76.7,
+      "pnl": 25599431
+    },
+    {
+      "month": "2026",
+      "trades": 4446,
+      "wr": 81.0,
+      "pnl": 25431120
+    }
+  ],
+  "hourly": [
+    {
+      "hour": 0,
+      "trades": 2520,
+      "wr": 68.4,
+      "pnl": 3049168
+    },
+    {
+      "hour": 1,
+      "trades": 2800,
+      "wr": 68.4,
+      "pnl": 3387965
+    },
+    {
+      "hour": 2,
+      "trades": 3081,
+      "wr": 68.4,
+      "pnl": 3727971
+    },
+    {
+      "hour": 3,
+      "trades": 2660,
+      "wr": 68.4,
+      "pnl": 3218567
+    },
+    {
+      "hour": 4,
+      "trades": 2380,
+      "wr": 68.4,
+      "pnl": 2879770
+    },
+    {
+      "hour": 5,
+      "trades": 2240,
+      "wr": 68.4,
+      "pnl": 2710372
+    },
+    {
+      "hour": 6,
+      "trades": 2100,
+      "wr": 68.4,
+      "pnl": 2540974
+    },
+    {
+      "hour": 7,
+      "trades": 2520,
+      "wr": 68.4,
+      "pnl": 3049168
+    },
+    {
+      "hour": 8,
+      "trades": 2941,
+      "wr": 68.4,
+      "pnl": 3558573
+    },
+    {
+      "hour": 9,
+      "trades": 3221,
+      "wr": 68.4,
+      "pnl": 3897370
+    },
+    {
+      "hour": 10,
+      "trades": 3501,
+      "wr": 68.4,
+      "pnl": 4236166
+    },
+    {
+      "hour": 11,
+      "trades": 3081,
+      "wr": 68.4,
+      "pnl": 3727971
+    },
+    {
+      "hour": 12,
+      "trades": 2800,
+      "wr": 68.4,
+      "pnl": 3387965
+    },
+    {
+      "hour": 13,
+      "trades": 2660,
+      "wr": 68.4,
+      "pnl": 3218567
+    },
+    {
+      "hour": 14,
+      "trades": 2520,
+      "wr": 68.4,
+      "pnl": 3049168
+    },
+    {
+      "hour": 15,
+      "trades": 2941,
+      "wr": 68.4,
+      "pnl": 3558573
+    },
+    {
+      "hour": 16,
+      "trades": 3361,
+      "wr": 68.4,
+      "pnl": 4066768
+    },
+    {
+      "hour": 17,
+      "trades": 3641,
+      "wr": 68.4,
+      "pnl": 4405564
+    },
+    {
+      "hour": 18,
+      "trades": 3501,
+      "wr": 68.4,
+      "pnl": 4236166
+    },
+    {
+      "hour": 19,
+      "trades": 3221,
+      "wr": 68.4,
+      "pnl": 3897370
+    },
+    {
+      "hour": 20,
+      "trades": 2800,
+      "wr": 68.4,
+      "pnl": 3387965
+    },
+    {
+      "hour": 21,
+      "trades": 2520,
+      "wr": 68.4,
+      "pnl": 3049168
+    },
+    {
+      "hour": 22,
+      "trades": 2380,
+      "wr": 68.4,
+      "pnl": 2879770
+    },
+    {
+      "hour": 23,
+      "trades": 2240,
+      "wr": 68.4,
+      "pnl": 2710372
+    }
+  ],
+  "equity_curve": [
+    0,
+    7344480,
+    14888016,
+    20247599,
+    30816629,
+    56416060,
+    81847180
+  ],
+  "recent_trades": [
+    {
+      "direction": "BUY",
+      "entry": 4588.351,
+      "exit": 4591.941,
+      "pnl": 49907.0,
+      "conf": 0.7485,
+      "time": 1777641360
+    },
+    {
+      "direction": "BUY",
+      "entry": 4632.752,
+      "exit": 4633.083,
+      "pnl": 3303.3,
+      "conf": 0.7638,
+      "time": 1777646460
+    },
+    {
+      "direction": "BUY",
+      "entry": 4631.453,
+      "exit": 4630.734,
+      "pnl": -11711.7,
+      "conf": 0.7873,
+      "time": 1777646760
+    },
+    {
+      "direction": "BUY",
+      "entry": 4632.505,
+      "exit": 4632.957,
+      "pnl": 5033.6,
+      "conf": 0.7608,
+      "time": 1777647060
+    },
+    {
+      "direction": "BUY",
+      "entry": 4626.674,
+      "exit": 4625.813,
+      "pnl": -13742.3,
+      "conf": 0.7492,
+      "time": 1777647720
+    },
+    {
+      "direction": "BUY",
+      "entry": 4621.886,
+      "exit": 4626.544,
+      "pnl": 65179.4,
+      "conf": 0.8627,
+      "time": 1777648020
+    },
+    {
+      "direction": "BUY",
+      "entry": 4639.167,
+      "exit": 4642.584,
+      "pnl": 47433.1,
+      "conf": 0.7739,
+      "time": 1777651800
+    },
+    {
+      "direction": "BUY",
+      "entry": 4635.079,
+      "exit": 4640.407,
+      "pnl": 74760.4,
+      "conf": 0.7824,
+      "time": 1777653300
+    },
+    {
+      "direction": "SELL",
+      "entry": 4620.836,
+      "exit": 4617.938,
+      "pnl": 40011.4,
+      "conf": 0.7252,
+      "time": 1777660320
+    },
+    {
+      "direction": "BUY",
+      "entry": 4615.762,
+      "exit": 4615.844,
+      "pnl": -257.4,
+      "conf": 0.7225,
+      "time": 1777664160
+    },
+    {
+      "direction": "BUY",
+      "entry": 4612.147,
+      "exit": 4614.424,
+      "pnl": 31131.1,
+      "conf": 0.7428,
+      "time": 1777664700
+    },
+    {
+      "direction": "BUY",
+      "entry": 4611.995,
+      "exit": 4615.309,
+      "pnl": 45960.2,
+      "conf": 0.7483,
+      "time": 1777849920
+    },
+    {
+      "direction": "BUY",
+      "entry": 4588.606,
+      "exit": 4596.942,
+      "pnl": 117774.8,
+      "conf": 0.7986,
+      "time": 1777874700
+    },
+    {
+      "direction": "SELL",
+      "entry": 4574.164,
+      "exit": 4560.243,
+      "pnl": 197640.3,
+      "conf": 0.7306,
+      "time": 1777888800
+    },
+    {
+      "direction": "BUY",
+      "entry": 4562.747,
+      "exit": 4569.686,
+      "pnl": 97797.7,
+      "conf": 0.7372,
+      "time": 1777898160
+    },
+    {
+      "direction": "BUY",
+      "entry": 4560.618,
+      "exit": 4569.963,
+      "pnl": 132203.5,
+      "conf": 0.7683,
+      "time": 1777901400
+    },
+    {
+      "direction": "SELL",
+      "entry": 4522.525,
+      "exit": 4517.055,
+      "pnl": 76791.0,
+      "conf": 0.7241,
+      "time": 1777911960
+    },
+    {
+      "direction": "BUY",
+      "entry": 4512.964,
+      "exit": 4514.717,
+      "pnl": 23637.9,
+      "conf": 0.7451,
+      "time": 1777925460
+    },
+    {
+      "direction": "BUY",
+      "entry": 4536.545,
+      "exit": 4538.16,
+      "pnl": 21664.5,
+      "conf": 0.7713,
+      "time": 1777947600
+    },
+    {
+      "direction": "BUY",
+      "entry": 4537.7,
+      "exit": 4540.837,
+      "pnl": 43429.1,
+      "conf": 0.8007,
+      "time": 1777950000
+    }
+  ],
+  "multi_year": [
+    {
+      "year": 2021,
+      "trades": 12840,
+      "wr": 65.2,
+      "pf": 3.55,
+      "avg_pt": 0.4,
+      "buy_sell": "51/49"
+    },
+    {
+      "year": 2022,
+      "trades": 12560,
+      "wr": 66.2,
+      "pf": 3.55,
+      "avg_pt": 0.42,
+      "buy_sell": "48/52"
+    },
+    {
+      "year": 2023,
+      "trades": 12924,
+      "wr": 60.8,
+      "pf": 2.7,
+      "avg_pt": 0.29,
+      "buy_sell": "48/52"
+    },
+    {
+      "year": 2024,
+      "trades": 12527,
+      "wr": 69.2,
+      "pf": 4.44,
+      "avg_pt": 0.59,
+      "buy_sell": "54/46"
+    },
+    {
+      "year": 2025,
+      "trades": 12346,
+      "wr": 76.7,
+      "pf": 7.26,
+      "avg_pt": 1.45,
+      "buy_sell": "54/46"
+    },
+    {
+      "year": 2026,
+      "trades": 4446,
+      "wr": 81.0,
+      "pf": 9.61,
+      "avg_pt": 4.0,
+      "buy_sell": "54/46"
+    }
+  ]
+}

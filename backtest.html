@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>BURNING ZERO — Backtest</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="i18n.js" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
+<script>if(typeof t==='undefined'){window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';}</script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Segoe UI',sans-serif; background:#0a0a14; color:#e0e0e0; min-height:100dvh; }
+.app { max-width:480px; margin:0 auto; padding:12px; }
+
+/* Header */
+.header { display:flex; align-items:center; justify-content:space-between; padding:12px 0 8px; border-bottom:1px solid #1e1e30; margin-bottom:12px; }
+.logo h1 { font-size:22px; font-weight:900; letter-spacing:2px;
+  background:linear-gradient(135deg,#ff4444,#ff8800); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.header-right { display:flex; align-items:center; gap:8px; }
+.nav-links { display:flex; gap:6px; }
+.nav-links a { color:#888; text-decoration:none; font-size:12px; font-weight:600; padding:5px 8px; border-radius:6px; transition:color 0.15s; }
+.nav-links a:hover { color:#ff6644; }
+
+/* Lang picker */
+.lang-picker { position:relative; }
+.lang-btn { background:#12121e; border:1px solid #2a2a3e; color:#e0e0e0; padding:5px 10px; border-radius:6px;
+  font-size:12px; cursor:pointer; display:flex; align-items:center; gap:4px; }
+.lang-menu { display:none; position:absolute; top:100%; right:0; background:#12121e; border:1px solid #2a2a3e;
+  border-radius:8px; margin-top:4px; min-width:120px; z-index:100; overflow:hidden; }
+.lang-menu.open { display:block; }
+.lang-option { padding:8px 12px; font-size:12px; cursor:pointer; transition:background 0.15s; }
+.lang-option:hover { background:#1e1e30; }
+.lang-option.active { color:#ff6644; }
+
+.card { background:#12121e; border-radius:12px; padding:16px; margin-bottom:12px; border:1px solid #1e1e30; }
+.card h2 { font-size:15px; color:#ff6644; margin-bottom:12px; font-weight:700; }
+
+/* Stats grid */
+.stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+.stats-grid.cols-2 { grid-template-columns:repeat(2,1fr); }
+.stats-grid.cols-4 { grid-template-columns:repeat(4,1fr); }
+.stat-box { background:#0e0e1a; border-radius:8px; padding:10px 6px; text-align:center; }
+.stat-val { font-size:18px; font-weight:800; color:#fff; }
+.stat-val.sm { font-size:15px; }
+.stat-label { font-size:10px; color:#666; margin-top:2px; text-transform:uppercase; letter-spacing:0.5px; }
+.positive { color:#4CAF50; }
+.negative { color:#f44336; }
+.accent { color:#ff6644; }
+
+/* BT buttons */
+.bt-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.bt-btn { padding:10px 8px; border-radius:8px; border:1.5px solid #2a2a3e; background:#0e0e1a;
+  cursor:pointer; text-align:center; transition:border-color 0.15s; }
+.bt-btn:hover { border-color:#ff6644; }
+.bt-btn.selected { border-color:#ff6644; background:#1a1020; }
+.bt-btn .name { font-size:13px; font-weight:700; color:#fff; }
+.bt-btn .meta { font-size:10px; color:#888; margin-top:3px; }
+
+/* Table */
+table { width:100%; border-collapse:collapse; font-size:12px; }
+th { color:#888; font-weight:600; text-align:left; padding:6px 4px; border-bottom:1px solid #1e1e30; font-size:10px; text-transform:uppercase; }
+td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
+
+/* Hour heatmap */
+.hour-grid { display:flex; flex-wrap:wrap; gap:3px; }
+.hour-cell { padding:4px 5px; border-radius:4px; font-size:10px; min-width:32px; text-align:center; font-weight:600; }
+
+/* Chart */
+.chart-wrap { background:#0e0e1a; border-radius:8px; padding:10px; margin-top:12px; }
+
+/* PnL hero */
+.pnl-hero { text-align:center; margin:12px 0; }
+.pnl-hero .period { font-size:11px; color:#555; }
+.pnl-hero .value { font-size:32px; font-weight:900; }
+.pnl-hero .label { font-size:12px; color:#666; }
+
+/* IB Banner / CTA */
+.ib-banner { background:linear-gradient(135deg,#1a0a00,#2a1500); border:1px solid #ff660033;
+  border-radius:10px; padding:12px; margin-bottom:12px; text-align:center; }
+.ib-banner p { font-size:12px; color:#cc8844; }
+.ib-banner a { color:#ff6644; font-weight:700; text-decoration:none; font-size:14px; }
+
+/* Strategy Tabs */
+.strat-tabs { display:flex; gap:6px; margin-bottom:14px; }
+.strat-tab { flex:1; text-align:center; padding:12px 6px; border-radius:10px; border:1.5px solid #2a2a3e;
+  background:#0e0e1a; cursor:pointer; transition:border-color 0.15s, background 0.15s; position:relative; }
+.strat-tab:hover { border-color:#ff6644; }
+.strat-tab.active { border-color:#ff6644; background:linear-gradient(135deg,#1a0e08,#12121e); }
+.strat-tab .strat-label { font-size:13px; font-weight:800; color:#fff; }
+.strat-tab.active .strat-label { background:linear-gradient(135deg,#ff4444,#ff8800);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.strat-tab .strat-sub { font-size:10px; color:#666; margin-top:3px; }
+.strat-tab .strat-wr { font-size:14px; font-weight:800; color:#ff6644; margin-top:4px; }
+.strat-tag-badge { position:absolute; top:-6px; right:-4px; font-size:8px; font-weight:700;
+  padding:2px 6px; border-radius:8px; background:linear-gradient(135deg,#ff4444,#ff6600); color:#fff;
+  text-transform:uppercase; letter-spacing:0.5px; }
+
+/* Compare Table */
+.compare-card { background:#12121e; border-radius:12px; padding:16px; margin-bottom:12px; border:1px solid #1e1e30; }
+.compare-card h2 { font-size:15px; color:#ff6644; margin-bottom:12px; font-weight:700; }
+.compare-table { width:100%; border-collapse:collapse; font-size:12px; }
+.compare-table th { color:#888; font-weight:600; text-align:center; padding:8px 4px; border-bottom:1px solid #1e1e30;
+  font-size:10px; text-transform:uppercase; }
+.compare-table th:first-child { text-align:left; }
+.compare-table td { padding:8px 4px; border-bottom:1px solid #1a1a2a; text-align:center; }
+.compare-table td:first-child { text-align:left; font-weight:700; color:#fff; }
+.compare-table tr.highlight { background:#1a0e0866; }
+.compare-best { color:#4CAF50; font-weight:800; }
+
+/* Loading */
+.loading-msg { color:#ff6644; text-align:center; padding:40px; }
+.error-msg { color:#f44336; text-align:center; padding:40px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo"><h1>BURNING ZERO</h1></div>
+    <div class="header-right">
+      <div id="lang-picker-slot"></div>
+      <div class="nav-links">
+        <a href="/" data-i18n="nav_home">Home</a>
+        <a href="/app" data-i18n="nav_app">Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strategy Tabs -->
+  <div class="strat-tabs" id="strat-tabs">
+    <div class="strat-tab active" onclick="selectStrategy('A')" id="strat-tab-A">
+      <div class="strat-label" data-i18n="strategy_a_name">Strategy A</div>
+      <div class="strat-sub">Fixed 4-bar</div>
+      <div class="strat-wr">WR 86.3%</div>
+    </div>
+    <div class="strat-tab" onclick="selectStrategy('B')" id="strat-tab-B">
+      <span class="strat-tag-badge">NEW</span>
+      <div class="strat-label" data-i18n="strategy_b_name">Strategy B</div>
+      <div class="strat-sub">ML Dynamic</div>
+      <div class="strat-wr">WR 88.0%</div>
+    </div>
+    <div class="strat-tab" onclick="selectStrategy('D')" id="strat-tab-D">
+      <span class="strat-tag-badge">NEW</span>
+      <div class="strat-label" data-i18n="strategy_d_name">Strategy D</div>
+      <div class="strat-sub">Hybrid</div>
+      <div class="strat-wr">WR 78.9%</div>
+    </div>
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="compare-card" id="compare-section">
+    <h2 data-i18n="strategy_compare">Compare All Strategies</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Strategy</th>
+          <th data-i18n="trades">Trades</th>
+          <th>WR%</th>
+          <th>PF</th>
+          <th data-i18n="avg_pts">Avg Pts</th>
+          <th data-i18n="total_pnl_jpy">Total PnL</th>
+          <th data-i18n="max_dd_label">Max DD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="compare-row-A">
+          <td>A: Fixed 4-bar</td>
+          <td>2,025</td>
+          <td>86.3%</td>
+          <td>16.53</td>
+          <td>+5.10</td>
+          <td class="positive">+14.8M</td>
+          <td>¥36,632</td>
+        </tr>
+        <tr id="compare-row-B" class="highlight">
+          <td>B: ML Dynamic</td>
+          <td>1,545</td>
+          <td class="compare-best">88.0%</td>
+          <td class="compare-best">20.22</td>
+          <td class="compare-best">+8.27</td>
+          <td class="positive compare-best">+18.3M</td>
+          <td>¥58,487</td>
+        </tr>
+        <tr id="compare-row-D">
+          <td>D: Hybrid</td>
+          <td>2,502</td>
+          <td>78.9%</td>
+          <td>12.67</td>
+          <td>+4.53</td>
+          <td class="positive">+16.2M</td>
+          <td class="compare-best">¥17,829</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Report -->
+  <div id="report-content"></div>
+
+  <!-- CTA -->
+  <div class="ib-banner">
+    <p data-i18n="ib_desc">Free access with partner broker account</p>
+    <a href="https://one.exnessonelink.com/a/71hmw54ihe?source=bt" target="_blank" data-i18n="open_account">Open Account (Exness)</a>
+  </div>
+
+</div>
+
+<script>
+let reportChart = null;
+let currentModel = null;
+let currentStrategy = 'A';
+
+const STRATEGY_DATA = {
+  A: { trades:2025, wr:86.3, pf:16.53, avgPts:'+5.10', pnl:'+14,790,122', maxDD:'¥36,632', model:'unanimous', btFile:'bt_unanimous.json' },
+  B: { trades:1545, wr:88.0, pf:20.22, avgPts:'+8.27', pnl:'+18,260,428', maxDD:'¥58,487', model:'ml_exit', btFile:'bt_strategy_b.json' },
+  D: { trades:2502, wr:78.9, pf:12.67, avgPts:'+4.53', pnl:'+16,213,675', maxDD:'¥17,829', model:'hybrid', btFile:'bt_strategy_d.json' },
+};
+
+function selectStrategy(id) {
+  currentStrategy = id;
+  document.querySelectorAll('.strat-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('strat-tab-' + id).classList.add('active');
+  // Highlight comparison row
+  document.querySelectorAll('.compare-table tbody tr').forEach(r => r.classList.remove('highlight'));
+  document.getElementById('compare-row-' + id).classList.add('highlight');
+  // Load the strategy BT data
+  loadStrategyBT(id);
+}
+
+function loadStrategyBT(id) {
+  const data = STRATEGY_DATA[id];
+  currentModel = data.model;
+  runBTReport(data.btFile);
+}
+
+function runBTReport(btFile) {
+  document.getElementById('report-content').innerHTML = `<p class="loading-msg">${t('loading')}</p>`;
+  const data = INLINE_BT_DATA[btFile];
+  if (data) {
+    setTimeout(() => renderReport(data), 50);
+  } else {
+    document.getElementById('report-content').innerHTML = `<p class="error-msg">${t('report_not_found')}</p>`;
+  }
+}
+
+const INLINE_BT_DATA = {
+  'bt_unanimous.json': {"symbol":"XAUUSD","model":"unanimous","bot_name":"ZERO TRINITY","lot":"Fixed 0.1L","period":"2026/01/01 ~ 2026/05/09","summary":{"total_trades":2025,"wins":1748,"losses":277,"win_rate":86.3,"profit_factor":16.53,"total_pnl":14790122,"gross_profit":15742232,"gross_loss":952110,"avg_win":9006,"avg_loss":-3437,"max_win":151117,"max_loss":-28192,"max_drawdown":36632,"max_win_streak":49,"max_loss_streak":10},"long_short":{"buy_trades":1045,"buy_wins":889,"buy_wr":85.1,"buy_pnl":6466496,"sell_trades":980,"sell_wins":859,"sell_wr":87.7,"sell_pnl":8323627},"monthly":[{"month":"2026-01","trades":506,"wr":86.4,"pnl":3138959},{"month":"2026-02","trades":383,"wr":87.2,"pnl":3595861},{"month":"2026-03","trades":552,"wr":86.6,"pnl":4842405},{"month":"2026-04","trades":458,"wr":84.9,"pnl":2667408},{"month":"2026-05","trades":126,"wr":87.3,"pnl":545491}],"hourly":[{"hour":0,"trades":125,"wr":76.0,"pnl":685686},{"hour":1,"trades":101,"wr":90.1,"pnl":1146407},{"hour":2,"trades":82,"wr":84.1,"pnl":447228},{"hour":3,"trades":64,"wr":84.4,"pnl":331640},{"hour":4,"trades":70,"wr":77.1,"pnl":174449},{"hour":5,"trades":98,"wr":88.8,"pnl":641947},{"hour":6,"trades":120,"wr":77.5,"pnl":697261},{"hour":7,"trades":88,"wr":85.2,"pnl":452592},{"hour":8,"trades":89,"wr":89.9,"pnl":729562},{"hour":9,"trades":82,"wr":92.7,"pnl":463321},{"hour":10,"trades":81,"wr":92.6,"pnl":552728},{"hour":11,"trades":77,"wr":88.3,"pnl":540969},{"hour":12,"trades":87,"wr":89.7,"pnl":634276},{"hour":13,"trades":115,"wr":94.8,"pnl":1125755},{"hour":14,"trades":76,"wr":92.1,"pnl":959100},{"hour":15,"trades":90,"wr":90.0,"pnl":962480},{"hour":16,"trades":71,"wr":85.9,"pnl":575102},{"hour":17,"trades":84,"wr":89.3,"pnl":595872},{"hour":18,"trades":74,"wr":90.5,"pnl":583174},{"hour":19,"trades":86,"wr":81.4,"pnl":445050},{"hour":20,"trades":68,"wr":85.3,"pnl":419001},{"hour":21,"trades":43,"wr":81.4,"pnl":237519},{"hour":22,"trades":48,"wr":83.3,"pnl":518279},{"hour":23,"trades":106,"wr":82.1,"pnl":870724}],"recent_trades":[{"direction":"BUY","entry":4701.85,"exit":4699.77,"pnl":-2.44,"conf":0.7195,"time":"2026-05-08 00:13"},{"direction":"BUY","entry":4698.82,"exit":4702.96,"pnl":3.79,"conf":0.7513,"time":"2026-05-08 00:30"},{"direction":"BUY","entry":4698.68,"exit":4701.15,"pnl":2.12,"conf":0.6868,"time":"2026-05-08 00:55"},{"direction":"SELL","entry":4714.26,"exit":4711.21,"pnl":2.7,"conf":0.7163,"time":"2026-05-08 04:55"},{"direction":"SELL","entry":4714.74,"exit":4713.71,"pnl":0.68,"conf":0.6813,"time":"2026-05-08 05:07"},{"direction":"SELL","entry":4714.31,"exit":4712.42,"pnl":1.54,"conf":0.691,"time":"2026-05-08 05:12"},{"direction":"SELL","entry":4715.37,"exit":4714.79,"pnl":0.23,"conf":0.6925,"time":"2026-05-08 05:20"},{"direction":"BUY","entry":4717.2,"exit":4728.28,"pnl":10.73,"conf":0.7057,"time":"2026-05-08 06:00"},{"direction":"BUY","entry":4726.87,"exit":4733.63,"pnl":6.41,"conf":0.6829,"time":"2026-05-08 06:25"},{"direction":"SELL","entry":4721.28,"exit":4715.42,"pnl":5.51,"conf":0.7022,"time":"2026-05-08 07:10"},{"direction":"SELL","entry":4716.39,"exit":4706.48,"pnl":9.56,"conf":0.7156,"time":"2026-05-08 07:20"},{"direction":"BUY","entry":4714.13,"exit":4719.1,"pnl":4.61,"conf":0.7548,"time":"2026-05-08 09:00"},{"direction":"BUY","entry":4716.27,"exit":4718.57,"pnl":1.95,"conf":0.7139,"time":"2026-05-08 09:10"},{"direction":"SELL","entry":4717.78,"exit":4712.88,"pnl":4.55,"conf":0.7093,"time":"2026-05-08 12:01"},{"direction":"SELL","entry":4711.65,"exit":4707.14,"pnl":4.16,"conf":0.6819,"time":"2026-05-08 12:08"},{"direction":"BUY","entry":4708.3,"exit":4723.37,"pnl":14.71,"conf":0.7571,"time":"2026-05-08 12:30"},{"direction":"BUY","entry":4743.34,"exit":4748.01,"pnl":4.32,"conf":0.7087,"time":"2026-05-08 13:55"},{"direction":"SELL","entry":4723.26,"exit":4717.17,"pnl":5.74,"conf":0.6868,"time":"2026-05-08 14:46"},{"direction":"BUY","entry":4719.93,"exit":4722.05,"pnl":1.77,"conf":0.714,"time":"2026-05-08 17:50"},{"direction":"SELL","entry":4716.99,"exit":4717.33,"pnl":-0.69,"conf":0.6852,"time":"2026-05-08 20:31"}],"equity_curve":[559,19039,17743,29745,38181,46894,78457,100350,136418,148157,163488,164404,191973,200563,213224,225983,252193,277085,276626,284922,310073,336714,347476,364747,408309,418221,434159,451086,480549,493653,518675,533393,529942,529533,535140,545285,549270,592867,600240,626068,634075,638339,651233,671637,687304,708170,745436,750444,759893,770647,793084,807630,820372,832889,851086,868798,901742,921631,940502,962022,986413,1005469,1016311,1049716,1109997,1122195,1129716,1129001,1144612,1156890,1166514,1179108,1193419,1202132,1205338,1214676,1225047,1253196,1255969,1272477,1292759,1305304,1320737,1379532,1388248,1397575,1416252,1434247,1455301,1437399,1447186,1462970,1481165,1529973,1561037,1587863,1583152,1634038,1657290,1684393,1709701,1716478,1718844,1806053,1824054,1858673,1876466,1900710,1914706,1941964,1944843,1965329,2000546,2079466,2203793,2253470,2297997,2332736,2407497,2492171,2570396,2689124,2744510,2895620,2989531,3190836,3419885,3519066,3563205,3618110,3653703,3687834,3751421,3810131,3858651,3882539,3979008,4051164,4058879,4168068,4316778,4371224,4467855,4520134,4562551,4598718,4642188,4647676,4694973,4711574,4716449,4738970,4786467,4812812,4864328,4873828,4884021,4923045,4968275,4990370,5148316,5182091,5208193,5234004,5311950,5343115,5367311,5380083,5395805,5407431,5425616,5481706,5500730,5505583,5603881,5614003,5630308,5647682,5646040,5679328,5688394,5697573,5706315,5747060,5766409,5777167,5795394,5824467,5850586,5868391,5871468,5888204,5969977,6010931,6040908,6062741,6083562,6105778,6141464,6161421,6195070,6222632,6272041,6306163,6330135,6352315,6372716,6389783,6434141,6485380,6496903,6543094,6574793,6600837,6612657,6618881,6649035,6663578,6694588,6723228,6769739,6763964,6772041,6802940,6829420,6855181,6923228,6948569,6986045,7050252,7143303,7174106,7201490,7253619,7286624,7335538,7364652,7401620,7412155,7442049,7527893,7617807,7615283,7630143,7627887,7668029,7692828,7730544,7808987,7866410,7871864,7882991,7900982,7948867,7968505,7984095,8001303,8022436,8055191,8081849,8101511,8128031,8179291,8196586,8217905,8233547,8245326,8269101,8283016,8310275,8340825,8386229,8428306,8483931,8504073,8550037,8570995,8604196,8622716,8650974,8685474,8703425,8728242,8733529,8754224,8795761,8802814,8835976,8881072,8918971,8951145,8967837,8980298,9022323,9096635,9140268,9257906,9301442,9333092,9362789,9363923,9363661,9379622,9413121,9444910,9508309,9564080,9611017,9623348,9767160,9887472,9973219,9994679,10039644,10076985,10169248,10226012,10244726,10350411,10436794,10468434,10489922,10486938,10505542,10533369,10571471,10618983,10666241,10761973,10791416,10826892,10851787,10866716,10923953,10964286,10989370,11003927,11023216,11062932,11091805,11138168,11150861,11157466,11205012,11232614,11281286,11338340,11370964,11399331,11413599,11450286,11458031,11460765,11471950,11493702,11543674,11585304,11611317,11622565,11647067,11683120,11699606,11750130,11744847,11772665,11817037,11825439,11840544,11895356,11921249,12011485,12052738,12082174,12129321,12166840,12218704,12238634,12268223,12363604,12363038,12389785,12430498,12461456,12509177,12524402,12553804,12591988,12612697,12634219,12662024,12682653,12684389,12674984,12679864,12698922,12709252,12720199,12738417,12770469,12789136,12827666,12847462,12855441,12880914,12896474,12908863,12921817,12933569,12974853,12997565,13024819,13043322,13081730,13146549,13170985,13167976,13159498,13154696,13171656,13184002,13220236,13222155,13229845,13244910,13266755,13313888,13356156,13374829,13394235,13407434,13415159,13501408,13515318,13520538,13552457,13573278,13577146,13636124,13646411,13667668,13690461,13697337,13728426,13743902,13764993,13774356,13784441,13799530,13803434,13808666,13820607,13827602,13854145,13867082,13884226,13910405,13935746,13954468,13975114,13992029,14036959,14045965,14065560,14081191,14123454,14159231,14163067,14218261,14237297,14249398,14259960,14277099,14273820,14292847,14304107,14302435,14318305,14331809,14350214,14355897,14374271,14400013,14417331,14450540,14458553,14463292,14482404,14507367,14526745,14543306,14560865,14591927,14610981,14636815,14657034,14672927,14681746,14700586,14737905,14774199]},
+  'bt_strategy_b.json': {"symbol":"XAUUSD","model":"ml_exit","bot_name":"ZERO DYNAMIC","lot":"Fixed 0.1L","period":"2026/01/01 ~ 2026/05/09","summary":{"total_trades":1545,"wins":1359,"losses":186,"win_rate":88.0,"profit_factor":20.22,"total_pnl":18260428,"gross_profit":19210501,"gross_loss":950073,"avg_win":14136,"avg_loss":-5108,"max_win":228913,"max_loss":-50203,"max_drawdown":58487,"max_win_streak":36,"max_loss_streak":3},"long_short":{"buy_trades":807,"buy_wins":701,"buy_wr":86.9,"buy_pnl":8284212,"sell_trades":738,"sell_wins":658,"sell_wr":89.2,"sell_pnl":9976216},"monthly":[{"month":"2026-01","trades":388,"wr":87.9,"pnl":3917273},{"month":"2026-02","trades":288,"wr":85.8,"pnl":4442129},{"month":"2026-03","trades":425,"wr":89.4,"pnl":6105378},{"month":"2026-04","trades":350,"wr":87.4,"pnl":3041955},{"month":"2026-05","trades":94,"wr":90.4,"pnl":753693}],"hourly":[{"hour":0,"trades":91,"wr":76.9,"pnl":883983},{"hour":1,"trades":77,"wr":85.7,"pnl":1417427},{"hour":2,"trades":67,"wr":82.1,"pnl":509596},{"hour":3,"trades":53,"wr":88.7,"pnl":388075},{"hour":4,"trades":49,"wr":85.7,"pnl":246581},{"hour":5,"trades":77,"wr":92.2,"pnl":958665},{"hour":6,"trades":84,"wr":86.9,"pnl":800066},{"hour":7,"trades":61,"wr":91.8,"pnl":726557},{"hour":8,"trades":70,"wr":97.1,"pnl":797487},{"hour":9,"trades":60,"wr":90.0,"pnl":522869},{"hour":10,"trades":70,"wr":94.3,"pnl":922074},{"hour":11,"trades":60,"wr":90.0,"pnl":616074},{"hour":12,"trades":68,"wr":95.6,"pnl":954117},{"hour":13,"trades":83,"wr":92.8,"pnl":1087933},{"hour":14,"trades":56,"wr":96.4,"pnl":965136},{"hour":15,"trades":68,"wr":89.7,"pnl":1212447},{"hour":16,"trades":56,"wr":78.6,"pnl":737911},{"hour":17,"trades":68,"wr":86.8,"pnl":591494},{"hour":18,"trades":59,"wr":91.5,"pnl":927146},{"hour":19,"trades":65,"wr":86.2,"pnl":465734},{"hour":20,"trades":56,"wr":87.5,"pnl":595535},{"hour":21,"trades":34,"wr":64.7,"pnl":316103},{"hour":22,"trades":40,"wr":87.5,"pnl":522030},{"hour":23,"trades":73,"wr":83.6,"pnl":1095387}],"recent_trades":[{"direction":"SELL","entry":4710.64,"exit":4708.46,"pnl":1.83,"conf":0.6866,"time":"2026-05-07 18:06"},{"direction":"BUY","entry":4697.58,"exit":4709.16,"pnl":11.23,"conf":0.6929,"time":"2026-05-07 18:50"},{"direction":"BUY","entry":4687.78,"exit":4696.74,"pnl":8.61,"conf":0.7266,"time":"2026-05-07 22:05"},{"direction":"SELL","entry":4693.2,"exit":4693.36,"pnl":-0.51,"conf":0.6817,"time":"2026-05-07 23:11"},{"direction":"BUY","entry":4701.85,"exit":4701.73,"pnl":-0.47,"conf":0.7195,"time":"2026-05-08 00:13"},{"direction":"BUY","entry":4698.82,"exit":4701.93,"pnl":2.76,"conf":0.7513,"time":"2026-05-08 00:30"},{"direction":"BUY","entry":4698.68,"exit":4712.94,"pnl":13.91,"conf":0.6868,"time":"2026-05-08 00:55"},{"direction":"SELL","entry":4714.26,"exit":4712.42,"pnl":1.49,"conf":0.7163,"time":"2026-05-08 04:55"},{"direction":"SELL","entry":4714.74,"exit":4713.91,"pnl":0.48,"conf":0.6813,"time":"2026-05-08 05:07"},{"direction":"SELL","entry":4715.37,"exit":4713.62,"pnl":1.4,"conf":0.6925,"time":"2026-05-08 05:20"},{"direction":"BUY","entry":4717.2,"exit":4726.58,"pnl":9.03,"conf":0.7057,"time":"2026-05-08 06:00"},{"direction":"BUY","entry":4726.87,"exit":4728.92,"pnl":1.7,"conf":0.6829,"time":"2026-05-08 06:25"},{"direction":"SELL","entry":4721.28,"exit":4702.61,"pnl":18.32,"conf":0.7022,"time":"2026-05-08 07:10"},{"direction":"BUY","entry":4714.13,"exit":4720.99,"pnl":6.51,"conf":0.7548,"time":"2026-05-08 09:00"},{"direction":"SELL","entry":4717.78,"exit":4707.74,"pnl":9.69,"conf":0.7093,"time":"2026-05-08 12:01"},{"direction":"BUY","entry":4708.3,"exit":4721.39,"pnl":12.74,"conf":0.7571,"time":"2026-05-08 12:30"},{"direction":"BUY","entry":4743.34,"exit":4744.02,"pnl":0.33,"conf":0.7087,"time":"2026-05-08 13:55"},{"direction":"SELL","entry":4723.26,"exit":4719.68,"pnl":3.23,"conf":0.6868,"time":"2026-05-08 14:46"},{"direction":"BUY","entry":4719.93,"exit":4720.68,"pnl":0.4,"conf":0.714,"time":"2026-05-08 17:50"},{"direction":"SELL","entry":4716.99,"exit":4715.0,"pnl":1.64,"conf":0.6852,"time":"2026-05-08 20:31"}],"equity_curve":[-2131,17562,25435,30386,53149,143931,172745,221105,248641,274396,289169,292788,325208,364942,381644,414321,447158,480949,510840,512735,516113,551510,587939,599935,619196,640079,667515,666304,680557,701804,720580,733464,747863,755859,766743,769547,794475,803242,853353,875934,895802,964383,960421,968059,981213,999790,1009400,1052843,1075389,1094332,1108593,1125577,1149590,1200675,1219623,1229864,1260067,1267595,1309271,1316622,1334397,1340654,1371367,1379687,1418230,1433841,1452491,1577269,1584949,1622964,1637261,1638560,1652562,1657926,1677710,1699113,1732142,1749309,1776440,1804165,1810474,1860952,1883023,1930460,1955116,1981521,1982914,2004033,2024874,2053557,2099057,2114115,2141346,2157152,2179883,2216416,2245648,2263029,2309336,2365171,2382091,2382659,2438372,2441788,2509077,2521751,2544835,2560202,2578043,2622048,2647742,2653080,2715157,2781097,2863362,2960875,3073934,3159665,3175648,3236651,3390762,3407829,3440184,3533135,3694025,3896703,4106817,4139052,4260970,4250024,4372384,4385377,4414171,4440908,4540805,4618289,4635999,4666776,4714521,4802196,4847341,4896143,5004143,5100867,5162803,5282316,5367426,5460491,5521330,5597419,5690157,5694021,5748707,5783812,5828985,5901757,5927000,6024152,6035095,6031270,6088502,6155991,6191201,6474188,6478779,6542666,6560510,6647720,6714618,6770183,6782097,6802338,6811196,6830941,6946687,6982800,7024569,7052015,7062182,7107969,7148940,7152867,7173037,7187492,7231938,7275867,7280349,7330076,7357542,7381353,7406130,7423396,7470812,7560263,7578239,7608103,7627374,7662769,7713483,7717857,7781817,7798918,7869975,7876926,7895528,7930856,7960003,7991652,8043896,8062038,8090641,8131423,8165098,8179021,8195562,8264573,8279271,8307685,8331197,8357267,8365374,8333565,8396116,8416870,8447094,8503664,8536690,8571188,8719052,8786838,8820256,8865720,8931368,8988532,9027307,9058828,9083470,9089897,9138150,9191515,9297006,9300746,9308615,9321059,9370600,9387138,9481422,9553329,9596581,9616088,9667057,9685682,9695047,9707027,9709139,9717878,9757406,9776332,9816058,9840335,9848499,9879783,9922577,9940666,9987726,9996632,10027762,10042162,10047417,10069614,10115839,10147639,10208378,10273377,10303756,10325458,10360200,10383685,10397311,10417909,10426653,10440996,10464703,10498468,10522356,10558201,10579223,10629043,10729183,10759284,10767012,10813338,10865229,10871591,10999311,11084257,11102746,11243462,11325581,11352188,11470396,11502033,11500562,11546049,11567251,11611593,11665238,11742998,11795860,11819172,12032393,12189008,12524072,12584751,12620093,12679208,12773659,12862381,12903226,13029944,13101892,13153455,13228936,13270419,13298006,13345291,13378374,13407694,13455212,13504335,13522345,13559066,13620484,13618247,13693307,13792430,13831120,13885775,13930284,13952480,13976836,14015084,14012334,14034635,14081758,14147116,14175920,14191861,14226657,14245204,14283145,14347672,14351429,14342339,14357303,14400390,14464780,14490210,14496392,14519724,14531568,14566024,14596934,14702824,14725811,14743462,14872748,14880371,14966750,14963912,14978109,15055076,15108698,15161371,15205180,15220508,15230365,15281791,15358752,15470113,15445470,15469264,15525840,15543245,15594443,15591875,15634302,15665288,15693915,15710862,15716439,15734116,15762786,15761599,15765964,15771705,15789534,15835318,15852326,15873791,15895205,15926538,15938930,15976398,15997536,16008307,16037270,16066571,16100218,16107835,16153173,16175186,16222505,16256749,16297812,16364122,16366993,16370591,16366148,16354635,16365429,16378313,16389882,16421551,16430318,16449031,16469956,16488851,16543092,16595618,16601509,16618170,16623904,16637060,16679185,16699008,16727434,16772692,16768918,16811898,16824307,16840012,16870702,16868613,16893612,16924217,16959633,16964070,16992687,17003515,17005510,17013815,17027681,17050748,17070368,17108757,17124539,17191220,17217964,17259843,17268670,17297833,17330380,17344779,17379129,17414182,17424546,17458577,17496034,17505116,17516237,17546232,17564887,17578272,17611344,17617956,17657870,17688841,17699196,17710596,17719997,17769465,17781326,17793513,17810034,17849978,17859799,17934038,17964188,18003903,18018263,18058024,18077591,18082088,18129943,18140853,18166814,18182420,18220358,18252900]},
+  'bt_strategy_d.json': {"symbol":"XAUUSD","model":"hybrid","bot_name":"ZERO HYBRID","lot":"Fixed 0.1L","period":"2026/01/01 ~ 2026/05/09","summary":{"total_trades":2502,"wins":1975,"losses":527,"win_rate":78.9,"profit_factor":12.67,"total_pnl":16213675,"gross_profit":17603545,"gross_loss":1389870,"avg_win":8913,"avg_loss":-2637,"max_win":100360,"max_loss":-2646,"max_drawdown":17829,"max_win_streak":36,"max_loss_streak":6},"long_short":{"buy_trades":1282,"buy_wins":978,"buy_wr":76.3,"buy_pnl":6765790,"sell_trades":1220,"sell_wins":997,"sell_wr":81.7,"sell_pnl":9447884},"monthly":[{"month":"2026-01","trades":589,"wr":81.3,"pnl":3340387},{"month":"2026-02","trades":485,"wr":80.4,"pnl":3984369},{"month":"2026-03","trades":720,"wr":75.7,"pnl":5459069},{"month":"2026-04","trades":569,"wr":78.4,"pnl":2832165},{"month":"2026-05","trades":139,"wr":82.7,"pnl":597684}],"hourly":[{"hour":0,"trades":174,"wr":67.8,"pnl":995148},{"hour":1,"trades":138,"wr":79.7,"pnl":1225899},{"hour":2,"trades":105,"wr":71.4,"pnl":501984},{"hour":3,"trades":79,"wr":83.5,"pnl":427181},{"hour":4,"trades":78,"wr":76.9,"pnl":215507},{"hour":5,"trades":120,"wr":82.5,"pnl":809004},{"hour":6,"trades":151,"wr":75.5,"pnl":716533},{"hour":7,"trades":109,"wr":80.7,"pnl":589733},{"hour":8,"trades":99,"wr":85.9,"pnl":561045},{"hour":9,"trades":92,"wr":78.3,"pnl":525010},{"hour":10,"trades":90,"wr":91.1,"pnl":575692},{"hour":11,"trades":95,"wr":84.2,"pnl":679377},{"hour":12,"trades":112,"wr":82.1,"pnl":801240},{"hour":13,"trades":144,"wr":80.6,"pnl":1166829},{"hour":14,"trades":98,"wr":79.6,"pnl":1032460},{"hour":15,"trades":114,"wr":73.7,"pnl":819539},{"hour":16,"trades":88,"wr":80.7,"pnl":551857},{"hour":17,"trades":93,"wr":86.0,"pnl":604430},{"hour":18,"trades":87,"wr":80.5,"pnl":551461},{"hour":19,"trades":104,"wr":69.2,"pnl":483819},{"hour":20,"trades":88,"wr":84.1,"pnl":525965},{"hour":21,"trades":48,"wr":81.2,"pnl":299721},{"hour":22,"trades":65,"wr":80.0,"pnl":518083},{"hour":23,"trades":131,"wr":74.8,"pnl":1036157}],"recent_trades":[{"direction":"BUY","entry":4698.82,"exit":4702.73,"pnl":3.56,"conf":0.7513,"time":"2026-05-08 00:30"},{"direction":"BUY","entry":4702.37,"exit":4700.87,"pnl":-1.85,"conf":0.6918,"time":"2026-05-08 00:32"},{"direction":"BUY","entry":4698.68,"exit":4700.93,"pnl":1.9,"conf":0.6868,"time":"2026-05-08 00:55"},{"direction":"SELL","entry":4714.26,"exit":4710.3,"pnl":3.6,"conf":0.7163,"time":"2026-05-08 04:55"},{"direction":"SELL","entry":4714.74,"exit":4716.24,"pnl":-1.85,"conf":0.6813,"time":"2026-05-08 05:07"},{"direction":"SELL","entry":4714.67,"exit":4712.92,"pnl":1.4,"conf":0.6858,"time":"2026-05-08 05:09"},{"direction":"SELL","entry":4715.37,"exit":4712.78,"pnl":2.24,"conf":0.6925,"time":"2026-05-08 05:20"},{"direction":"BUY","entry":4717.2,"exit":4721.93,"pnl":4.38,"conf":0.7057,"time":"2026-05-08 06:00"},{"direction":"BUY","entry":4726.87,"exit":4729.53,"pnl":2.31,"conf":0.6829,"time":"2026-05-08 06:25"},{"direction":"SELL","entry":4721.28,"exit":4718.62,"pnl":2.31,"conf":0.7022,"time":"2026-05-08 07:10"},{"direction":"SELL","entry":4716.39,"exit":4706.41,"pnl":9.63,"conf":0.7156,"time":"2026-05-08 07:20"},{"direction":"BUY","entry":4714.13,"exit":4719.48,"pnl":4.99,"conf":0.7548,"time":"2026-05-08 09:00"},{"direction":"BUY","entry":4716.27,"exit":4719.32,"pnl":2.7,"conf":0.7139,"time":"2026-05-08 09:10"},{"direction":"SELL","entry":4717.78,"exit":4715.05,"pnl":2.38,"conf":0.7093,"time":"2026-05-08 12:01"},{"direction":"SELL","entry":4711.65,"exit":4704.29,"pnl":7.01,"conf":0.6819,"time":"2026-05-08 12:08"},{"direction":"BUY","entry":4708.3,"exit":4724.42,"pnl":15.77,"conf":0.7571,"time":"2026-05-08 12:30"},{"direction":"BUY","entry":4743.34,"exit":4746.2,"pnl":2.51,"conf":0.7087,"time":"2026-05-08 13:55"},{"direction":"SELL","entry":4723.26,"exit":4715.4,"pnl":7.51,"conf":0.6868,"time":"2026-05-08 14:46"},{"direction":"BUY","entry":4719.93,"exit":4722.29,"pnl":2.01,"conf":0.714,"time":"2026-05-08 17:50"},{"direction":"SELL","entry":4716.99,"exit":4715.61,"pnl":1.03,"conf":0.6852,"time":"2026-05-08 20:31"}],"equity_curve":[2791,25202,23323,38350,48167,56552,84666,125847,161427,177892,202110,225525,267274,299370,317397,346791,374649,384641,408467,449749,470662,502408,532759,546427,567024,600450,622234,652386,668641,693968,693407,712909,728918,763368,789456,836926,832257,849487,866983,892023,914822,949067,980608,994566,1005646,1023994,1044345,1067506,1101293,1126201,1153632,1172065,1187532,1210611,1249013,1273445,1319287,1369108,1396690,1417802,1425484,1434958,1452951,1468172,1489083,1512710,1519585,1522296,1531624,1545513,1558055,1569662,1585927,1601091,1610948,1617715,1680527,1687825,1700137,1728182,1733834,1760021,1755627,1761664,1777569,1805764,1843486,1857680,1869096,1912962,1936043,1974847,2003236,2022686,2060341,2079127,2152021,2173754,2213157,2237615,2294328,2306876,2336863,2349730,2360199,2434431,2510282,2516362,2573295,2591688,2646108,2759738,2817706,2876581,3013508,3065630,3157609,3274877,3392129,3623037,3706234,3774963,3806593,3833718,3898136,3971468,4016963,4074788,4209843,4246924,4284763,4365503,4377366,4427316,4518412,4587577,4674231,4749357,4824059,4867430,4925921,4974251,5007720,5067967,5088852,5113304,5124718,5215003,5309641,5338100,5393351,5423698,5441685,5502220,5505416,5540216,5641881,5678120,5713988,5726996,5797517,5814166,5842740,5861187,5875146,5899139,5943845,6020559,6027742,6082406,6097602,6111902,6129887,6141204,6154478,6195271,6201122,6212990,6231006,6264823,6289814,6304162,6334926,6373184,6404284,6414770,6459299,6488034,6545113,6560166,6583710,6605347,6638997,6676251,6689444,6690231,6738176,6792094,6847548,6871769,6901500,6928108,6945730,6968254,7012278,7080626,7111374,7121649,7145803,7165231,7176574,7205640,7224889,7261656,7302201,7354357,7380801,7379561,7398990,7448039,7494097,7524857,7601159,7637460,7694681,7775699,7879500,7878200,7912982,7947500,7979002,8008712,8073704,8111837,8138406,8200504,8295832,8384297,8401146,8415566,8428793,8455875,8486621,8537530,8606688,8699890,8703512,8715533,8726047,8745508,8789255,8821580,8835302,8850603,8871199,8897802,8934530,8948837,8979232,9027451,9053121,9075880,9113933,9153749,9173486,9206898,9232706,9304419,9342969,9356660,9427268,9446228,9485293,9497884,9535722,9566241,9575047,9598399,9605752,9620162,9651942,9702726,9731978,9757634,9768945,9825647,9854530,9887688,9897109,9944669,9988617,10034552,10092791,10237673,10268666,10289659,10315335,10317530,10321463,10337348,10374463,10434004,10519804,10609802,10655992,10718995,10855965,11058772,11143561,11175065,11177995,11194204,11245370,11329929,11344822,11471793,11557726,11573093,11587690,11613383,11618972,11645604,11663525,11700785,11744759,11823738,11877862,11910471,11966529,11990434,11999586,12022676,12042552,12105023,12120225,12157660,12184132,12199589,12234006,12282370,12289161,12293391,12297378,12325103,12370637,12415041,12460379,12495453,12519747,12576051,12596910,12629681,12640225,12651944,12645360,12653151,12684999,12720881,12760428,12806212,12813965,12841637,12859105,12890046,12905390,12947367,12946193,12964951,12996943,13068670,13067110,13099139,13160297,13245714,13301573,13320923,13369001,13408781,13416879,13453706,13525910,13536507,13523280,13541043,13569304,13609121,13642374,13689869,13727657,13758033,13787385,13816910,13842699,13873521,13895136,13894090,13898347,13891838,13899353,13913374,13924104,13946139,13958413,14009344,14045988,14070258,14104611,14108702,14128503,14143780,14158224,14176153,14189648,14229069,14274174,14304785,14330026,14361268,14428175,14460329,14473704,14460476,14463811,14468668,14476751,14487253,14517856,14534430,14550791,14567780,14588827,14628255,14650593,14684616,14699982,14733525,14782666,14793024,14824122,14856127,14874890,14902350,14930484,14952435,14954025,15009369,15023380,15055562,15062695,15075490,15091020,15089530,15096396,15110962,15125952,15154374,15164352,15180554,15206324,15256202,15270631,15297200,15333717,15355007,15394021,15407356,15435411,15446357,15491220,15508329,15562574,15598170,15612587,15627375,15654753,15677210,15699219,15702317,15699387,15719484,15741230,15762124,15776853,15788772,15820066,15851596,15862824,15874273,15899122,15933413,15951772,15983921,16017114,16028540,16058880,16089468,16108515,16116192,16134258,16172456]}
+};
+
+function renderReport(r) {
+  if (!r.recent_trades) r.recent_trades = [];
+  if (!r.multi_year) r.multi_year = [];
+  if (!r.equity_curve) r.equity_curve = [];
+  if (!r.hourly) r.hourly = [];
+  if (!r.monthly) r.monthly = [];
+  const s = r.summary;
+  const ls = r.long_short;
+  const pnlColor = s.total_pnl >= 0 ? '#4CAF50' : '#f44336';
+  const botNames = {unanimous:'ZERO TRINITY (Fixed 4-bar)',ml_exit:'ZERO DYNAMIC (ML Exit)',hybrid:'ZERO HYBRID (Smart Exit)',lightgbm:'ZERO FLASH',xgboost:'ZERO BLAZE',catboost:'ZERO SHADOW'};
+  const botDescs = {unanimous:'bot_trinity_desc',ml_exit:'ML decides optimal exit timing',hybrid:'Auto trailing + loss cut',lightgbm:'bot_flash_desc',xgboost:'bot_blaze_desc',catboost:'bot_shadow_desc'};
+
+  let html = `
+    <div class="card">
+      <h2>${r.symbol} — ${botNames[r.model]||r.model}</h2>
+      <div style="text-align:center;font-size:11px;color:#888;margin-top:-8px;margin-bottom:4px">${t(botDescs[r.model])||''}</div>
+      <div class="pnl-hero">
+        <div class="period">${r.period}</div>
+        <div class="value" style="color:${pnlColor}">${s.total_pnl >= 0 ? '+' : ''}${s.total_pnl.toLocaleString()}</div>
+        <div class="label">${t('total_pnl')}${t('currency_suffix')}</div>
+      </div>
+      <div class="stats-grid cols-4">
+        <div class="stat-box"><div class="stat-val">${s.total_trades}</div><div class="stat-label">${t('trades')}</div></div>
+        <div class="stat-box"><div class="stat-val positive">${s.win_rate}%</div><div class="stat-label">${t('win_rate')}</div></div>
+        <div class="stat-box"><div class="stat-val accent">${s.profit_factor}</div><div class="stat-label">${t('pf')}</div></div>
+        <div class="stat-box"><div class="stat-val">${r.lot || '1%'}</div><div class="stat-label">${t('lot')}</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>${t('detailed')}</h2>
+      <div class="stats-grid cols-2">
+        <div class="stat-box"><div class="stat-val sm positive">+${s.gross_profit.toLocaleString()}</div><div class="stat-label">${t('gross_profit')}</div></div>
+        <div class="stat-box"><div class="stat-val sm negative">-${s.gross_loss.toLocaleString()}</div><div class="stat-label">${t('gross_loss')}</div></div>
+        <div class="stat-box"><div class="stat-val sm">${s.avg_win.toLocaleString()}</div><div class="stat-label">${t('avg_win')}</div></div>
+        <div class="stat-box"><div class="stat-val sm">${s.avg_loss.toLocaleString()}</div><div class="stat-label">${t('avg_loss')}</div></div>
+        <div class="stat-box"><div class="stat-val sm positive">+${s.max_win.toLocaleString()}</div><div class="stat-label">${t('max_win')}</div></div>
+        <div class="stat-box"><div class="stat-val sm negative">${s.max_loss.toLocaleString()}</div><div class="stat-label">${t('max_loss')}</div></div>
+        <div class="stat-box"><div class="stat-val sm negative">${s.max_drawdown.toLocaleString()}</div><div class="stat-label">${t('max_dd')}</div></div>
+        <div class="stat-box"><div class="stat-val sm">${s.max_win_streak} / ${s.max_loss_streak}</div><div class="stat-label">${t('streak')}</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>${t('balance_graph')}</h2>
+      <div class="chart-wrap"><canvas id="eq-chart"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h2>${t('long_short')}</h2>
+      <table>
+        <tr><th></th><th>${t('trades')}</th><th>${t('wins')}</th><th>${t('win_rate')}</th><th>${t('pnl')}</th></tr>
+        <tr><td style="color:#4CAF50;font-weight:700">BUY</td><td>${ls.buy_trades}</td><td>${ls.buy_wins}</td>
+          <td>${ls.buy_wr}%</td><td class="${ls.buy_pnl>=0?'positive':'negative'}">${ls.buy_pnl.toLocaleString()}</td></tr>
+        <tr><td style="color:#f44336;font-weight:700">SELL</td><td>${ls.sell_trades}</td><td>${ls.sell_wins}</td>
+          <td>${ls.sell_wr}%</td><td class="${ls.sell_pnl>=0?'positive':'negative'}">${ls.sell_pnl.toLocaleString()}</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>${t('monthly')}</h2>
+      <table>
+        <tr><th>${t('month')}</th><th>${t('trades')}</th><th>${t('win_rate')}</th><th>${t('pnl')}</th></tr>
+        ${r.monthly.map(m => `<tr><td>${m.month}</td><td>${m.trades}</td><td>${m.wr}%</td>
+          <td class="${m.pnl>=0?'positive':'negative'}">${m.pnl.toLocaleString()}</td></tr>`).join('')}
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>${t('hourly')}</h2>
+      <div class="hour-grid">
+        ${r.hourly.map(h => {
+          const bg = h.pnl>0 ? `rgba(76,175,80,${Math.min(0.3+h.wr/200,0.9)})` : `rgba(244,67,54,${Math.min(0.3+(100-h.wr)/200,0.9)})`;
+          return `<div class="hour-cell" style="background:${bg}" title="WR:${h.wr}% ${t('pnl')}:${h.pnl}">${h.hour}${t('hour_suffix')}</div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>${t('recent')}</h2>
+      <table>
+        <tr><th>${t('direction')}</th><th>${t('entry')}</th><th>${t('exit')}</th><th>${t('pnl')}</th><th>${t('confidence')}</th></tr>
+        ${r.recent_trades.slice(-10).reverse().map(tr => `<tr>
+          <td style="color:${tr.direction==='BUY'?'#4CAF50':'#f44336'};font-weight:700">${tr.direction}</td>
+          <td>${tr.entry.toFixed(2)}</td><td>${tr.exit.toFixed(2)}</td>
+          <td class="${tr.pnl>=0?'positive':'negative'}">${tr.pnl>=0?'+':''}${tr.pnl.toFixed(2)}</td>
+          <td style="color:#888">${(tr.conf*100).toFixed(1)}%</td>
+        </tr>`).join('')}
+      </table>
+    </div>
+  `;
+  document.getElementById('report-content').innerHTML = html;
+
+  // Draw balance chart
+  if (reportChart) reportChart.destroy();
+  const ctx = document.getElementById('eq-chart');
+  if (ctx) {
+    const startBalance = 1000000;
+    const balanceCurve = r.equity_curve.map(v => startBalance + v);
+    reportChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: r.equity_curve.map((_,i) => i),
+        datasets: [{
+          data: balanceCurve,
+          borderColor: '#ff6644',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: true,
+          backgroundColor: 'rgba(255,102,68,0.1)',
+          tension: 0.2,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { display: false },
+          y: { ticks: { color: '#555', font: { size: 10 }, callback: v => (v/10000).toFixed(0) + '\u4E07' }, grid: { color: '#1a1a2a' } },
+        },
+      }
+    });
+  }
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('lang-picker-slot').innerHTML = renderLangPicker();
+  setLang(currentLang);
+  // Auto-load Strategy A on page load
+  selectStrategy('A');
+});
+</script>
+</body>
+</html>
