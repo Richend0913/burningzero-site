@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - BURNING ZERO</title>
+<script src="i18n.js" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Segoe UI', sans-serif;
+  background: #0a0a14;
+  color: #e0e0e0;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+a { text-decoration: none; color: inherit; }
+
+.auth-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px;
+}
+.auth-logo {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.auth-logo a {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.auth-card {
+  background: #12121e;
+  border: 1px solid #1e1e30;
+  border-radius: 16px;
+  padding: 36px 28px;
+}
+.auth-title {
+  font-size: 22px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 28px;
+  color: #fff;
+}
+.form-group {
+  margin-bottom: 18px;
+}
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: #0e0e1a;
+  border: 1px solid #2a2a3e;
+  border-radius: 10px;
+  color: #e0e0e0;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus {
+  border-color: #ff6644;
+}
+.form-input::placeholder {
+  color: #444;
+}
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #ff4444, #ff6600);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 24px rgba(255, 68, 68, 0.3);
+  margin-top: 8px;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 32px rgba(255, 68, 68, 0.4);
+}
+.btn-primary:active { transform: scale(0.97); }
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.auth-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+.auth-footer a {
+  color: #ff6644;
+  font-weight: 600;
+}
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+.error-msg {
+  background: #2a1015;
+  border: 1px solid #ff4444;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #ff6666;
+  margin-bottom: 16px;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="auth-container">
+  <div class="auth-logo">
+    <a href="/">BURNING ZERO</a>
+  </div>
+
+  <div class="auth-card">
+    <h1 class="auth-title" data-i18n="login">Login</h1>
+
+    <div class="error-msg" id="error"></div>
+
+    <form id="login-form" onsubmit="return handleLogin(event)">
+      <div class="form-group">
+        <label class="form-label" data-i18n="email">Email</label>
+        <input type="email" class="form-input" id="email" required
+               placeholder="you@example.com" autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-i18n="password">Password</label>
+        <input type="password" class="form-input" id="password" required
+               placeholder="********" autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn-primary" id="submit-btn" data-i18n="login">Login</button>
+    </form>
+
+    <div class="auth-footer">
+      <span>Don't have an account? </span>
+      <a href="/register" data-i18n="register">Sign Up</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Redirect if already logged in
+if (localStorage.getItem('bz_token')) {
+  window.location.href = '/dashboard';
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  const errEl = document.getElementById('error');
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.detail || 'Login failed');
+    }
+    localStorage.setItem('bz_token', data.token);
+    localStorage.setItem('bz_is_admin', data.is_admin ? '1' : '0');
+    window.location.href = data.is_admin ? '/admin' : '/dashboard';
+  } catch (err) {
+    errEl.textContent = err.message;
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Login';
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - BURNING ZERO</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="i18n.js" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Segoe UI', sans-serif;
+  background: #0a0a14; color: #e0e0e0; min-height: 100dvh; line-height: 1.6;
+}
+a { text-decoration: none; color: inherit; }
+.page { max-width: 900px; margin: 0 auto; padding: 0 16px 60px; }
+
+/* Header */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 0; border-bottom: 1px solid #1e1e30;
+}
+.header-logo {
+  font-size: 20px; font-weight: 900; letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.header-right { display: flex; align-items: center; gap: 12px; }
+.nav-link { font-size: 13px; color: #888; font-weight: 600; cursor: pointer; transition: color 0.15s; }
+.nav-link:hover { color: #ff6644; }
+
+/* Status banner */
+.status-banner {
+  margin-top: 20px; padding: 14px 20px;
+  border-radius: 12px; text-align: center;
+  font-size: 14px; font-weight: 600;
+}
+.status-pending { background: #1a1a10; border: 1px solid #aa8800; color: #ddaa00; }
+.status-rejected { background: #2a1015; border: 1px solid #ff4444; color: #ff6666; }
+.status-approved { background: #0e1a12; border: 1px solid #2a6630; color: #4CAF50; }
+
+/* Cards */
+.card {
+  background: #12121e; border: 1px solid #1e1e30;
+  border-radius: 14px; padding: 24px 20px; margin-top: 20px;
+}
+.card-title {
+  font-size: 16px; font-weight: 800; color: #fff;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+}
+.stat-item {
+  background: #0e0e1a; border-radius: 10px; padding: 14px 8px; text-align: center;
+}
+.stat-val {
+  font-size: 22px; font-weight: 900;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.stat-label {
+  font-size: 10px; color: #666; margin-top: 3px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* Toggle switch */
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0; border-bottom: 1px solid #1a1a2a;
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-label { font-size: 14px; font-weight: 600; color: #ccc; }
+.toggle-sublabel { font-size: 11px; color: #666; margin-top: 2px; }
+.switch {
+  position: relative; width: 48px; height: 26px; flex-shrink: 0;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; inset: 0; background: #2a2a3e;
+  border-radius: 26px; cursor: pointer; transition: background 0.3s;
+}
+.slider::before {
+  content: ''; position: absolute; width: 20px; height: 20px;
+  left: 3px; bottom: 3px; background: #888; border-radius: 50%;
+  transition: transform 0.3s, background 0.3s;
+}
+.switch input:checked + .slider { background: #ff5533; }
+.switch input:checked + .slider::before { transform: translateX(22px); background: #fff; }
+
+/* Settings controls */
+.setting-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0; border-bottom: 1px solid #1a1a2a;
+}
+.setting-row:last-child { border-bottom: none; }
+.setting-label { font-size: 14px; font-weight: 600; color: #ccc; }
+.setting-control { display: flex; align-items: center; gap: 8px; }
+.setting-input {
+  width: 80px; padding: 8px 10px; background: #0e0e1a;
+  border: 1px solid #2a2a3e; border-radius: 8px; color: #e0e0e0;
+  font-size: 14px; text-align: center; outline: none;
+}
+.setting-input:focus { border-color: #ff6644; }
+.setting-select {
+  padding: 8px 12px; background: #0e0e1a; border: 1px solid #2a2a3e;
+  border-radius: 8px; color: #e0e0e0; font-size: 14px; outline: none;
+}
+.setting-select:focus { border-color: #ff6644; }
+.range-val { font-size: 14px; font-weight: 700; color: #ff6644; min-width: 44px; text-align: right; }
+input[type="range"] {
+  -webkit-appearance: none; width: 140px; height: 6px;
+  background: #2a2a3e; border-radius: 3px; outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 18px;
+  border-radius: 50%; background: #ff5533; cursor: pointer;
+}
+
+/* Positions table */
+.pos-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.pos-table th {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  color: #666; text-align: left; padding: 8px 6px; border-bottom: 1px solid #1e1e30;
+}
+.pos-table td {
+  font-size: 13px; padding: 10px 6px; border-bottom: 1px solid #141420;
+  color: #ccc;
+}
+.pos-table tr:hover td { background: #14141f; }
+.badge-buy { color: #4CAF50; font-weight: 700; }
+.badge-sell { color: #ff5555; font-weight: 700; }
+.pnl-pos { color: #4CAF50; font-weight: 700; }
+.pnl-neg { color: #ff5555; font-weight: 700; }
+
+/* Empty state */
+.empty-state {
+  text-align: center; padding: 32px; color: #555; font-size: 14px;
+}
+
+/* Chart */
+.chart-wrap { position: relative; height: 220px; margin-top: 10px; }
+
+/* Button */
+.btn-save {
+  padding: 10px 24px; background: linear-gradient(135deg, #ff4444, #ff6600);
+  color: #fff; font-size: 14px; font-weight: 700;
+  border: none; border-radius: 10px; cursor: pointer;
+  transition: transform 0.15s; margin-top: 12px;
+}
+.btn-save:hover { transform: translateY(-1px); }
+
+@media (max-width: 600px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-val { font-size: 18px; }
+  input[type="range"] { width: 100px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="header">
+    <a href="/" class="header-logo">BURNING ZERO</a>
+    <div class="header-right">
+      <a href="/" class="nav-link" data-i18n="nav_home">Home</a>
+      <a href="backtest.html" class="nav-link" data-i18n="nav_bt">Backtest</a>
+      <span class="nav-link" id="admin-link" style="display:none"><a href="/admin">Admin</a></span>
+      <span class="nav-link" onclick="logout()" data-i18n="logout">Logout</span>
+    </div>
+  </header>
+
+  <!-- Status Banner -->
+  <div id="status-banner" class="status-banner" style="display:none"></div>
+
+  <!-- Overview Stats -->
+  <div class="card" id="overview-card">
+    <div class="card-title">Overview</div>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-val" id="stat-status">--</div>
+        <div class="stat-label">Status</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="stat-trades">0</div>
+        <div class="stat-label" data-i18n="trades">Trades</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="stat-wr">0%</div>
+        <div class="stat-label" data-i18n="win_rate">Win Rate</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="stat-pnl">$0</div>
+        <div class="stat-label" data-i18n="pnl">P&L</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active/Inactive Toggle -->
+  <div class="card" id="control-card">
+    <div class="card-title">Bot Control</div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Auto-Trading</div>
+        <div class="toggle-sublabel">Enable or disable signal execution</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="active-toggle" onchange="toggleActive(this.checked)">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Settings -->
+  <div class="card" id="settings-card">
+    <div class="card-title">Settings</div>
+
+    <div class="setting-row">
+      <div class="setting-label">Confidence Threshold</div>
+      <div class="setting-control">
+        <input type="range" id="conf-slider" min="0.64" max="0.74" step="0.01" value="0.68"
+               oninput="document.getElementById('conf-val').textContent=this.value">
+        <span class="range-val" id="conf-val">0.68</span>
+      </div>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-label">Lot Mode</div>
+      <div class="setting-control">
+        <select class="setting-select" id="lot-mode" onchange="toggleLotMode()">
+          <option value="fixed">Fixed</option>
+          <option value="dynamic">Dynamic (%)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="setting-row" id="lot-size-row">
+      <div class="setting-label" data-i18n="lot_size">Lot Size</div>
+      <div class="setting-control">
+        <input type="number" class="setting-input" id="lot-size" value="0.01" min="0.01" max="10" step="0.01">
+      </div>
+    </div>
+
+    <div class="setting-row" id="risk-pct-row" style="display:none">
+      <div class="setting-label">Risk %</div>
+      <div class="setting-control">
+        <input type="number" class="setting-input" id="risk-pct" value="1.0" min="1" max="10" step="0.5">
+        <span style="color:#666;font-size:12px">%</span>
+      </div>
+    </div>
+
+    <div class="card-title" style="margin-top:20px">Strategies</div>
+
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Strategy A</div>
+        <div class="toggle-sublabel">Fixed 4-bar exit</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="strat-a" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Strategy B</div>
+        <div class="toggle-sublabel">ML Dynamic exit</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="strat-b" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label">Strategy D</div>
+        <div class="toggle-sublabel">Hybrid smart exit</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="strat-d" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <button class="btn-save" onclick="saveSettings()">Save Settings</button>
+  </div>
+
+  <!-- Open Positions -->
+  <div class="card">
+    <div class="card-title">Open Positions</div>
+    <div id="positions-container">
+      <div class="empty-state">No open positions</div>
+    </div>
+  </div>
+
+  <!-- Equity Curve -->
+  <div class="card">
+    <div class="card-title" data-i18n="equity_curve">Equity Curve</div>
+    <div class="chart-wrap">
+      <canvas id="equity-chart"></canvas>
+    </div>
+  </div>
+
+  <!-- Trade History -->
+  <div class="card">
+    <div class="card-title" data-i18n="recent">Recent Trades</div>
+    <div id="trades-container" style="overflow-x:auto">
+      <div class="empty-state">No trades yet</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '';
+let token = localStorage.getItem('bz_token');
+if (!token) window.location.href = '/login';
+
+const headers = () => ({
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer ' + token,
+});
+
+let equityChart = null;
+
+async function apiFetch(url, opts = {}) {
+  opts.headers = headers();
+  const res = await fetch(API + url, opts);
+  if (res.status === 401) { logout(); return null; }
+  return res;
+}
+
+function logout() {
+  localStorage.removeItem('bz_token');
+  localStorage.removeItem('bz_is_admin');
+  window.location.href = '/login';
+}
+
+function toggleLotMode() {
+  const mode = document.getElementById('lot-mode').value;
+  document.getElementById('lot-size-row').style.display = mode === 'fixed' ? 'flex' : 'none';
+  document.getElementById('risk-pct-row').style.display = mode === 'dynamic' ? 'flex' : 'none';
+}
+
+async function toggleActive(active) {
+  await apiFetch('/api/settings', {
+    method: 'PUT',
+    body: JSON.stringify({ active }),
+  });
+  loadData();
+}
+
+async function saveSettings() {
+  const body = {
+    conf_threshold: parseFloat(document.getElementById('conf-slider').value),
+    lot_mode: document.getElementById('lot-mode').value,
+    lot_size: parseFloat(document.getElementById('lot-size').value),
+    risk_pct: parseFloat(document.getElementById('risk-pct').value),
+    strategies_a: document.getElementById('strat-a').checked,
+    strategies_b: document.getElementById('strat-b').checked,
+    strategies_d: document.getElementById('strat-d').checked,
+  };
+  const res = await apiFetch('/api/settings', {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  });
+  if (res && res.ok) {
+    const btn = document.querySelector('.btn-save');
+    btn.textContent = 'Saved!';
+    setTimeout(() => btn.textContent = 'Save Settings', 1500);
+  }
+}
+
+function renderPositions(positions) {
+  const c = document.getElementById('positions-container');
+  if (!positions || positions.length === 0) {
+    c.innerHTML = '<div class="empty-state">No open positions</div>';
+    return;
+  }
+  let html = `<table class="pos-table"><thead><tr>
+    <th>Strategy</th><th>Direction</th><th>Symbol</th>
+    <th>Entry</th><th>Lot</th><th>Conf</th><th>Time</th>
+  </tr></thead><tbody>`;
+  for (const p of positions) {
+    const dir = p.direction === 'BUY'
+      ? '<span class="badge-buy">BUY</span>'
+      : '<span class="badge-sell">SELL</span>';
+    const time = p.opened_at ? new Date(p.opened_at).toLocaleString() : '--';
+    html += `<tr>
+      <td>${p.strategy || '--'}</td><td>${dir}</td><td>${p.symbol || 'XAUUSD'}</td>
+      <td>${p.entry_price ? p.entry_price.toFixed(2) : '--'}</td>
+      <td>${p.lot}</td><td>${p.conf ? p.conf.toFixed(2) : '--'}</td>
+      <td>${time}</td>
+    </tr>`;
+  }
+  html += '</tbody></table>';
+  c.innerHTML = html;
+}
+
+function renderTrades(trades) {
+  const c = document.getElementById('trades-container');
+  if (!trades || trades.length === 0) {
+    c.innerHTML = '<div class="empty-state">No trades yet</div>';
+    return;
+  }
+  let html = `<table class="pos-table"><thead><tr>
+    <th>Strategy</th><th>Dir</th><th>Entry</th><th>Exit</th>
+    <th>Lot</th><th>P&L</th><th>Conf</th><th>Closed</th>
+  </tr></thead><tbody>`;
+  for (const t of trades) {
+    const dir = t.direction === 'BUY'
+      ? '<span class="badge-buy">BUY</span>'
+      : '<span class="badge-sell">SELL</span>';
+    const pnlClass = t.profit >= 0 ? 'pnl-pos' : 'pnl-neg';
+    const time = t.closed_at ? new Date(t.closed_at).toLocaleString() : '--';
+    html += `<tr>
+      <td>${t.strategy || '--'}</td><td>${dir}</td>
+      <td>${t.entry_price ? t.entry_price.toFixed(2) : '--'}</td>
+      <td>${t.exit_price ? t.exit_price.toFixed(2) : '--'}</td>
+      <td>${t.lot}</td>
+      <td class="${pnlClass}">$${t.profit ? t.profit.toFixed(2) : '0.00'}</td>
+      <td>${t.conf ? t.conf.toFixed(2) : '--'}</td>
+      <td>${time}</td>
+    </tr>`;
+  }
+  html += '</tbody></table>';
+  c.innerHTML = html;
+}
+
+function renderEquityChart(trades) {
+  const ctx = document.getElementById('equity-chart').getContext('2d');
+  if (equityChart) equityChart.destroy();
+
+  if (!trades || trades.length === 0) {
+    equityChart = new Chart(ctx, {
+      type: 'line',
+      data: { labels: ['Start'], datasets: [{ data: [0], borderColor: '#ff5533', borderWidth: 2, fill: false, pointRadius: 0 }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { color: '#1e1e30' }, ticks: { color: '#666' } } } }
+    });
+    return;
+  }
+
+  // Build equity curve from oldest trade
+  const sorted = [...trades].reverse();
+  let equity = 0;
+  const labels = [];
+  const data = [0];
+  for (const t of sorted) {
+    equity += (t.profit || 0);
+    labels.push(t.closed_at ? new Date(t.closed_at).toLocaleDateString() : '');
+    data.push(equity);
+  }
+  labels.unshift('Start');
+
+  equityChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data,
+        borderColor: '#ff5533',
+        backgroundColor: 'rgba(255,85,51,0.08)',
+        borderWidth: 2,
+        fill: true,
+        pointRadius: 0,
+        tension: 0.3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { display: false },
+        y: {
+          grid: { color: '#1e1e30' },
+          ticks: { color: '#666', callback: v => '$' + v.toFixed(0) },
+        }
+      }
+    }
+  });
+}
+
+async function loadData() {
+  // Load user profile
+  const meRes = await apiFetch('/api/me');
+  if (!meRes) return;
+  const me = await meRes.json();
+
+  // Show admin link if admin
+  if (me.is_admin) {
+    document.getElementById('admin-link').style.display = '';
+  }
+
+  // Status banner
+  const banner = document.getElementById('status-banner');
+  if (me.status === 'pending') {
+    banner.className = 'status-banner status-pending';
+    banner.textContent = 'Your account is pending approval. An admin will review your application shortly.';
+    banner.style.display = '';
+  } else if (me.status === 'rejected') {
+    banner.className = 'status-banner status-rejected';
+    banner.textContent = 'Your application was rejected. Please contact support.';
+    banner.style.display = '';
+  } else {
+    banner.style.display = 'none';
+  }
+
+  // Populate settings
+  document.getElementById('conf-slider').value = me.conf_threshold;
+  document.getElementById('conf-val').textContent = me.conf_threshold;
+  document.getElementById('lot-mode').value = me.lot_mode;
+  document.getElementById('lot-size').value = me.lot_size;
+  document.getElementById('risk-pct').value = me.risk_pct;
+  document.getElementById('strat-a').checked = !!me.strategies_a;
+  document.getElementById('strat-b').checked = !!me.strategies_b;
+  document.getElementById('strat-d').checked = !!me.strategies_d;
+  document.getElementById('active-toggle').checked = !!me.active;
+  toggleLotMode();
+
+  // Disable controls if not approved
+  if (me.status !== 'approved') {
+    document.getElementById('active-toggle').disabled = true;
+  }
+
+  // Load status
+  const statusRes = await apiFetch('/api/status');
+  if (!statusRes) return;
+  const status = await statusRes.json();
+
+  // Stats
+  document.getElementById('stat-status').textContent = me.active ? 'LIVE' : 'OFF';
+  document.getElementById('stat-status').style.background =
+    me.active ? 'linear-gradient(135deg, #4CAF50, #66bb6a)' : 'linear-gradient(135deg, #666, #888)';
+  document.getElementById('stat-trades').textContent = status.total_trades;
+  document.getElementById('stat-wr').textContent = status.win_rate + '%';
+  document.getElementById('stat-pnl').textContent = '$' + status.total_pnl.toFixed(2);
+
+  renderPositions(status.positions);
+  renderTrades(status.trades);
+  renderEquityChart(status.trades);
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof setLang === 'function' && typeof currentLang !== 'undefined') setLang(currentLang);
+  loadData();
+  // Auto-refresh every 30s
+  setInterval(loadData, 30000);
+});
+</script>
+
+</body>
+</html>

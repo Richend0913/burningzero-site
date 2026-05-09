@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - BURNING ZERO</title>
+<script src="i18n.js" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Segoe UI', sans-serif;
+  background: #0a0a14; color: #e0e0e0; min-height: 100dvh; line-height: 1.6;
+}
+a { text-decoration: none; color: inherit; }
+.page { max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }
+
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 0; border-bottom: 1px solid #1e1e30;
+}
+.header-logo {
+  font-size: 20px; font-weight: 900; letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.header-right { display: flex; align-items: center; gap: 12px; }
+.nav-link { font-size: 13px; color: #888; font-weight: 600; cursor: pointer; transition: color 0.15s; }
+.nav-link:hover { color: #ff6644; }
+
+.admin-badge {
+  display: inline-block; padding: 3px 10px; background: linear-gradient(135deg, #ff4444, #ff6600);
+  color: #fff; font-size: 10px; font-weight: 800; border-radius: 6px;
+  text-transform: uppercase; letter-spacing: 1px; margin-left: 8px;
+}
+
+.card {
+  background: #12121e; border: 1px solid #1e1e30;
+  border-radius: 14px; padding: 24px 20px; margin-top: 20px;
+}
+.card-title {
+  font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 16px;
+}
+
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+}
+.stat-item {
+  background: #0e0e1a; border-radius: 10px; padding: 14px 8px; text-align: center;
+}
+.stat-val {
+  font-size: 22px; font-weight: 900;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.stat-label {
+  font-size: 10px; color: #666; margin-top: 3px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* Users table */
+.users-table { width: 100%; border-collapse: collapse; }
+.users-table th {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  color: #666; text-align: left; padding: 10px 6px; border-bottom: 1px solid #1e1e30;
+}
+.users-table td {
+  font-size: 13px; padding: 12px 6px; border-bottom: 1px solid #141420; color: #ccc;
+}
+.users-table tr:hover td { background: #14141f; }
+
+.badge {
+  display: inline-block; padding: 3px 8px; border-radius: 6px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-pending { background: #2a2a10; color: #ddaa00; }
+.badge-approved { background: #0e2a12; color: #4CAF50; }
+.badge-rejected { background: #2a1015; color: #ff6666; }
+.badge-active { background: #0e2a12; color: #4CAF50; }
+.badge-inactive { background: #1a1a2a; color: #666; }
+
+.btn-sm {
+  padding: 5px 12px; border: none; border-radius: 6px;
+  font-size: 11px; font-weight: 700; cursor: pointer;
+  transition: transform 0.1s;
+}
+.btn-sm:hover { transform: scale(1.05); }
+.btn-approve { background: #1a3a1a; color: #4CAF50; }
+.btn-reject { background: #3a1a1a; color: #ff5555; }
+.btn-group { display: flex; gap: 6px; }
+
+.empty-state { text-align: center; padding: 32px; color: #555; font-size: 14px; }
+
+.section-title {
+  font-size: 14px; font-weight: 700; color: #888; margin: 20px 0 10px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+
+@media (max-width: 700px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .users-table { font-size: 11px; }
+  .users-table th, .users-table td { padding: 8px 4px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="header">
+    <div style="display:flex;align-items:center">
+      <a href="/" class="header-logo">BURNING ZERO</a>
+      <span class="admin-badge">Admin</span>
+    </div>
+    <div class="header-right">
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/" class="nav-link" data-i18n="nav_home">Home</a>
+      <span class="nav-link" onclick="logout()" data-i18n="logout">Logout</span>
+    </div>
+  </header>
+
+  <!-- Overview Stats -->
+  <div class="card">
+    <div class="card-title">System Overview</div>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-val" id="s-users">0</div>
+        <div class="stat-label">Total Users</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="s-approved">0</div>
+        <div class="stat-label">Approved</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="s-active">0</div>
+        <div class="stat-label">Active Bots</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" id="s-pnl">$0</div>
+        <div class="stat-label">Total P&L</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pending Approvals -->
+  <div class="card" id="pending-card">
+    <div class="card-title">Pending Approvals</div>
+    <div id="pending-container">
+      <div class="empty-state">No pending users</div>
+    </div>
+  </div>
+
+  <!-- All Users -->
+  <div class="card">
+    <div class="card-title">All Users</div>
+    <div id="users-container" style="overflow-x:auto">
+      <div class="empty-state">No users yet</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const token = localStorage.getItem('bz_token');
+if (!token) window.location.href = '/login';
+
+const headers = () => ({
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer ' + token,
+});
+
+function logout() {
+  localStorage.removeItem('bz_token');
+  localStorage.removeItem('bz_is_admin');
+  window.location.href = '/login';
+}
+
+async function apiFetch(url, opts = {}) {
+  opts.headers = headers();
+  const res = await fetch(url, opts);
+  if (res.status === 401 || res.status === 403) { logout(); return null; }
+  return res;
+}
+
+async function approveUser(uid) {
+  await apiFetch('/api/approve/' + uid, { method: 'POST' });
+  loadData();
+}
+
+async function rejectUser(uid) {
+  await apiFetch('/api/reject/' + uid, { method: 'POST' });
+  loadData();
+}
+
+function renderPending(users) {
+  const pending = users.filter(u => u.status === 'pending');
+  const c = document.getElementById('pending-container');
+  if (pending.length === 0) {
+    c.innerHTML = '<div class="empty-state">No pending users</div>';
+    return;
+  }
+  let html = `<table class="users-table"><thead><tr>
+    <th>Name</th><th>Email</th><th>MT5 Login</th><th>Server</th><th>Registered</th><th>Actions</th>
+  </tr></thead><tbody>`;
+  for (const u of pending) {
+    const time = u.created_at ? new Date(u.created_at).toLocaleString() : '--';
+    html += `<tr>
+      <td><strong>${u.name}</strong></td>
+      <td>${u.email}</td>
+      <td>${u.mt5_login}</td>
+      <td>${u.mt5_server}</td>
+      <td>${time}</td>
+      <td>
+        <div class="btn-group">
+          <button class="btn-sm btn-approve" onclick="approveUser(${u.id})">Approve</button>
+          <button class="btn-sm btn-reject" onclick="rejectUser(${u.id})">Reject</button>
+        </div>
+      </td>
+    </tr>`;
+  }
+  html += '</tbody></table>';
+  c.innerHTML = html;
+}
+
+function renderAllUsers(users) {
+  const c = document.getElementById('users-container');
+  if (users.length === 0) {
+    c.innerHTML = '<div class="empty-state">No users yet</div>';
+    return;
+  }
+  let html = `<table class="users-table"><thead><tr>
+    <th>#</th><th>Name</th><th>Email</th><th>Status</th>
+    <th>Bot</th><th>Trades</th><th>P&L</th><th>Conf</th><th>Lot</th><th>Strategies</th>
+  </tr></thead><tbody>`;
+  for (const u of users) {
+    const statusBadge = u.status === 'approved'
+      ? '<span class="badge badge-approved">Approved</span>'
+      : u.status === 'rejected'
+      ? '<span class="badge badge-rejected">Rejected</span>'
+      : '<span class="badge badge-pending">Pending</span>';
+    const activeBadge = u.active
+      ? '<span class="badge badge-active">ON</span>'
+      : '<span class="badge badge-inactive">OFF</span>';
+    const strats = [];
+    if (u.strategies_a) strats.push('A');
+    if (u.strategies_b) strats.push('B');
+    if (u.strategies_d) strats.push('D');
+    const pnlClass = u.total_pnl >= 0 ? 'color:#4CAF50' : 'color:#ff5555';
+    html += `<tr>
+      <td>${u.id}</td>
+      <td><strong>${u.name}</strong></td>
+      <td style="font-size:11px;color:#888">${u.email}</td>
+      <td>${statusBadge}</td>
+      <td>${activeBadge}</td>
+      <td>${u.total_trades || 0}</td>
+      <td style="${pnlClass};font-weight:700">$${(u.total_pnl || 0).toFixed(2)}</td>
+      <td>${u.conf_threshold}</td>
+      <td>${u.lot_mode === 'fixed' ? u.lot_size + ' lot' : u.risk_pct + '%'}</td>
+      <td>${strats.join(', ') || '--'}</td>
+    </tr>`;
+  }
+  html += '</tbody></table>';
+  c.innerHTML = html;
+}
+
+async function loadData() {
+  // Admin status
+  const sRes = await apiFetch('/api/admin/status');
+  if (!sRes) return;
+  const s = await sRes.json();
+  document.getElementById('s-users').textContent = s.total_users;
+  document.getElementById('s-approved').textContent = s.approved;
+  document.getElementById('s-active').textContent = s.active_bots;
+  document.getElementById('s-pnl').textContent = '$' + s.total_pnl.toFixed(2);
+
+  // Users list
+  const uRes = await apiFetch('/api/users');
+  if (!uRes) return;
+  const uData = await uRes.json();
+  renderPending(uData.users);
+  renderAllUsers(uData.users);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof setLang === 'function' && typeof currentLang !== 'undefined') setLang(currentLang);
+  loadData();
+  setInterval(loadData, 15000);
+});
+</script>
+
+</body>
+</html>

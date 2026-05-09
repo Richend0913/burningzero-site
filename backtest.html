@@ -342,12 +342,14 @@ function renderReport(r) {
       </table>
     </div>
   `;
+  // Destroy old chart BEFORE replacing DOM (canvas must still exist)
+  if (reportChart) { reportChart.destroy(); reportChart = null; }
+
   document.getElementById('report-content').innerHTML = html;
 
-  // Draw balance chart
-  if (reportChart) reportChart.destroy();
+  // Draw balance chart on new canvas
   const ctx = document.getElementById('eq-chart');
-  if (ctx) {
+  if (ctx && r.equity_curve.length > 0) {
     const startBalance = 1000000;
     const balanceCurve = r.equity_curve.map(v => startBalance + v);
     reportChart = new Chart(ctx, {
@@ -366,6 +368,7 @@ function renderReport(r) {
       },
       options: {
         responsive: true,
+        animation: false,
         plugins: { legend: { display: false } },
         scales: {
           x: { display: false },
