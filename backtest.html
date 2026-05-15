@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>BURNING ZERO — Backtest</title>
+<title>BURNING ZERO — バックテスト結果</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="i18n.js" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
 <script>if(typeof t==='undefined'){window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';}</script>
@@ -69,7 +69,7 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
 .ib-banner a { color:#ff6644; font-weight:700; text-decoration:none; font-size:14px; }
 
 /* Strategy Tabs */
-.strat-tabs { display:flex; gap:6px; margin-bottom:14px; }
+.strat-tabs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
 .strat-tab { flex:1; text-align:center; padding:12px 6px; border-radius:10px; border:1.5px solid #2a2a3e;
   background:#0e0e1a; cursor:pointer; transition:border-color 0.15s, background 0.15s; position:relative; }
 .strat-tab:hover { border-color:#ff6644; }
@@ -117,15 +117,24 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
     <div class="header-right">
       <div id="lang-picker-slot"></div>
       <div class="nav-links">
-        <a href="/" data-i18n="nav_home">Home</a>
-        <a href="/app" data-i18n="nav_app">Dashboard</a>
+        <a href="/" data-i18n="nav_home">ホーム</a>
+        <a href="/app" data-i18n="nav_app">ダッシュボード</a>
       </div>
+    </div>
+  </div>
+
+  <!-- Explanation -->
+  <div class="card" style="background:linear-gradient(135deg,#0e0e1a,#12121e);border-color:#ff660033">
+    <div style="font-size:13px;color:#999;line-height:1.7">
+      <strong style="color:#ff6644">4つのAI戦略を同時運用。</strong>
+      各戦略が独立してMaxDD 10%以内で運用し、異なるタイムフレーム(M5/H1/H4)で分散。
+      全結果はOOS(アウトオブサンプル)で、学習データと評価データを完全に分離しています。
     </div>
   </div>
 
   <!-- Strategy Tabs -->
   <div class="strat-tabs" id="strat-tabs">
-    <div class="strat-tab active" onclick="selectStrategy('combined')" id="strat-tab-combined">
+    <div class="strat-tab active" onclick="selectStrategy('combined')" id="strat-tab-combined" style="flex:0 0 100%">
       <span class="strat-tag-badge" style="background:#ff6644">ALL</span>
       <div class="strat-label">4戦略統合</div>
       <div class="strat-sub">100万円複利</div>
@@ -159,62 +168,56 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
 
   <!-- Comparison Table -->
   <div class="compare-card" id="compare-section">
-    <h2 data-i18n="strategy_compare">Compare Strategies</h2>
+    <h2>戦略比較</h2>
     <table class="compare-table">
       <thead>
         <tr>
-          <th>System</th>
-          <th>Delta Sharpe</th>
-          <th>PSR</th>
-          <th>WR Lift</th>
-          <th>Sharpe</th>
+          <th>戦略</th>
+          <th>リターン</th>
+          <th>MaxDD</th>
+          <th>シャープ</th>
           <th>PF</th>
-          <th>PnL/DD</th>
+          <th>損益/DD</th>
         </tr>
       </thead>
       <tbody>
         <tr id="compare-row-combined" class="highlight">
           <td style="color:#ff6644;font-weight:700">4戦略統合</td>
-          <td>---</td>
-          <td>---</td>
-          <td>---</td>
+          <td class="compare-best" style="color:#ff6644">+507.2%</td>
+          <td>-9.8%</td>
           <td>---</td>
           <td>---</td>
           <td class="compare-best" style="color:#ff6644">51.7</td>
         </tr>
         <tr id="compare-row-v4_meta">
           <td>v4 Meta</td>
-          <td class="compare-best">+0.495</td>
-          <td class="compare-best">0.995</td>
-          <td class="compare-best">+3.4pp</td>
+          <td class="positive">+115.3%</td>
+          <td>-9.8%</td>
           <td>1.00</td>
           <td>1.30</td>
           <td class="compare-best">11.8</td>
         </tr>
         <tr id="compare-row-v3_h1">
           <td>v3 H1</td>
-          <td>---</td>
-          <td>---</td>
-          <td>---</td>
+          <td class="positive">+46.8%</td>
+          <td>-10%</td>
           <td>1.63</td>
           <td>1.30</td>
           <td class="positive">4.68</td>
         </tr>
         <tr id="compare-row-v3_h4">
           <td>H4 AVWAP</td>
-          <td>---</td>
-          <td>---</td>
-          <td>---</td>
+          <td class="positive">+10.6%</td>
+          <td>-10%</td>
           <td class="compare-best">2.09</td>
-          <td class="compare-best">1.30</td>
-          <td class="positive compare-best">1.06</td>
+          <td>1.30</td>
+          <td class="positive">1.06</td>
         </tr>
         <tr id="compare-row-scalp">
           <td>M5 Scalp</td>
+          <td class="positive">+60.6%</td>
+          <td>-10%</td>
           <td>---</td>
-          <td>---</td>
-          <td>---</td>
-          <td>8964</td>
           <td>1.27</td>
           <td>6.06</td>
         </tr>
@@ -227,8 +230,12 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
 
   <!-- CTA -->
   <div class="ib-banner">
-    <p data-i18n="ib_desc">Free access with partner broker account</p>
-    <a href="https://one.exnessonelink.com/a/71hmw54ihe?source=bt" target="_blank" data-i18n="open_account">Open Account (Exness)</a>
+    <p>パートナーブローカー口座で無料アクセス</p>
+    <a href="https://one.exnesstrack.org/a/newf0ex0jj" target="_blank">口座開設 (Exness) →</a>
+  </div>
+
+  <div style="text-align:center;padding:20px;font-size:10px;color:#444">
+    BURNING ZERO &copy; 2026 | バックテスト結果は将来の利益を保証するものではありません
   </div>
 
 </div>
