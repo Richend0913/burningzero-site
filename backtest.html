@@ -125,7 +125,13 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
 
   <!-- Strategy Tabs -->
   <div class="strat-tabs" id="strat-tabs">
-    <div class="strat-tab active" onclick="selectStrategy('v4_meta')" id="strat-tab-v4_meta">
+    <div class="strat-tab active" onclick="selectStrategy('combined')" id="strat-tab-combined">
+      <span class="strat-tag-badge" style="background:#ff6644">ALL</span>
+      <div class="strat-label">3戦略統合</div>
+      <div class="strat-sub">100万円複利</div>
+      <div class="strat-wr">+95.5%</div>
+    </div>
+    <div class="strat-tab" onclick="selectStrategy('v4_meta')" id="strat-tab-v4_meta">
       <span class="strat-tag-badge">v4</span>
       <div class="strat-label">Meta-Label PoC</div>
       <div class="strat-sub">CatBoost Filter</div>
@@ -161,7 +167,16 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
         </tr>
       </thead>
       <tbody>
-        <tr id="compare-row-v4_meta" class="highlight">
+        <tr id="compare-row-combined" class="highlight">
+          <td style="color:#ff6644;font-weight:700">3戦略統合</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+          <td class="compare-best" style="color:#ff6644">22.1</td>
+        </tr>
+        <tr id="compare-row-v4_meta">
           <td>v4 Meta</td>
           <td class="compare-best">+0.495</td>
           <td class="compare-best">0.995</td>
@@ -205,9 +220,37 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
 
 <script>
 let reportChart = null;
-let currentStrategy = 'v4_meta';
+let currentStrategy = 'combined';
 
 const INLINE_BT_DATA = {
+  'combined': {
+    "symbol": "XAUUSD",
+    "model": "combined",
+    "bot_name": "3戦略統合ポートフォリオ",
+    "lot": "各1/3配分 (100万円複利)",
+    "period": "2023-07 ~ 2026-05",
+    "combined_summary": {
+      "start": 1000000, "end": 1954595, "return_pct": 95.5,
+      "maxdd_pct": -4.3, "pnl_dd": 22.1,
+      "pos_months": 27, "total_months": 35,
+      "best_month": 27.30, "worst_month": -4.32, "avg_month": 2.05
+    },
+    "combined_monthly": [
+      {"month":"2023-07","pnl_pct":0.45},{"month":"2023-08","pnl_pct":0.43},{"month":"2023-09","pnl_pct":1.19},
+      {"month":"2023-10","pnl_pct":0.52},{"month":"2023-11","pnl_pct":0.54},{"month":"2023-12","pnl_pct":-0.08},
+      {"month":"2024-01","pnl_pct":-1.31},{"month":"2024-02","pnl_pct":-0.32},{"month":"2024-03","pnl_pct":1.00},
+      {"month":"2024-04","pnl_pct":0.76},{"month":"2024-05","pnl_pct":0.63},{"month":"2024-06","pnl_pct":0.57},
+      {"month":"2024-07","pnl_pct":1.63},{"month":"2024-08","pnl_pct":0.26},{"month":"2024-09","pnl_pct":-0.31},
+      {"month":"2024-10","pnl_pct":0.19},{"month":"2024-11","pnl_pct":0.98},{"month":"2024-12","pnl_pct":-1.65},
+      {"month":"2025-01","pnl_pct":2.37},{"month":"2025-02","pnl_pct":2.07},{"month":"2025-03","pnl_pct":2.44},
+      {"month":"2025-04","pnl_pct":5.79},{"month":"2025-05","pnl_pct":5.58},{"month":"2025-06","pnl_pct":-1.37},
+      {"month":"2025-07","pnl_pct":0.54},{"month":"2025-08","pnl_pct":-2.43},{"month":"2025-09","pnl_pct":4.20},
+      {"month":"2025-10","pnl_pct":27.30},{"month":"2025-11","pnl_pct":-4.32},{"month":"2025-12","pnl_pct":7.78},
+      {"month":"2026-01","pnl_pct":10.11},{"month":"2026-02","pnl_pct":0.22},{"month":"2026-03","pnl_pct":2.42},
+      {"month":"2026-04","pnl_pct":1.29},{"month":"2026-05","pnl_pct":2.19}
+    ],
+    "combined_equity": [1000000,1004533,1008819,1020858,1026200,1031776,1030985,1017479,1014223,1024365,1032151,1038619,1044539,1061565,1064290,1060955,1063006,1073388,1055713,1080768,1103140,1130094,1195526,1262276,1245025,1251707,1221332,1272628,1620098,1550164,1670818,1839682,1843668,1888285,1912707,1954595]
+  },
   'v4_meta': {
     "symbol": "XAUUSD",
     "model": "v4_meta",
@@ -369,6 +412,110 @@ const INLINE_BT_DATA = {
     "feature_importance": {"atr_norm":205,"momentum_20":69,"dist_to_20l":18,"rsi14":5,"macd_norm":2,"macd_signal_norm":1}
   }
 };
+
+function renderCombinedReport(r) {
+  const cs = r.combined_summary;
+  const cm = r.combined_monthly;
+  const ce = r.combined_equity;
+
+  let html = `
+    <div class="card">
+      <h2>3戦略統合ポートフォリオ</h2>
+      <div class="pnl-hero">
+        <div class="period">2023-07 ~ 2026-05 | 各戦略1/3配分 | 100万円複利</div>
+        <div class="value" style="color:#4CAF50">+${(cs.end - cs.start).toLocaleString()}円 (+${cs.return_pct}%)</div>
+        <div class="label">100万円 → ${cs.end.toLocaleString()}円</div>
+      </div>
+      <div class="stats-grid cols-4">
+        <div class="stat-box"><div class="stat-val accent">+${cs.return_pct}%</div><div class="stat-label">トータルリターン</div></div>
+        <div class="stat-box"><div class="stat-val positive">${cs.maxdd_pct}%</div><div class="stat-label">最大DD</div></div>
+        <div class="stat-box"><div class="stat-val positive">${cs.pnl_dd}</div><div class="stat-label">損益/DD比</div></div>
+        <div class="stat-box"><div class="stat-val positive">${cs.pos_months}/${cs.total_months}</div><div class="stat-label">プラス月</div></div>
+      </div>
+      <div class="stats-grid cols-4" style="margin-top:8px">
+        <div class="stat-box"><div class="stat-val sm positive">+${cs.best_month}%</div><div class="stat-label">最高月</div></div>
+        <div class="stat-box"><div class="stat-val sm negative">${cs.worst_month}%</div><div class="stat-label">最悪月</div></div>
+        <div class="stat-box"><div class="stat-val sm accent">+${cs.avg_month}%</div><div class="stat-label">平均月次</div></div>
+        <div class="stat-box"><div class="stat-val sm">3</div><div class="stat-label">戦略数</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>統合資金推移</h2>
+      <canvas id="combined-eq-chart" height="200"></canvas>
+      <div style="margin-top:8px;font-size:11px;color:#888;text-align:center">
+        v4 Meta + v3 H1 + H4 AVWAP を各1/3配分で複利運用
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>構成戦略</h2>
+      <div class="stats-grid cols-3">
+        <div class="stat-box" style="border:1px solid #ff660044">
+          <div class="stat-val sm accent">v4 Meta</div>
+          <div class="stat-label">M5 CatBoost<br>+115.3% / DD-9.8%</div>
+        </div>
+        <div class="stat-box" style="border:1px solid #2a6630">
+          <div class="stat-val sm positive">v3 H1</div>
+          <div class="stat-label">H1 Full System<br>+62.2% / DD-10%</div>
+        </div>
+        <div class="stat-box" style="border:1px solid #2a6630">
+          <div class="stat-val sm positive">H4 AVWAP</div>
+          <div class="stat-label">H4 Pullback<br>+74.5% / DD-9.8%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>月次リターン</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:3px">
+        ${cm.map(m => {
+          const v = m.pnl_pct;
+          const bg = v > 3 ? '#1a4a1a' : v > 1 ? '#1a3a1a' : v > 0 ? '#141a14' : v > -1 ? '#1a1414' : '#2a1414';
+          const clr = v > 3 ? '#66ff66' : v > 0 ? '#4CAF50' : v < -2 ? '#ff4444' : '#888';
+          return '<div style="background:'+bg+';padding:4px 6px;border-radius:4px;font-size:10px;min-width:60px;text-align:center">' +
+            '<div style="color:#666">'+m.month+'</div>' +
+            '<div style="color:'+clr+';font-weight:600">'+(v>0?'+':'')+v.toFixed(2)+'%</div>' +
+          '</div>';
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  if (reportChart) { reportChart.destroy(); reportChart = null; }
+  document.getElementById('report-content').innerHTML = html;
+
+  // Draw equity chart
+  const ctx = document.getElementById('combined-eq-chart');
+  if (ctx && ce && ce.length > 0) {
+    const labels = r.combined_monthly.map(m => m.month);
+    labels.unshift('Start');
+    reportChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '3戦略統合',
+          data: ce,
+          borderColor: '#ff6644',
+          borderWidth: 2.5,
+          pointRadius: 2,
+          pointBackgroundColor: '#ff6644',
+          fill: true,
+          backgroundColor: 'rgba(255,102,68,0.08)',
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: '#888', font: { size: 11 } } } },
+        scales: {
+          x: { ticks: { color: '#555', font: { size: 8 }, maxRotation: 45 }, grid: { color: '#1e1e30' } },
+          y: { ticks: { color: '#555', font: { size: 10 }, callback: v => (v/10000).toFixed(0)+'万円' }, grid: { color: '#1e1e30' } }
+        }
+      }
+    });
+  }
+}
 
 function renderMetaLabelReport(r) {
   const ml = r.meta_label_results;
@@ -543,6 +690,12 @@ function renderReport(r) {
   const s = r.summary;
   const ls = r.long_short;
 
+  // Special rendering for combined portfolio
+  if (r.model === 'combined') {
+    renderCombinedReport(r);
+    return;
+  }
+
   // Special rendering for v4 meta-label PoC
   if (r.model === 'v4_meta') {
     renderMetaLabelReport(r);
@@ -702,7 +855,7 @@ function renderReport(r) {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('lang-picker-slot').innerHTML = renderLangPicker();
   setLang(currentLang);
-  selectStrategy('v4_meta');
+  selectStrategy('combined');
 });
 </script>
 </body>
