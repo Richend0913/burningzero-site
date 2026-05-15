@@ -129,7 +129,7 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       <span class="strat-tag-badge" style="background:#ff6644">ALL</span>
       <div class="strat-label">3戦略統合</div>
       <div class="strat-sub">100万円複利</div>
-      <div class="strat-wr">+58.1%</div>
+      <div class="strat-wr">+112.7%</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v4_meta')" id="strat-tab-v4_meta">
       <span class="strat-tag-badge">v4</span>
@@ -140,8 +140,8 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
     <div class="strat-tab" onclick="selectStrategy('v3_h1')" id="strat-tab-v3_h1">
       <span class="strat-tag-badge">v3</span>
       <div class="strat-label">v3 Full System</div>
-      <div class="strat-sub">H1 2024-05~2026-05</div>
-      <div class="strat-wr">WR 43.6%</div>
+      <div class="strat-sub">H1 2023-07~2026-05</div>
+      <div class="strat-wr">WR 41.6%</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v3_h4')" id="strat-tab-v3_h4">
       <span class="strat-tag-badge">v3</span>
@@ -174,7 +174,7 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
           <td>---</td>
           <td>---</td>
           <td>---</td>
-          <td class="compare-best" style="color:#ff6644">20.2</td>
+          <td class="compare-best" style="color:#ff6644">26.8</td>
         </tr>
         <tr id="compare-row-v4_meta">
           <td>v4 Meta</td>
@@ -190,9 +190,9 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
           <td>---</td>
           <td>---</td>
           <td>---</td>
-          <td>2.00</td>
-          <td>1.36</td>
-          <td class="positive">4.89</td>
+          <td>1.63</td>
+          <td>1.30</td>
+          <td class="positive">4.68</td>
         </tr>
         <tr id="compare-row-v3_h4">
           <td>H4 AVWAP</td>
@@ -228,30 +228,28 @@ const INLINE_BT_DATA = {
     "model": "combined",
     "bot_name": "3戦略統合ポートフォリオ",
     "lot": "各1/3配分 (100万円複利)",
-    "period": "2023-01 ~ 2026-05",
+    "period": "2023-07 ~ 2026-05",
     "combined_summary": {
-      "start": 1000000, "end": 1580965, "return_pct": 58.1,
-      "maxdd_pct": -2.9, "pnl_dd": 20.2,
-      "pos_months": 29, "total_months": 41,
-      "best_month": 8.45, "worst_month": -1.88, "avg_month": 1.14
+      "start": 1000000, "end": 2126650, "return_pct": 112.7,
+      "maxdd_pct": -4.2, "pnl_dd": 26.8,
+      "pos_months": 29, "total_months": 35,
+      "best_month": 25.35, "worst_month": -2.96, "avg_month": 2.28
     },
     "combined_monthly": [
-      {"month":"2023-01","pnl_pct":-0.01},{"month":"2023-02","pnl_pct":0.0},{"month":"2023-03","pnl_pct":2.33},
-      {"month":"2023-04","pnl_pct":0.02},{"month":"2023-05","pnl_pct":-0.67},{"month":"2023-06","pnl_pct":0.49},
-      {"month":"2023-07","pnl_pct":0.71},{"month":"2023-08","pnl_pct":0.64},{"month":"2023-09","pnl_pct":1.87},
-      {"month":"2023-10","pnl_pct":0.54},{"month":"2023-11","pnl_pct":0.84},{"month":"2023-12","pnl_pct":-0.18},
-      {"month":"2024-01","pnl_pct":-1.88},{"month":"2024-02","pnl_pct":-0.84},{"month":"2024-03","pnl_pct":1.96},
-      {"month":"2024-04","pnl_pct":1.14},{"month":"2024-05","pnl_pct":0.85},{"month":"2024-06","pnl_pct":0.59},
-      {"month":"2024-07","pnl_pct":1.88},{"month":"2024-08","pnl_pct":-0.23},{"month":"2024-09","pnl_pct":0.73},
-      {"month":"2024-10","pnl_pct":0.77},{"month":"2024-11","pnl_pct":0.92},{"month":"2024-12","pnl_pct":0.16},
-      {"month":"2025-01","pnl_pct":1.62},{"month":"2025-02","pnl_pct":1.37},{"month":"2025-03","pnl_pct":0.87},
-      {"month":"2025-04","pnl_pct":2.83},{"month":"2025-05","pnl_pct":2.77},{"month":"2025-06","pnl_pct":0.12},
-      {"month":"2025-07","pnl_pct":1.86},{"month":"2025-08","pnl_pct":-0.09},{"month":"2025-09","pnl_pct":4.58},
-      {"month":"2025-10","pnl_pct":5.05},{"month":"2025-11","pnl_pct":-0.97},{"month":"2025-12","pnl_pct":3.44},
-      {"month":"2026-01","pnl_pct":8.45},{"month":"2026-02","pnl_pct":-0.18},{"month":"2026-03","pnl_pct":-0.07},
-      {"month":"2026-04","pnl_pct":-0.16},{"month":"2026-05","pnl_pct":2.6}
+      {"month":"2023-07","pnl_pct":0.92},{"month":"2023-08","pnl_pct":0.71},{"month":"2023-09","pnl_pct":1.11},
+      {"month":"2023-10","pnl_pct":0.56},{"month":"2023-11","pnl_pct":1.48},{"month":"2023-12","pnl_pct":0.25},
+      {"month":"2024-01","pnl_pct":-2.96},{"month":"2024-02","pnl_pct":-1.27},{"month":"2024-03","pnl_pct":2.51},
+      {"month":"2024-04","pnl_pct":0.88},{"month":"2024-05","pnl_pct":1.13},{"month":"2024-06","pnl_pct":0.86},
+      {"month":"2024-07","pnl_pct":2.05},{"month":"2024-08","pnl_pct":-0.02},{"month":"2024-09","pnl_pct":0.52},
+      {"month":"2024-10","pnl_pct":1.14},{"month":"2024-11","pnl_pct":1.55},{"month":"2024-12","pnl_pct":0.45},
+      {"month":"2025-01","pnl_pct":2.43},{"month":"2025-02","pnl_pct":0.78},{"month":"2025-03","pnl_pct":1.34},
+      {"month":"2025-04","pnl_pct":4.72},{"month":"2025-05","pnl_pct":5.29},{"month":"2025-06","pnl_pct":-1.39},
+      {"month":"2025-07","pnl_pct":1.78},{"month":"2025-08","pnl_pct":-1.61},{"month":"2025-09","pnl_pct":5.62},
+      {"month":"2025-10","pnl_pct":25.35},{"month":"2025-11","pnl_pct":-2.18},{"month":"2025-12","pnl_pct":5.72},
+      {"month":"2026-01","pnl_pct":10.59},{"month":"2026-02","pnl_pct":0.29},{"month":"2026-03","pnl_pct":3.24},
+      {"month":"2026-04","pnl_pct":1.51},{"month":"2026-05","pnl_pct":4.38}
     ],
-    "combined_equity": [1000000,999900,999900,1023198,1023403,1016546,1021527,1028780,1035364,1054725,1060421,1069329,1067404,1047337,1038539,1058894,1070965,1080068,1086440,1106865,1104319,1112381,1120946,1131259,1133069,1151425,1167200,1177355,1210674,1244210,1245703,1268873,1267731,1325793,1392746,1379236,1426682,1547237,1544452,1543371,1540902,1580965]
+    "combined_equity": [1000000,1009150,1016315,1027647,1033402,1048748,1051370,1020249,1007241,1032523,1041609,1053379,1062438,1084218,1084055,1089638,1102005,1119086,1124122,1151438,1160477,1176085,1231596,1296686,1278619,1301378,1280469,1352367,1695147,1658136,1752926,1938619,1944144,2007134,2037509,2126650]
   },
   'v4_meta': {
     "symbol": "XAUUSD",
@@ -313,19 +311,19 @@ const INLINE_BT_DATA = {
     "model": "v3_h1",
     "bot_name": "v3 Full System (H1)",
     "lot": "100万円スタート",
-    "period": "2024-05 ~ 2026-05",
+    "period": "2023-07 ~ 2026-05",
     "summary": {
-      "total_trades": 2024,
-      "wins": 883,
-      "losses": 1141,
-      "win_rate": 43.6,
-      "profit_factor": 1.36,
-      "sharpe": 2.00,
-      "net_pnl_pts": 488863,
+      "total_trades": 2659,
+      "wins": 1106,
+      "losses": 1553,
+      "win_rate": 41.6,
+      "profit_factor": 1.30,
+      "sharpe": 1.63,
+      "net_pnl_pts": 467601,
       "maxdd_pts": 100000,
-      "pnl_maxdd": 4.89,
-      "avg_win_pts": 2092,
-      "avg_loss_pts": -1190,
+      "pnl_maxdd": 4.68,
+      "avg_win_pts": 1978,
+      "avg_loss_pts": -1127,
       "rr_ratio": 1.76,
       "max_win_pts": 134253,
       "max_loss_pts": -33582,
@@ -333,34 +331,44 @@ const INLINE_BT_DATA = {
       "max_loss_streak": 10
     },
     "long_short": {
-      "buy_trades": 1848,
-      "buy_wr": 44.0,
-      "buy_pf": 1.38,
-      "buy_pnl_pts": 446353,
-      "sell_trades": 176,
-      "sell_wr": 39.2,
-      "sell_pf": 1.18,
-      "sell_pnl_pts": 42510
+      "buy_trades": 2314,
+      "buy_wr": 42.0,
+      "buy_pf": 1.32,
+      "buy_pnl_pts": 455682,
+      "sell_trades": 345,
+      "sell_wr": 38.6,
+      "sell_pf": 1.10,
+      "sell_pnl_pts": 11892
     },
     "monthly": [
-      {"month":"2024-05","trades":60,"wr":46.7,"pf":1.25,"pnl":6264},
-      {"month":"2024-06","trades":45,"wr":46.7,"pf":1.52,"pnl":6978},
+      {"month":"2023-07","trades":23,"wr":52.2,"pf":2.08,"pnl":4710},
+      {"month":"2023-08","trades":41,"wr":46.3,"pf":1.19,"pnl":1426},
+      {"month":"2023-09","trades":80,"wr":20.0,"pf":0.31,"pnl":-13529},
+      {"month":"2023-10","trades":36,"wr":30.6,"pf":0.66,"pnl":-4547},
+      {"month":"2023-11","trades":43,"wr":65.1,"pf":3.08,"pnl":13397},
+      {"month":"2023-12","trades":101,"wr":40.6,"pf":1.28,"pnl":7300},
+      {"month":"2024-01","trades":85,"wr":24.7,"pf":0.37,"pnl":-19868},
+      {"month":"2024-02","trades":87,"wr":24.1,"pf":0.41,"pnl":-15908},
+      {"month":"2024-03","trades":57,"wr":52.6,"pf":2.43,"pnl":20215},
+      {"month":"2024-04","trades":53,"wr":35.8,"pf":0.82,"pnl":-5166},
+      {"month":"2024-05","trades":93,"wr":43.0,"pf":1.09,"pnl":3840},
+      {"month":"2024-06","trades":41,"wr":39.0,"pf":1.01,"pnl":85},
       {"month":"2024-07","trades":79,"wr":29.1,"pf":0.78,"pnl":-7932},
       {"month":"2024-08","trades":111,"wr":33.3,"pf":0.84,"pnl":-7975},
       {"month":"2024-09","trades":113,"wr":46.0,"pf":1.52,"pnl":19746},
       {"month":"2024-10","trades":78,"wr":46.2,"pf":1.60,"pnl":16862},
       {"month":"2024-11","trades":7,"wr":42.9,"pf":1.64,"pnl":1700},
       {"month":"2024-12","trades":65,"wr":27.7,"pf":0.68,"pnl":-10327},
-      {"month":"2025-01","trades":90,"wr":56.7,"pf":2.43,"pnl":31658},
+      {"month":"2025-01","trades":90,"wr":56.7,"pf":2.43,"pnl":31659},
       {"month":"2025-02","trades":110,"wr":37.3,"pf":1.07,"pnl":3843},
-      {"month":"2025-03","trades":74,"wr":58.1,"pf":2.11,"pnl":28714},
+      {"month":"2025-03","trades":74,"wr":58.1,"pf":2.11,"pnl":28716},
       {"month":"2025-04","trades":38,"wr":89.5,"pf":15.98,"pnl":86993},
       {"month":"2025-05","trades":115,"wr":49.6,"pf":1.79,"pnl":62423},
-      {"month":"2025-06","trades":123,"wr":39.0,"pf":1.22,"pnl":19398},
+      {"month":"2025-06","trades":123,"wr":39.0,"pf":1.22,"pnl":19400},
       {"month":"2025-07","trades":70,"wr":37.1,"pf":0.87,"pnl":-4695},
       {"month":"2025-08","trades":149,"wr":36.2,"pf":1.03,"pnl":1974},
       {"month":"2025-09","trades":54,"wr":64.8,"pf":3.39,"pnl":42784},
-      {"month":"2025-10","trades":123,"wr":50.4,"pf":1.74,"pnl":87616},
+      {"month":"2025-10","trades":123,"wr":50.4,"pf":1.74,"pnl":87636},
       {"month":"2025-11","trades":81,"wr":35.8,"pf":0.91,"pnl":-8703},
       {"month":"2025-12","trades":159,"wr":39.0,"pf":1.06,"pnl":9277},
       {"month":"2026-01","trades":142,"wr":54.2,"pf":2.20,"pnl":134253},
@@ -369,7 +377,7 @@ const INLINE_BT_DATA = {
       {"month":"2026-04","trades":53,"wr":30.2,"pf":0.67,"pnl":-33582},
       {"month":"2026-05","trades":26,"wr":46.2,"pf":1.77,"pnl":21996}
     ],
-    "equity_curve": [1000000,1006264,1013242,1005310,997335,1017081,1033943,1035643,1025316,1056974,1060817,1089531,1176524,1238947,1258345,1253650,1255624,1298408,1386024,1377321,1386598,1520851,1515538,1500449,1466867,1488863],
+    "equity_curve": [1000000,1004710,1006136,992607,988060,1001457,1008757,988889,972981,993196,988030,991870,991955,984023,976048,995794,1012656,1014356,1004029,1035688,1039531,1068247,1155240,1217663,1237063,1232368,1234342,1277126,1364762,1356059,1365336,1499589,1494276,1479187,1445605,1467601],
     "bootstrap_pf": {"p5":1.078,"p25":1.251,"p50":1.387,"p75":1.541,"p95":1.777},
     "feature_importance": {"hours_to_next_event":203,"hours_since_last_event":189,"bb_width":161,"dist_daily_low":140,"atr_norm":129,"vol_at_high":126,"day_of_week":120,"vol_trend":115,"d1_trend_strength":112,"h4_price_vs_ema21":101,"compression":100,"macd_hist_norm":98,"d1_rsi":89,"regime_prob_3":89,"momentum_5":87}
   },
@@ -465,7 +473,7 @@ function renderCombinedReport(r) {
     <div class="card">
       <h2>3戦略統合ポートフォリオ</h2>
       <div class="pnl-hero">
-        <div class="period">2023-01 ~ 2026-05 | 動的配分 | 100万円複利</div>
+        <div class="period">2023-07 ~ 2026-05 | 動的配分 | 100万円複利</div>
         <div class="value" style="color:#4CAF50">+${(cs.end - cs.start).toLocaleString()}円 (+${cs.return_pct}%)</div>
         <div class="label">100万円 → ${cs.end.toLocaleString()}円</div>
       </div>
@@ -500,7 +508,7 @@ function renderCombinedReport(r) {
         </div>
         <div class="stat-box" style="border:1px solid #2a6630">
           <div class="stat-val sm positive">v3 H1</div>
-          <div class="stat-label">H1 Full System<br>+48.9% / DD-5.4%</div>
+          <div class="stat-label">H1 Full System<br>+46.8% / DD-10%</div>
         </div>
         <div class="stat-box" style="border:1px solid #2a6630">
           <div class="stat-val sm positive">H4 AVWAP</div>
