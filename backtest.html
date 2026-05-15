@@ -125,7 +125,13 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
 
   <!-- Strategy Tabs -->
   <div class="strat-tabs" id="strat-tabs">
-    <div class="strat-tab active" onclick="selectStrategy('v3_h1')" id="strat-tab-v3_h1">
+    <div class="strat-tab active" onclick="selectStrategy('v4_meta')" id="strat-tab-v4_meta">
+      <span class="strat-tag-badge">v4</span>
+      <div class="strat-label">Meta-Label PoC</div>
+      <div class="strat-sub">CatBoost Filter</div>
+      <div class="strat-wr">PSR 0.995</div>
+    </div>
+    <div class="strat-tab" onclick="selectStrategy('v3_h1')" id="strat-tab-v3_h1">
       <span class="strat-tag-badge">v3</span>
       <div class="strat-label">v3 Full System</div>
       <div class="strat-sub">H1 Timeframe</div>
@@ -146,31 +152,40 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       <thead>
         <tr>
           <th>System</th>
-          <th data-i18n="trades">Trades</th>
-          <th>WR%</th>
-          <th>PF</th>
+          <th>Delta Sharpe</th>
+          <th>PSR</th>
+          <th>WR Lift</th>
           <th>Sharpe</th>
-          <th>R:R</th>
+          <th>PF</th>
           <th>PnL/DD</th>
         </tr>
       </thead>
       <tbody>
-        <tr id="compare-row-v3_h1" class="highlight">
+        <tr id="compare-row-v4_meta" class="highlight">
+          <td>v4 Meta</td>
+          <td class="compare-best">+0.211</td>
+          <td class="compare-best">0.995</td>
+          <td class="compare-best">+3.4pp</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+        </tr>
+        <tr id="compare-row-v3_h1">
           <td>v3 H1</td>
-          <td>250</td>
-          <td>44.4%</td>
-          <td>1.39</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
           <td>2.12</td>
-          <td>1.74</td>
+          <td>1.39</td>
           <td class="positive">2.89</td>
         </tr>
         <tr id="compare-row-v3_h4">
           <td>H4 AVWAP</td>
-          <td>18</td>
-          <td class="compare-best">61.1%</td>
-          <td class="compare-best">2.95</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
           <td class="compare-best">7.55</td>
-          <td class="compare-best">1.88</td>
+          <td class="compare-best">2.95</td>
           <td class="positive compare-best">4.43</td>
         </tr>
       </tbody>
@@ -190,9 +205,51 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
 
 <script>
 let reportChart = null;
-let currentStrategy = 'v3_h1';
+let currentStrategy = 'v4_meta';
 
 const INLINE_BT_DATA = {
+  'v4_meta': {
+    "symbol": "XAUUSD",
+    "model": "v4_meta",
+    "bot_name": "v4 Meta-Label PoC",
+    "lot": "EMA+RSI + CatBoost filter",
+    "period": "Meta-Labeling Research",
+    "summary": {
+      "total_trades": null,
+      "wins": null,
+      "losses": null,
+      "win_rate": null,
+      "profit_factor": null,
+      "sharpe": null,
+      "net_pnl_pts": null,
+      "maxdd_pts": null,
+      "pnl_maxdd": null,
+      "avg_win_pts": null,
+      "avg_loss_pts": null,
+      "rr_ratio": null,
+      "max_win_pts": null,
+      "max_loss_pts": null,
+      "max_win_streak": null,
+      "max_loss_streak": null
+    },
+    "meta_label_results": {
+      "delta_sharpe": 0.211,
+      "psr": 0.995,
+      "neg_folds": "0/5",
+      "cond_wr_lift": "+3.4pp",
+      "total_features": 14,
+      "pa_features": 5,
+      "leak_tests_pass": "7/7",
+      "avwap_regime_bull_sharpe": 2.09,
+      "avwap_regime_range_sharpe": -1.60,
+      "key_finding": "Continuous shape features > binary pattern detectors for XAUUSD meta-labeling"
+    },
+    "long_short": { "buy_trades":0,"buy_wr":0,"buy_pf":0,"buy_pnl_pts":0,"sell_trades":0,"sell_wr":0,"sell_pf":0,"sell_pnl_pts":0 },
+    "monthly": [],
+    "equity_curve": [],
+    "bootstrap_pf": {"p5":0,"p25":0,"p50":0,"p75":0,"p95":0},
+    "feature_importance": {"lower_wick_ratio":113,"compression_ratio":110,"upper_wick_ratio":73,"body_ratio":43,"consec_dir":26,"atr_norm":95,"rsi_14":88,"ema_slope":82,"volatility_ratio":78,"price_vs_ema":72,"bb_width":65,"momentum":58,"dist_to_high":52,"dist_to_low":45}
+  },
   'v3_h1': {
     "symbol": "XAUUSD",
     "model": "v3_h1",
@@ -300,6 +357,90 @@ const INLINE_BT_DATA = {
   }
 };
 
+function renderMetaLabelReport(r) {
+  const ml = r.meta_label_results;
+  const fiEntries = Object.entries(r.feature_importance || {}).slice(0, 14);
+  const fiMax = fiEntries.length > 0 ? fiEntries[0][1] : 1;
+
+  let html = `
+    <div class="card">
+      <h2>${r.symbol} — ${r.bot_name}</h2>
+      <div class="pnl-hero">
+        <div class="period">${r.period} | ${r.lot}</div>
+        <div class="value" style="color:#4CAF50">Delta Sharpe +${ml.delta_sharpe}</div>
+        <div class="label">Meta-label improves over baseline</div>
+      </div>
+      <div class="stats-grid cols-4">
+        <div class="stat-box"><div class="stat-val accent">+${ml.delta_sharpe}</div><div class="stat-label">Delta Sharpe</div></div>
+        <div class="stat-box"><div class="stat-val positive">${ml.psr}</div><div class="stat-label">PSR</div></div>
+        <div class="stat-box"><div class="stat-val positive">${ml.cond_wr_lift}</div><div class="stat-label">WR Lift</div></div>
+        <div class="stat-box"><div class="stat-val positive">${ml.neg_folds}</div><div class="stat-label">Neg Folds</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Pipeline Architecture</h2>
+      <div style="padding:8px 0">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+          <span style="background:#1b3a1b;color:#4CAF50;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">EMA + RSI Signal</span>
+          <span style="color:#555;font-size:18px">&rarr;</span>
+          <span style="background:#2a1500;color:#ff8800;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">14 Features</span>
+          <span style="color:#555;font-size:18px">&rarr;</span>
+          <span style="background:linear-gradient(135deg,#1a0a00,#2a1500);color:#ff6644;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;border:1px solid #ff660044">CatBoost Meta-Label</span>
+        </div>
+        <div class="stats-grid cols-2" style="margin-top:12px">
+          <div class="stat-box"><div class="stat-val sm accent">${ml.total_features}</div><div class="stat-label">Total Features</div></div>
+          <div class="stat-box"><div class="stat-val sm accent">${ml.pa_features}</div><div class="stat-label">PA Features</div></div>
+          <div class="stat-box"><div class="stat-val sm positive">${ml.leak_tests_pass}</div><div class="stat-label">Leak Tests Pass</div></div>
+          <div class="stat-box"><div class="stat-val sm">CatBoost</div><div class="stat-label">Meta Classifier</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>AVWAP Regime Test</h2>
+      <div style="font-size:13px;color:#888;margin-bottom:12px">Regime artifact confirmed: meta-label effectiveness depends on market regime</div>
+      <div class="stats-grid cols-2">
+        <div class="stat-box"><div class="stat-val sm positive">+${ml.avwap_regime_bull_sharpe}</div><div class="stat-label">Bull Sharpe</div></div>
+        <div class="stat-box"><div class="stat-val sm negative">${ml.avwap_regime_range_sharpe}</div><div class="stat-label">Range Sharpe</div></div>
+      </div>
+      <div style="font-size:11px;color:#666;margin-top:8px;text-align:center">Sharpe +2.09 in bull market vs -1.60 in range market</div>
+    </div>
+
+    <div class="card">
+      <h2>Key Finding</h2>
+      <div style="background:#0e0e1a;border-radius:8px;padding:16px;font-size:14px;color:#ff6644;font-weight:600;text-align:center;line-height:1.6">
+        ${ml.key_finding}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Feature Importance (All 14)</h2>
+      ${fiEntries.map(([name, val]) => {
+        const pct = (val / fiMax * 100).toFixed(0);
+        const isPa = ['lower_wick_ratio','compression_ratio','upper_wick_ratio','body_ratio','consec_dir'].includes(name);
+        const barColor = isPa ? 'linear-gradient(90deg,#ff4444,#ff8800)' : 'linear-gradient(90deg,#444,#666)';
+        const labelColor = isPa ? '#ff6644' : '#ccc';
+        return '<div style="margin-bottom:6px">' +
+          '<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px">' +
+            '<span style="color:' + labelColor + '">' + name + (isPa ? ' (PA)' : '') + '</span><span style="color:#888">' + (val/10).toFixed(1) + '%</span>' +
+          '</div>' +
+          '<div style="background:#0e0e1a;border-radius:4px;height:6px;overflow:hidden">' +
+            '<div style="width:' + pct + '%;height:100%;background:' + barColor + ';border-radius:4px"></div>' +
+          '</div>' +
+        '</div>';
+      }).join('')}
+      <div style="margin-top:10px;font-size:10px;color:#666;display:flex;gap:16px;justify-content:center">
+        <span><span style="display:inline-block;width:12px;height:4px;background:linear-gradient(90deg,#ff4444,#ff8800);border-radius:2px;vertical-align:middle"></span> Price Action</span>
+        <span><span style="display:inline-block;width:12px;height:4px;background:linear-gradient(90deg,#444,#666);border-radius:2px;vertical-align:middle"></span> Price/Volatility</span>
+      </div>
+    </div>
+  `;
+
+  if (reportChart) { reportChart.destroy(); reportChart = null; }
+  document.getElementById('report-content').innerHTML = html;
+}
+
 function selectStrategy(id) {
   currentStrategy = id;
   document.querySelectorAll('.strat-tab').forEach(t => t.classList.remove('active'));
@@ -314,6 +455,13 @@ function renderReport(r) {
   if (!r.monthly) r.monthly = [];
   const s = r.summary;
   const ls = r.long_short;
+
+  // Special rendering for v4 meta-label PoC
+  if (r.model === 'v4_meta') {
+    renderMetaLabelReport(r);
+    return;
+  }
+
   const pnlColor = s.net_pnl_pts >= 0 ? '#4CAF50' : '#f44336';
 
   // Bootstrap PF CI bar
@@ -466,7 +614,7 @@ function renderReport(r) {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('lang-picker-slot').innerHTML = renderLangPicker();
   setLang(currentLang);
-  selectStrategy('v3_h1');
+  selectStrategy('v4_meta');
 });
 </script>
 </body>

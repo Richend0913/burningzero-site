@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BURNING ZERO - AI Gold Trading Platform</title>
-<meta name="description" content="BURNING ZERO: ML-powered gold trading platform. v3 Full System (H1) PF 1.39 Sharpe 2.12 + H4 AVWAP Bot PF 2.95 Sharpe 7.55. Automated XAU/USD trading via MT5.">
+<meta name="description" content="BURNING ZERO: ML-powered gold trading platform. v4 Meta-Label PoC Delta Sharpe +0.211 PSR 0.995 + v3 H1 Sharpe 2.12 + H4 AVWAP Sharpe 7.55. Automated XAU/USD trading via MT5.">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="i18n.js" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
 <script>if(typeof t==='undefined'){window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';}</script>
@@ -434,20 +434,20 @@ a { text-decoration: none; color: inherit; }
   <!-- ── Hero ── -->
   <section class="hero">
     <h1 class="hero-title" data-i18n="hero_title">AI-Powered Gold Trading</h1>
-    <p class="hero-subtitle" data-i18n="hero_subtitle">Fully automated XAU/USD scalping driven by machine learning. Three models vote unanimously before every trade.</p>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">Fully automated XAU/USD trading driven by machine learning. Meta-labeling filters primary signals with CatBoost for statistically validated edge.</p>
 
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="hero-stat-val">2.95</div>
-        <div class="hero-stat-label" data-i18n="hero_stats_pf">Best PF (H4)</div>
+        <div class="hero-stat-val">+0.211</div>
+        <div class="hero-stat-label">Delta Sharpe (v4)</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val">7.55</div>
-        <div class="hero-stat-label">Best Sharpe (H4)</div>
+        <div class="hero-stat-val">0.995</div>
+        <div class="hero-stat-label">PSR (v4)</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val">268</div>
-        <div class="hero-stat-label" data-i18n="hero_stats_trades">Total Trades</div>
+        <div class="hero-stat-val">3</div>
+        <div class="hero-stat-label" data-i18n="hero_stats_strategies">Strategies</div>
       </div>
     </div>
 
@@ -486,7 +486,16 @@ a { text-decoration: none; color: inherit; }
   <section class="section">
     <h2 class="section-title" data-i18n="bt_title">Backtest Results</h2>
     <div class="bt-cards">
-      <a href="backtest.html" class="bt-card featured">
+      <a href="backtest.html" class="bt-card featured" style="grid-column:1/-1">
+        <div class="bt-card-name" style="background:linear-gradient(135deg,#ff4444,#ff8800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">v4 Meta-Label PoC</div>
+        <div class="bt-card-stats">
+          <div class="bt-card-stat"><div class="bt-card-stat-val">+0.211</div><div class="bt-card-stat-label">Delta Sharpe</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">0.995</div><div class="bt-card-stat-label">PSR</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">+3.4pp</div><div class="bt-card-stat-label">WR Lift</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">0/5</div><div class="bt-card-stat-label">Neg Folds</div></div>
+        </div>
+      </a>
+      <a href="backtest.html" class="bt-card">
         <div class="bt-card-name">v3 Full System (H1)</div>
         <div class="bt-card-stats">
           <div class="bt-card-stat"><div class="bt-card-stat-val">250</div><div class="bt-card-stat-label">Trades</div></div>
@@ -514,8 +523,23 @@ a { text-decoration: none; color: inherit; }
 
       <div class="strategy-card featured">
         <div class="strategy-card-header">
+          <span class="strategy-card-name">v4 Meta-Label PoC</span>
+          <span class="strategy-tag new">v4</span>
+        </div>
+        <div class="strategy-card-desc">EMA+RSI primary signal filtered by CatBoost meta-label. 14 features (5 price-action + 9 price/volatility). Delta Sharpe +0.211, PSR 0.995. All 7 leak tests pass. Continuous shape features (wick ratios, compression) outperform binary pattern detectors.</div>
+        <div class="strategy-metrics">
+          <div class="strategy-metric"><div class="strategy-metric-val">+0.211</div><div class="strategy-metric-label">Delta Sharpe</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">0.995</div><div class="strategy-metric-label">PSR</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">+3.4pp</div><div class="strategy-metric-label">Cond WR Lift</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">0/5</div><div class="strategy-metric-label">Neg Folds</div></div>
+        </div>
+        <div class="strategy-pnl">Top features: lower_wick_ratio 11.3% | compression_ratio 11.0% | upper_wick_ratio 7.3%</div>
+      </div>
+
+      <div class="strategy-card">
+        <div class="strategy-card-header">
           <span class="strategy-card-name">v3 Full System (H1)</span>
-          <span class="strategy-tag new">v3</span>
+          <span class="strategy-tag current">v3</span>
         </div>
         <div class="strategy-card-desc">ML ensemble on H1 timeframe. 250 trades over 18 months with 1% compound sizing. Sharpe 2.12.</div>
         <div class="strategy-metrics">
@@ -562,7 +586,7 @@ a { text-decoration: none; color: inherit; }
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q3">How does the AI decide when to trade?</div>
-        <div class="faq-a" data-i18n="faq_a3">Our v3 ML system uses LightGBM with 100+ features including economic event timing, volatility compression, and multi-timeframe analysis. Two bots run in parallel: H1 for frequent signals and H4 AVWAP for high-conviction swing trades.</div>
+        <div class="faq-a" data-i18n="faq_a3">Our v4 system uses CatBoost meta-labeling to filter EMA+RSI primary signals. 14 features including price-action shape (wick ratios, compression) and volatility metrics. The meta-label approach only takes trades the ML model predicts will be profitable, achieving PSR 0.995. We also run v3 H1 and H4 AVWAP bots in parallel.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q4">What is the minimum deposit?</div>
