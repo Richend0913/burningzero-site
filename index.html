@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BURNING ZERO - AI Gold Trading Platform</title>
-<meta name="description" content="BURNING ZERO: ML-powered gold scalping platform with 88.0% win rate and PF 20.22. Fully automated XAU/USD trading via MT5.">
+<meta name="description" content="BURNING ZERO: ML-powered gold trading platform. v3 Full System (H1) PF 1.39 Sharpe 2.12 + H4 AVWAP Bot PF 2.95 Sharpe 7.55. Automated XAU/USD trading via MT5.">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="i18n.js" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
 <script>if(typeof t==='undefined'){window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';}</script>
@@ -438,16 +438,16 @@ a { text-decoration: none; color: inherit; }
 
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="hero-stat-val">88.0%</div>
-        <div class="hero-stat-label" data-i18n="hero_stats_wr">Win Rate</div>
+        <div class="hero-stat-val">2.95</div>
+        <div class="hero-stat-label" data-i18n="hero_stats_pf">Best PF (H4)</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val">20.22</div>
-        <div class="hero-stat-label" data-i18n="hero_stats_pf">Profit Factor</div>
+        <div class="hero-stat-val">7.55</div>
+        <div class="hero-stat-label">Best Sharpe (H4)</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val">1,545</div>
-        <div class="hero-stat-label" data-i18n="hero_stats_trades">Trades</div>
+        <div class="hero-stat-val">268</div>
+        <div class="hero-stat-label" data-i18n="hero_stats_trades">Total Trades</div>
       </div>
     </div>
 
@@ -485,24 +485,26 @@ a { text-decoration: none; color: inherit; }
   <!-- ── Backtest Results Preview ── -->
   <section class="section">
     <h2 class="section-title" data-i18n="bt_title">Backtest Results</h2>
-    <a href="backtest.html" class="bt-card featured" style="max-width:480px;margin:0 auto">
-      <div class="bt-card-name" data-i18n="bot_trinity">ZERO TRINITY</div>
-      <div class="bt-card-desc" data-i18n="bot_trinity_desc" style="font-size:11px;color:#888;margin-bottom:8px">3 Models Unanimous Vote</div>
-      <div class="bt-card-stats">
-        <div class="bt-card-stat">
-          <div class="bt-card-stat-val">88.0%</div>
-          <div class="bt-card-stat-label">WR</div>
+    <div class="bt-cards">
+      <a href="backtest.html" class="bt-card featured">
+        <div class="bt-card-name">v3 Full System (H1)</div>
+        <div class="bt-card-stats">
+          <div class="bt-card-stat"><div class="bt-card-stat-val">250</div><div class="bt-card-stat-label">Trades</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">44.4%</div><div class="bt-card-stat-label">WR</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">1.39</div><div class="bt-card-stat-label">PF</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">2.12</div><div class="bt-card-stat-label">Sharpe</div></div>
         </div>
-        <div class="bt-card-stat">
-          <div class="bt-card-stat-val">20.22</div>
-          <div class="bt-card-stat-label">PF</div>
+      </a>
+      <a href="backtest.html" class="bt-card">
+        <div class="bt-card-name">H4 AVWAP Bot</div>
+        <div class="bt-card-stats">
+          <div class="bt-card-stat"><div class="bt-card-stat-val">18</div><div class="bt-card-stat-label">Trades</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">61.1%</div><div class="bt-card-stat-label">WR</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">2.95</div><div class="bt-card-stat-label">PF</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">7.55</div><div class="bt-card-stat-label">Sharpe</div></div>
         </div>
-        <div class="bt-card-stat">
-          <div class="bt-card-stat-val">1,545</div>
-          <div class="bt-card-stat-label" data-i18n="hero_stats_trades">Trades</div>
-        </div>
-      </div>
-    </a>
+      </a>
+    </div>
   </section>
 
   <!-- ── Strategies ── -->
@@ -510,49 +512,34 @@ a { text-decoration: none; color: inherit; }
     <h2 class="section-title" data-i18n="strategies_title">Trading Strategies</h2>
     <div class="strategy-cards">
 
-      <div class="strategy-card">
-        <div class="strategy-card-header">
-          <span class="strategy-card-name" data-i18n="strategy_a_name">Strategy A: Fixed 4-bar</span>
-          <span class="strategy-tag current" data-i18n="strategy_a_tag">Current</span>
-        </div>
-        <div class="strategy-card-desc" data-i18n="strategy_a_desc">Conservative scalping. Exit after exactly 4 minutes.</div>
-        <div class="strategy-metrics">
-          <div class="strategy-metric"><div class="strategy-metric-val">86.3%</div><div class="strategy-metric-label">WR</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">16.53</div><div class="strategy-metric-label">PF</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">¥36,632</div><div class="strategy-metric-label" data-i18n="max_dd_label">Max DD</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">2,025</div><div class="strategy-metric-label" data-i18n="trades">Trades</div></div>
-        </div>
-        <div class="strategy-pnl">+14,790,122 JPY</div>
-      </div>
-
       <div class="strategy-card featured">
         <div class="strategy-card-header">
-          <span class="strategy-card-name" data-i18n="strategy_b_name">Strategy B: ML Dynamic Exit</span>
-          <span class="strategy-tag new" data-i18n="strategy_b_tag">NEW</span>
+          <span class="strategy-card-name">v3 Full System (H1)</span>
+          <span class="strategy-tag new">v3</span>
         </div>
-        <div class="strategy-card-desc" data-i18n="strategy_b_desc">ML decides optimal exit timing. Holds winners longer.</div>
+        <div class="strategy-card-desc">ML ensemble on H1 timeframe. 250 trades over 18 months with 1% compound sizing. Sharpe 2.12.</div>
         <div class="strategy-metrics">
-          <div class="strategy-metric"><div class="strategy-metric-val">88.0%</div><div class="strategy-metric-label">WR</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">20.22</div><div class="strategy-metric-label">PF</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">¥58,487</div><div class="strategy-metric-label" data-i18n="max_dd_label">Max DD</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">1,545</div><div class="strategy-metric-label" data-i18n="trades">Trades</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">44.4%</div><div class="strategy-metric-label">WR</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">1.39</div><div class="strategy-metric-label">PF</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">2.12</div><div class="strategy-metric-label">Sharpe</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">250</div><div class="strategy-metric-label">Trades</div></div>
         </div>
-        <div class="strategy-pnl">+18,260,428 JPY</div>
+        <div class="strategy-pnl">+764.0 pts | R:R 1.74 | PnL/DD 2.89</div>
       </div>
 
       <div class="strategy-card">
         <div class="strategy-card-header">
-          <span class="strategy-card-name" data-i18n="strategy_d_name">Strategy D: Hybrid Smart Exit</span>
-          <span class="strategy-tag new" data-i18n="strategy_d_tag">NEW</span>
+          <span class="strategy-card-name">H4 AVWAP Bot</span>
+          <span class="strategy-tag new">v3</span>
         </div>
-        <div class="strategy-card-desc" data-i18n="strategy_d_desc">Auto trailing stop + loss cut. Best risk-adjusted returns.</div>
+        <div class="strategy-card-desc">AVWAP-based swing bot on H4. Low frequency, high quality. Sharpe 7.55.</div>
         <div class="strategy-metrics">
-          <div class="strategy-metric"><div class="strategy-metric-val">78.9%</div><div class="strategy-metric-label">WR</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">12.67</div><div class="strategy-metric-label">PF</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">¥17,829</div><div class="strategy-metric-label" data-i18n="max_dd_label">Max DD</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">2,502</div><div class="strategy-metric-label" data-i18n="trades">Trades</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">61.1%</div><div class="strategy-metric-label">WR</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">2.95</div><div class="strategy-metric-label">PF</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">7.55</div><div class="strategy-metric-label">Sharpe</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">18</div><div class="strategy-metric-label">Trades</div></div>
         </div>
-        <div class="strategy-pnl">+16,213,675 JPY</div>
+        <div class="strategy-pnl">+498.4 pts | R:R 1.88 | PnL/DD 4.43</div>
       </div>
 
     </div>
@@ -575,7 +562,7 @@ a { text-decoration: none; color: inherit; }
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q3">How does the AI decide when to trade?</div>
-        <div class="faq-a" data-i18n="faq_a3">Three independent ML models (LightGBM, XGBoost, CatBoost) analyze 100+ features. A trade is only placed when all three models agree on direction, achieving a 75% win rate in backtesting.</div>
+        <div class="faq-a" data-i18n="faq_a3">Our v3 ML system uses LightGBM with 100+ features including economic event timing, volatility compression, and multi-timeframe analysis. Two bots run in parallel: H1 for frequent signals and H4 AVWAP for high-conviction swing trades.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q4">What is the minimum deposit?</div>
