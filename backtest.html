@@ -129,7 +129,7 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       <span class="strat-tag-badge" style="background:#ff6644">ALL</span>
       <div class="strat-label">3戦略統合</div>
       <div class="strat-sub">100万円複利</div>
-      <div class="strat-wr">+112.7%</div>
+      <div class="strat-wr">+249.8%</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v4_meta')" id="strat-tab-v4_meta">
       <span class="strat-tag-badge">v4</span>
@@ -174,7 +174,7 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
           <td>---</td>
           <td>---</td>
           <td>---</td>
-          <td class="compare-best" style="color:#ff6644">26.8</td>
+          <td class="compare-best" style="color:#ff6644">28.2</td>
         </tr>
         <tr id="compare-row-v4_meta">
           <td>v4 Meta</td>
@@ -227,29 +227,29 @@ const INLINE_BT_DATA = {
     "symbol": "XAUUSD",
     "model": "combined",
     "bot_name": "3戦略統合ポートフォリオ",
-    "lot": "各1/3配分 (100万円複利)",
+    "lot": "各戦略独立MaxDD10% (100万円複利)",
     "period": "2023-07 ~ 2026-05",
     "combined_summary": {
-      "start": 1000000, "end": 2126650, "return_pct": 112.7,
-      "maxdd_pct": -4.2, "pnl_dd": 26.8,
-      "pos_months": 29, "total_months": 35,
-      "best_month": 25.35, "worst_month": -2.96, "avg_month": 2.28
+      "start": 1000000, "end": 3497808, "return_pct": 249.8,
+      "maxdd_pct": -8.9, "pnl_dd": 28.2,
+      "pos_months": 27, "total_months": 35,
+      "best_month": 29.69, "worst_month": -5.74, "avg_month": 3.84
     },
     "combined_monthly": [
-      {"month":"2023-07","pnl_pct":0.92},{"month":"2023-08","pnl_pct":0.71},{"month":"2023-09","pnl_pct":1.11},
-      {"month":"2023-10","pnl_pct":0.56},{"month":"2023-11","pnl_pct":1.48},{"month":"2023-12","pnl_pct":0.25},
-      {"month":"2024-01","pnl_pct":-2.96},{"month":"2024-02","pnl_pct":-1.27},{"month":"2024-03","pnl_pct":2.51},
-      {"month":"2024-04","pnl_pct":0.88},{"month":"2024-05","pnl_pct":1.13},{"month":"2024-06","pnl_pct":0.86},
-      {"month":"2024-07","pnl_pct":2.05},{"month":"2024-08","pnl_pct":-0.02},{"month":"2024-09","pnl_pct":0.52},
-      {"month":"2024-10","pnl_pct":1.14},{"month":"2024-11","pnl_pct":1.55},{"month":"2024-12","pnl_pct":0.45},
-      {"month":"2025-01","pnl_pct":2.43},{"month":"2025-02","pnl_pct":0.78},{"month":"2025-03","pnl_pct":1.34},
-      {"month":"2025-04","pnl_pct":4.72},{"month":"2025-05","pnl_pct":5.29},{"month":"2025-06","pnl_pct":-1.39},
-      {"month":"2025-07","pnl_pct":1.78},{"month":"2025-08","pnl_pct":-1.61},{"month":"2025-09","pnl_pct":5.62},
-      {"month":"2025-10","pnl_pct":25.35},{"month":"2025-11","pnl_pct":-2.18},{"month":"2025-12","pnl_pct":5.72},
-      {"month":"2026-01","pnl_pct":10.59},{"month":"2026-02","pnl_pct":0.29},{"month":"2026-03","pnl_pct":3.24},
-      {"month":"2026-04","pnl_pct":1.51},{"month":"2026-05","pnl_pct":4.38}
+      {"month":"2023-07","pnl_pct":1.88},{"month":"2023-08","pnl_pct":1.42},{"month":"2023-09","pnl_pct":2.40},
+      {"month":"2023-10","pnl_pct":0.61},{"month":"2023-11","pnl_pct":3.02},{"month":"2023-12","pnl_pct":0.35},
+      {"month":"2024-01","pnl_pct":-5.74},{"month":"2024-02","pnl_pct":-3.30},{"month":"2024-03","pnl_pct":5.94},
+      {"month":"2024-04","pnl_pct":1.77},{"month":"2024-05","pnl_pct":2.31},{"month":"2024-06","pnl_pct":1.06},
+      {"month":"2024-07","pnl_pct":5.65},{"month":"2024-08","pnl_pct":-0.74},{"month":"2024-09","pnl_pct":2.22},
+      {"month":"2024-10","pnl_pct":2.35},{"month":"2024-11","pnl_pct":2.77},{"month":"2024-12","pnl_pct":0.43},
+      {"month":"2025-01","pnl_pct":4.93},{"month":"2025-02","pnl_pct":4.19},{"month":"2025-03","pnl_pct":2.79},
+      {"month":"2025-04","pnl_pct":9.19},{"month":"2025-05","pnl_pct":9.18},{"month":"2025-06","pnl_pct":0.67},
+      {"month":"2025-07","pnl_pct":5.53},{"month":"2025-08","pnl_pct":-0.24},{"month":"2025-09","pnl_pct":14.76},
+      {"month":"2025-10","pnl_pct":17.57},{"month":"2025-11","pnl_pct":-3.25},{"month":"2025-12","pnl_pct":10.75},
+      {"month":"2026-01","pnl_pct":29.69},{"month":"2026-02","pnl_pct":-0.97},{"month":"2026-03","pnl_pct":-1.98},
+      {"month":"2026-04","pnl_pct":-1.44},{"month":"2026-05","pnl_pct":8.46}
     ],
-    "combined_equity": [1000000,1009150,1016315,1027647,1033402,1048748,1051370,1020249,1007241,1032523,1041609,1053379,1062438,1084218,1084055,1089638,1102005,1119086,1124122,1151438,1160477,1176085,1231596,1296686,1278619,1301378,1280469,1352367,1695147,1658136,1752926,1938619,1944144,2007134,2037509,2126650]
+    "combined_equity": [1000000,1018800,1033267,1058065,1064520,1096668,1100506,1037337,1003105,1062690,1081499,1106482,1118211,1181389,1172647,1198680,1226849,1260833,1266254,1328681,1384352,1422976,1553747,1696381,1707747,1802185,1797860,2063224,2425733,2346896,2599188,3370887,3338189,3272093,3224975,3497808]
   },
   'v4_meta': {
     "symbol": "XAUUSD",
@@ -473,7 +473,7 @@ function renderCombinedReport(r) {
     <div class="card">
       <h2>3戦略統合ポートフォリオ</h2>
       <div class="pnl-hero">
-        <div class="period">2023-07 ~ 2026-05 | 動的配分 | 100万円複利</div>
+        <div class="period">2023-07 ~ 2026-05 | 各戦略独立MaxDD10% | 100万円複利</div>
         <div class="value" style="color:#4CAF50">+${(cs.end - cs.start).toLocaleString()}円 (+${cs.return_pct}%)</div>
         <div class="label">100万円 → ${cs.end.toLocaleString()}円</div>
       </div>
@@ -495,7 +495,7 @@ function renderCombinedReport(r) {
       <h2>統合資金推移</h2>
       <canvas id="combined-eq-chart" height="200"></canvas>
       <div style="margin-top:8px;font-size:11px;color:#888;text-align:center">
-        稼働中の戦略に動的配分（1戦略→100%、2→各50%、3→各33%）
+        各戦略が独立してMaxDD 10%で運用、収益を合算
       </div>
     </div>
 
