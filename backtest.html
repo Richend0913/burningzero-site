@@ -375,68 +375,116 @@ function renderMetaLabelReport(r) {
   const fiEntries = Object.entries(r.feature_importance || {}).slice(0, 14);
   const fiMax = fiEntries.length > 0 ? fiEntries[0][1] : 1;
 
+  const s = r.summary;
   let html = `
     <div class="card">
-      <h2>${r.symbol} — ${r.bot_name}</h2>
+      <h2>${r.symbol} - ${r.bot_name}</h2>
       <div class="pnl-hero">
-        <div class="period">${r.period} | ${r.lot}</div>
-        <div class="value" style="color:#4CAF50">Delta Sharpe +${ml.delta_sharpe}</div>
-        <div class="label">Meta-label improves over baseline</div>
+        <div class="period">2023-07 ~ 2026-05 | OOS検証</div>
+        <div class="value" style="color:#4CAF50">+58,151円 (+58.2%)</div>
+        <div class="label">10万円 → 158,151円 (メタフィルタ適用後)</div>
       </div>
       <div class="stats-grid cols-4">
-        <div class="stat-box"><div class="stat-val accent">+${ml.delta_sharpe}</div><div class="stat-label">Delta Sharpe</div></div>
-        <div class="stat-box"><div class="stat-val positive">${ml.psr}</div><div class="stat-label">PSR</div></div>
-        <div class="stat-box"><div class="stat-val positive">${ml.cond_wr_lift}</div><div class="stat-label">WR Lift</div></div>
-        <div class="stat-box"><div class="stat-val positive">${ml.neg_folds}</div><div class="stat-label">Neg Folds</div></div>
+        <div class="stat-box"><div class="stat-val accent">1,422</div><div class="stat-label">取引数</div></div>
+        <div class="stat-box"><div class="stat-val positive">42.7%</div><div class="stat-label">勝率</div></div>
+        <div class="stat-box"><div class="stat-val positive">1.30</div><div class="stat-label">PF</div></div>
+        <div class="stat-box"><div class="stat-val positive">1.00</div><div class="stat-label">Sharpe</div></div>
+      </div>
+      <div class="stats-grid cols-4" style="margin-top:8px">
+        <div class="stat-box"><div class="stat-val accent">+0.495</div><div class="stat-label">Delta Sharpe</div></div>
+        <div class="stat-box"><div class="stat-val positive">0.995</div><div class="stat-label">PSR</div></div>
+        <div class="stat-box"><div class="stat-val positive">-5.9%</div><div class="stat-label">最大DD</div></div>
+        <div class="stat-box"><div class="stat-val positive">9.9</div><div class="stat-label">損益/DD比</div></div>
       </div>
     </div>
 
     <div class="card">
-      <h2>Pipeline Architecture</h2>
+      <h2>資金推移 (OOS, 10万円スタート)</h2>
+      <canvas id="v4-equity-chart" height="200"></canvas>
+      <div style="margin-top:8px;display:flex;justify-content:space-around;font-size:11px">
+        <div style="text-align:center">
+          <div style="color:#666">全シグナル (ベースライン)</div>
+          <div style="color:#888">100,000 → 148,828円</div>
+          <div style="color:#888">+48.8% / MaxDD -11.7%</div>
+        </div>
+        <div style="text-align:center">
+          <div style="color:#ff6644;font-weight:600">メタフィルタ適用後</div>
+          <div style="color:#4CAF50;font-weight:600">100,000 → 158,151円</div>
+          <div style="color:#4CAF50">+58.2% / MaxDD -5.9%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>月次リターン</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:3px">
+        ${(r.monthly || []).map(m => {
+          const v = m.pnl_pct;
+          const bg = v > 1 ? '#1a3a1a' : v > 0 ? '#141a14' : v > -1 ? '#1a1414' : '#2a1414';
+          const clr = v > 0 ? '#4CAF50' : v < -1 ? '#ff4444' : '#888';
+          return '<div style="background:'+bg+';padding:4px 6px;border-radius:4px;font-size:10px;min-width:60px;text-align:center">' +
+            '<div style="color:#666">'+m.month+'</div>' +
+            '<div style="color:'+clr+';font-weight:600">'+(v>0?'+':'')+v.toFixed(2)+'%</div>' +
+          '</div>';
+        }).join('')}
+      </div>
+      <div style="margin-top:8px;font-size:11px;color:#888;text-align:center">35ヶ月中31ヶ月プラス | 最大: +6.69% (2026-01) | 最大負け: -2.33% (2024-01)</div>
+    </div>
+
+    <div class="card">
+      <h2>パイプライン構成</h2>
       <div style="padding:8px 0">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-          <span style="background:#1b3a1b;color:#4CAF50;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">EMA + RSI Signal</span>
+          <span style="background:#1b3a1b;color:#4CAF50;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">EMA+RSI シグナル</span>
           <span style="color:#555;font-size:18px">&rarr;</span>
-          <span style="background:#2a1500;color:#ff8800;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">14 Features</span>
+          <span style="background:#2a1500;color:#ff8800;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">14特徴量</span>
           <span style="color:#555;font-size:18px">&rarr;</span>
-          <span style="background:linear-gradient(135deg,#1a0a00,#2a1500);color:#ff6644;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;border:1px solid #ff660044">CatBoost Meta-Label</span>
+          <span style="background:linear-gradient(135deg,#1a0a00,#2a1500);color:#ff6644;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700;border:1px solid #ff660044">CatBoost メタラベル</span>
         </div>
         <div class="stats-grid cols-2" style="margin-top:12px">
-          <div class="stat-box"><div class="stat-val sm accent">${ml.total_features}</div><div class="stat-label">Total Features</div></div>
-          <div class="stat-box"><div class="stat-val sm accent">${ml.pa_features}</div><div class="stat-label">PA Features</div></div>
-          <div class="stat-box"><div class="stat-val sm positive">${ml.leak_tests_pass}</div><div class="stat-label">Leak Tests Pass</div></div>
-          <div class="stat-box"><div class="stat-val sm">CatBoost</div><div class="stat-label">Meta Classifier</div></div>
+          <div class="stat-box"><div class="stat-val sm accent">${ml.total_features}</div><div class="stat-label">総特徴量</div></div>
+          <div class="stat-box"><div class="stat-val sm accent">${ml.pa_features}</div><div class="stat-label">PA特徴量</div></div>
+          <div class="stat-box"><div class="stat-val sm positive">${ml.leak_tests_pass}</div><div class="stat-label">リークテスト</div></div>
+          <div class="stat-box"><div class="stat-val sm positive">45%</div><div class="stat-label">採用率</div></div>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <h2>AVWAP Regime Test</h2>
-      <div style="font-size:13px;color:#888;margin-bottom:12px">Regime artifact confirmed: meta-label effectiveness depends on market regime</div>
+      <h2>AVWAP レジーム検証</h2>
+      <div style="font-size:13px;color:#888;margin-bottom:12px">AVWAPの優位性はレジーム依存であることを確認（単独運用は非推奨）</div>
       <div class="stats-grid cols-2">
-        <div class="stat-box"><div class="stat-val sm positive">+${ml.avwap_regime_bull_sharpe}</div><div class="stat-label">Bull Sharpe</div></div>
-        <div class="stat-box"><div class="stat-val sm negative">${ml.avwap_regime_range_sharpe}</div><div class="stat-label">Range Sharpe</div></div>
+        <div class="stat-box"><div class="stat-val sm positive">+${ml.avwap_regime_bull_sharpe}</div><div class="stat-label">上昇相場 Sharpe</div></div>
+        <div class="stat-box"><div class="stat-val sm negative">${ml.avwap_regime_range_sharpe}</div><div class="stat-label">レンジ相場 Sharpe</div></div>
       </div>
-      <div style="font-size:11px;color:#666;margin-top:8px;text-align:center">Sharpe +2.09 in bull market vs -1.60 in range market</div>
+      <div style="font-size:11px;color:#666;margin-top:8px;text-align:center">上昇相場 +2.09 vs レンジ相場 -1.60 → レジーム依存確定</div>
     </div>
 
     <div class="card">
-      <h2>Key Finding</h2>
+      <h2>重要な発見</h2>
       <div style="background:#0e0e1a;border-radius:8px;padding:16px;font-size:14px;color:#ff6644;font-weight:600;text-align:center;line-height:1.6">
-        ${ml.key_finding}
+        連続値の形状特徴量 > 二値パターン検出器<br>
+        <span style="font-size:11px;color:#888;font-weight:400">wick比率・body比率・圧縮比率などの連続値がXAUUSDメタラベリングで有効</span>
       </div>
     </div>
 
     <div class="card">
-      <h2>Feature Importance (All 14)</h2>
+      <h2>特徴量重要度 (全14個)</h2>
       ${fiEntries.map(([name, val]) => {
         const pct = (val / fiMax * 100).toFixed(0);
         const isPa = ['lower_wick_ratio','compression_ratio','upper_wick_ratio','body_ratio','consec_dir'].includes(name);
         const barColor = isPa ? 'linear-gradient(90deg,#ff4444,#ff8800)' : 'linear-gradient(90deg,#444,#666)';
         const labelColor = isPa ? '#ff6644' : '#ccc';
+        const jaName = {'lower_wick_ratio':'下ヒゲ比率','compression_ratio':'圧縮比率','upper_wick_ratio':'上ヒゲ比率',
+          'body_ratio':'実体比率','consec_dir':'連続方向','atr_norm':'ATR(正規化)','rsi_14':'RSI',
+          'ema_slope':'EMA傾き','volatility_ratio':'ボラ比率','price_vs_ema':'価格vsEMA',
+          'bb_width':'BB幅','momentum':'モメンタム','dist_to_high':'高値距離','dist_to_low':'安値距離',
+          'atr_14':'ATR14','atr_50':'ATR50','parkinson_30':'パーキンソンVol','bar_range_atr':'バーレンジ/ATR',
+          'close_pos_in_bar':'バー内位置','is_asian':'アジア時間','log_ret_60':'1時間リターン',
+          'log_ret_240':'4時間リターン','ret_session_open':'セッション開始からリターン'}[name] || name;
         return '<div style="margin-bottom:6px">' +
           '<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px">' +
-            '<span style="color:' + labelColor + '">' + name + (isPa ? ' (PA)' : '') + '</span><span style="color:#888">' + (val/10).toFixed(1) + '%</span>' +
+            '<span style="color:' + labelColor + '">' + jaName + (isPa ? ' (PA)' : '') + '</span><span style="color:#888">' + (val/10).toFixed(1) + '%</span>' +
           '</div>' +
           '<div style="background:#0e0e1a;border-radius:4px;height:6px;overflow:hidden">' +
             '<div style="width:' + pct + '%;height:100%;background:' + barColor + ';border-radius:4px"></div>' +
@@ -444,35 +492,8 @@ function renderMetaLabelReport(r) {
         '</div>';
       }).join('')}
       <div style="margin-top:10px;font-size:10px;color:#666;display:flex;gap:16px;justify-content:center">
-        <span><span style="display:inline-block;width:12px;height:4px;background:linear-gradient(90deg,#ff4444,#ff8800);border-radius:2px;vertical-align:middle"></span> Price Action</span>
-        <span><span style="display:inline-block;width:12px;height:4px;background:linear-gradient(90deg,#444,#666);border-radius:2px;vertical-align:middle"></span> Price/Volatility</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Equity Curve (OOS, 10万円 start)</h2>
-      <canvas id="v4-equity-chart" height="200"></canvas>
-      <div style="margin-top:8px;font-size:11px;color:#666;text-align:center">
-        Baseline (take all): 100,000 → 148,828 (+48.8%, MaxDD -11.7%) |
-        Meta-filtered: 100,000 → 158,151 (+58.2%, MaxDD -5.9%)
-      </div>
-      <div style="margin-top:4px;font-size:10px;color:#555;text-align:center">
-        1,422 trades / 3,131 signals (45% take rate) | WR 42.7% | PF 1.30 | Sharpe 1.00
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Monthly Returns (Meta-filtered)</h2>
-      <div style="display:flex;flex-wrap:wrap;gap:3px">
-        ${(r.monthly || []).map(m => {
-          const v = m.pnl_pct;
-          const bg = v > 0.05 ? '#1a3a1a' : v > 0 ? '#141a14' : v > -0.03 ? '#1a1414' : '#2a1414';
-          const clr = v > 0 ? '#4CAF50' : v < -0.03 ? '#ff4444' : '#888';
-          return '<div style="background:'+bg+';padding:4px 6px;border-radius:4px;font-size:10px;min-width:60px;text-align:center">' +
-            '<div style="color:#666">'+m.month+'</div>' +
-            '<div style="color:'+clr+';font-weight:600">'+(v>0?'+':'')+v.toFixed(2)+'%</div>' +
-          '</div>';
-        }).join('')}
+        <span><span style="display:inline-block;width:12px;height:4px;background:linear-gradient(90deg,#ff4444,#ff8800);border-radius:2px;vertical-align:middle"></span> プライスアクション</span>
+        <span><span style="display:inline-block;width:12px;height:4px;background:linear-gradient(90deg,#444,#666);border-radius:2px;vertical-align:middle"></span> 価格/ボラティリティ</span>
       </div>
     </div>
   `;
@@ -490,8 +511,8 @@ function renderMetaLabelReport(r) {
         data: {
           labels: ec.dates,
           datasets: [
-            { label: 'Baseline (take all)', data: ec.baseline, borderColor: '#666', borderWidth: 1.5, pointRadius: 0, fill: false },
-            { label: 'Meta-filtered', data: ec.meta, borderColor: '#ff6644', borderWidth: 2, pointRadius: 0, fill: false }
+            { label: 'ベースライン (全シグナル)', data: ec.baseline, borderColor: '#666', borderWidth: 1.5, pointRadius: 0, fill: false },
+            { label: 'メタフィルタ適用', data: ec.meta, borderColor: '#ff6644', borderWidth: 2, pointRadius: 0, fill: false }
           ]
         },
         options: {
@@ -499,7 +520,7 @@ function renderMetaLabelReport(r) {
           plugins: { legend: { labels: { color: '#888', font: { size: 11 } } } },
           scales: {
             x: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: '#1e1e30' } },
-            y: { ticks: { color: '#555', font: { size: 10 }, callback: v => (v/1000).toFixed(0)+'k' }, grid: { color: '#1e1e30' } }
+            y: { ticks: { color: '#555', font: { size: 10 }, callback: v => (v/10000).toFixed(1)+'万円' }, grid: { color: '#1e1e30' } }
           }
         }
       });
