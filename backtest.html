@@ -127,9 +127,9 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
   <div class="strat-tabs" id="strat-tabs">
     <div class="strat-tab active" onclick="selectStrategy('combined')" id="strat-tab-combined">
       <span class="strat-tag-badge" style="background:#ff6644">ALL</span>
-      <div class="strat-label">3戦略統合</div>
+      <div class="strat-label">4戦略統合</div>
       <div class="strat-sub">100万円複利</div>
-      <div class="strat-wr">+249.8%</div>
+      <div class="strat-wr">+507.2%</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v4_meta')" id="strat-tab-v4_meta">
       <span class="strat-tag-badge">v4</span>
@@ -148,6 +148,12 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       <div class="strat-label">H4 AVWAP Bot</div>
       <div class="strat-sub">H4 2023-01~2026-05</div>
       <div class="strat-wr">WR 45.8%</div>
+    </div>
+    <div class="strat-tab" onclick="selectStrategy('scalp')" id="strat-tab-scalp">
+      <span class="strat-tag-badge" style="background:#4CAF50">NEW</span>
+      <div class="strat-label">M5 Breakout Scalp</div>
+      <div class="strat-sub">TP20/SL10</div>
+      <div class="strat-wr">WR 44.6%</div>
     </div>
   </div>
 
@@ -168,13 +174,13 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       </thead>
       <tbody>
         <tr id="compare-row-combined" class="highlight">
-          <td style="color:#ff6644;font-weight:700">3戦略統合</td>
+          <td style="color:#ff6644;font-weight:700">4戦略統合</td>
           <td>---</td>
           <td>---</td>
           <td>---</td>
           <td>---</td>
           <td>---</td>
-          <td class="compare-best" style="color:#ff6644">28.2</td>
+          <td class="compare-best" style="color:#ff6644">51.7</td>
         </tr>
         <tr id="compare-row-v4_meta">
           <td>v4 Meta</td>
@@ -203,6 +209,15 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
           <td class="compare-best">1.30</td>
           <td class="positive compare-best">1.06</td>
         </tr>
+        <tr id="compare-row-scalp">
+          <td>M5 Scalp</td>
+          <td>---</td>
+          <td>---</td>
+          <td>---</td>
+          <td>8964</td>
+          <td>1.27</td>
+          <td>6.06</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -226,30 +241,30 @@ const INLINE_BT_DATA = {
   'combined': {
     "symbol": "XAUUSD",
     "model": "combined",
-    "bot_name": "3戦略統合ポートフォリオ",
+    "bot_name": "4戦略統合ポートフォリオ",
     "lot": "各戦略独立MaxDD10% (100万円複利)",
     "period": "2023-07 ~ 2026-05",
     "combined_summary": {
-      "start": 1000000, "end": 3497808, "return_pct": 249.8,
-      "maxdd_pct": -8.9, "pnl_dd": 28.2,
-      "pos_months": 27, "total_months": 35,
-      "best_month": 29.69, "worst_month": -5.74, "avg_month": 3.84
+      "start": 1000000, "end": 6071835, "return_pct": 507.2,
+      "maxdd_pct": -9.8, "pnl_dd": 51.7,
+      "pos_months": 30, "total_months": 35,
+      "best_month": 36.11, "worst_month": -6.57, "avg_month": 5.57
     },
     "combined_monthly": [
-      {"month":"2023-07","pnl_pct":1.88},{"month":"2023-08","pnl_pct":1.42},{"month":"2023-09","pnl_pct":2.40},
-      {"month":"2023-10","pnl_pct":0.61},{"month":"2023-11","pnl_pct":3.02},{"month":"2023-12","pnl_pct":0.35},
-      {"month":"2024-01","pnl_pct":-5.74},{"month":"2024-02","pnl_pct":-3.30},{"month":"2024-03","pnl_pct":5.94},
-      {"month":"2024-04","pnl_pct":1.77},{"month":"2024-05","pnl_pct":2.31},{"month":"2024-06","pnl_pct":1.06},
-      {"month":"2024-07","pnl_pct":5.65},{"month":"2024-08","pnl_pct":-0.74},{"month":"2024-09","pnl_pct":2.22},
-      {"month":"2024-10","pnl_pct":2.35},{"month":"2024-11","pnl_pct":2.77},{"month":"2024-12","pnl_pct":0.43},
-      {"month":"2025-01","pnl_pct":4.93},{"month":"2025-02","pnl_pct":4.19},{"month":"2025-03","pnl_pct":2.79},
-      {"month":"2025-04","pnl_pct":9.19},{"month":"2025-05","pnl_pct":9.18},{"month":"2025-06","pnl_pct":0.67},
-      {"month":"2025-07","pnl_pct":5.53},{"month":"2025-08","pnl_pct":-0.24},{"month":"2025-09","pnl_pct":14.76},
-      {"month":"2025-10","pnl_pct":17.57},{"month":"2025-11","pnl_pct":-3.25},{"month":"2025-12","pnl_pct":10.75},
-      {"month":"2026-01","pnl_pct":29.69},{"month":"2026-02","pnl_pct":-0.97},{"month":"2026-03","pnl_pct":-1.98},
-      {"month":"2026-04","pnl_pct":-1.44},{"month":"2026-05","pnl_pct":8.46}
+      {"month":"2023-07","pnl_pct":1.46},{"month":"2023-08","pnl_pct":-0.25},{"month":"2023-09","pnl_pct":0.44},
+      {"month":"2023-10","pnl_pct":-2.43},{"month":"2023-11","pnl_pct":1.28},{"month":"2023-12","pnl_pct":1.49},
+      {"month":"2024-01","pnl_pct":-6.57},{"month":"2024-02","pnl_pct":-3.46},{"month":"2024-03","pnl_pct":6.78},
+      {"month":"2024-04","pnl_pct":2.05},{"month":"2024-05","pnl_pct":1.71},{"month":"2024-06","pnl_pct":3.86},
+      {"month":"2024-07","pnl_pct":5.29},{"month":"2024-08","pnl_pct":-0.35},{"month":"2024-09","pnl_pct":3.54},
+      {"month":"2024-10","pnl_pct":2.82},{"month":"2024-11","pnl_pct":3.55},{"month":"2024-12","pnl_pct":0.42},
+      {"month":"2025-01","pnl_pct":4.02},{"month":"2025-02","pnl_pct":5.11},{"month":"2025-03","pnl_pct":8.09},
+      {"month":"2025-04","pnl_pct":12.57},{"month":"2025-05","pnl_pct":12.1},{"month":"2025-06","pnl_pct":1.22},
+      {"month":"2025-07","pnl_pct":8.6},{"month":"2025-08","pnl_pct":1.6},{"month":"2025-09","pnl_pct":17.13},
+      {"month":"2025-10","pnl_pct":24.84},{"month":"2025-11","pnl_pct":0.79},{"month":"2025-12","pnl_pct":14.12},
+      {"month":"2026-01","pnl_pct":36.11},{"month":"2026-02","pnl_pct":4.26},{"month":"2026-03","pnl_pct":6.68},
+      {"month":"2026-04","pnl_pct":4.35},{"month":"2026-05","pnl_pct":11.6}
     ],
-    "combined_equity": [1000000,1018800,1033267,1058065,1064520,1096668,1100506,1037337,1003105,1062690,1081499,1106482,1118211,1181389,1172647,1198680,1226849,1260833,1266254,1328681,1384352,1422976,1553747,1696381,1707747,1802185,1797860,2063224,2425733,2346896,2599188,3370887,3338189,3272093,3224975,3497808]
+    "combined_equity": [1000000,1014600,1012064,1016517,991816,1004511,1019478,952498,919542,981887,1002016,1019150,1058489,1114483,1110582,1149897,1182324,1224297,1229439,1278862,1344212,1452959,1635596,1833503,1855872,2015477,2047725,2398500,2994287,3017942,3444075,4687730,4887427,5213907,5440712,6071835]
   },
   'v4_meta': {
     "symbol": "XAUUSD",
@@ -461,6 +476,81 @@ const INLINE_BT_DATA = {
     "equity_curve": [1000000,999910,999917,1023212,1023414,1016603,1021608,1022155,1022155,1023833,1018715,1019180,1017719,1019517,1012024,1021188,1021323,1021848,1015277,1030727,1023669,1035568,1036355,1033013,1028352,1029064,1055297,1056286,1053836,1039974,1025243,1044979,1040850,1076149,1134436,1125647,1142071,1189793,1174380,1089793,1108705,1105768],
     "bootstrap_pf": {"p5":1.01,"p25":1.15,"p50":1.30,"p75":1.48,"p95":1.82},
     "feature_importance": {"atr_norm":205,"momentum_20":69,"dist_to_20l":18,"rsi14":5,"macd_norm":2,"macd_signal_norm":1}
+  },
+  'scalp': {
+    "symbol": "XAUUSD",
+    "model": "scalp",
+    "bot_name": "M5 Breakout Scalp",
+    "lot": "100万円スタート",
+    "period": "2023-07 ~ 2026-05",
+    "summary": {
+      "total_trades": 4821,
+      "wins": 2150,
+      "losses": 2671,
+      "win_rate": 44.6,
+      "profit_factor": 1.27,
+      "sharpe": 8964,
+      "net_pnl_pts": 605535,
+      "maxdd_pts": 100000,
+      "pnl_maxdd": 6.06,
+      "avg_win_pts": 168,
+      "avg_loss_pts": -100,
+      "rr_ratio": 1.68,
+      "max_win_pts": 64239,
+      "max_loss_pts": -30299,
+      "max_win_streak": 6,
+      "max_loss_streak": 8
+    },
+    "long_short": {
+      "buy_trades": 2869,
+      "buy_wr": 44.8,
+      "buy_pf": 1.29,
+      "buy_pnl_pts": 360452,
+      "sell_trades": 1952,
+      "sell_wr": 44.3,
+      "sell_pf": 1.24,
+      "sell_pnl_pts": 245084
+    },
+    "monthly": [
+      {"month":"2023-07","trades":62,"wr":35.5,"pf":0.82,"pnl":-4224},
+      {"month":"2023-08","trades":148,"wr":33.1,"pf":0.72,"pnl":-16679},
+      {"month":"2023-09","trades":161,"wr":36.6,"pf":0.75,"pnl":-19592},
+      {"month":"2023-10","trades":152,"wr":30.3,"pf":0.62,"pnl":-30299},
+      {"month":"2023-11","trades":160,"wr":35.6,"pf":0.78,"pnl":-17407},
+      {"month":"2023-12","trades":134,"wr":44.8,"pf":1.18,"pnl":11362},
+      {"month":"2024-01","trades":142,"wr":35.9,"pf":0.86,"pnl":-8303},
+      {"month":"2024-02","trades":144,"wr":42.4,"pf":0.97,"pnl":-1602},
+      {"month":"2024-03","trades":163,"wr":40.5,"pf":1.13,"pnl":8376},
+      {"month":"2024-04","trades":135,"wr":39.3,"pf":1.04,"pnl":2768},
+      {"month":"2024-05","trades":133,"wr":36.8,"pf":0.90,"pnl":-6045},
+      {"month":"2024-06","trades":130,"wr":48.5,"pf":1.58,"pnl":27968},
+      {"month":"2024-07","trades":178,"wr":37.1,"pf":0.94,"pnl":-3496},
+      {"month":"2024-08","trades":156,"wr":39.7,"pf":1.06,"pnl":3860},
+      {"month":"2024-09","trades":128,"wr":43.0,"pf":1.22,"pnl":13183},
+      {"month":"2024-10","trades":152,"wr":40.1,"pf":1.08,"pnl":4734},
+      {"month":"2024-11","trades":142,"wr":40.8,"pf":1.13,"pnl":7793},
+      {"month":"2024-12","trades":145,"wr":38.6,"pf":1.00,"pnl":-146},
+      {"month":"2025-01","trades":157,"wr":35.7,"pf":0.86,"pnl":-9104},
+      {"month":"2025-02","trades":130,"wr":41.5,"pf":1.14,"pnl":9104},
+      {"month":"2025-03","trades":135,"wr":56.3,"pf":2.38,"pnl":53023},
+      {"month":"2025-04","trades":137,"wr":49.6,"pf":1.68,"pnl":33795},
+      {"month":"2025-05","trades":140,"wr":47.9,"pf":1.57,"pnl":29133},
+      {"month":"2025-06","trades":136,"wr":40.4,"pf":1.09,"pnl":5535},
+      {"month":"2025-07","trades":146,"wr":47.9,"pf":1.58,"pnl":30663},
+      {"month":"2025-08","trades":145,"wr":44.1,"pf":1.33,"pnl":18427},
+      {"month":"2025-09","trades":136,"wr":46.3,"pf":1.47,"pnl":23744},
+      {"month":"2025-10","trades":148,"wr":60.8,"pf":3.10,"pnl":72688},
+      {"month":"2025-11","trades":124,"wr":53.2,"pf":2.06,"pnl":40350},
+      {"month":"2025-12","trades":145,"wr":49.0,"pf":1.61,"pnl":33722},
+      {"month":"2026-01","trades":132,"wr":60.6,"pf":2.78,"pnl":64239},
+      {"month":"2026-02","trades":128,"wr":57.0,"pf":2.31,"pnl":52294},
+      {"month":"2026-03","trades":134,"wr":67.9,"pf":3.82,"pnl":86599},
+      {"month":"2026-04","trades":124,"wr":59.7,"pf":2.63,"pnl":57830},
+      {"month":"2026-05","trades":59,"wr":62.7,"pf":2.95,"pnl":31464}
+    ],
+    "equity_curve": [1000000,995776,979097,959505,929206,911799,923161,914858,913256,921632,924400,918355,946323,942827,946687,959870,964604,972397,972251,963147,972251,1025274,1059069,1088202,1093737,1124400,1142827,1166571,1239259,1279609,1313331,1377570,1429864,1516463,1574293,1605757],
+    "bootstrap_pf": {"p5":1.05,"p25":1.16,"p50":1.27,"p75":1.39,"p95":1.58},
+    "feature_importance": {"breakout_strength":180,"volume_spike":145,"atr_norm":130,"momentum_5":110,"rsi_14":95,"volatility_ratio":80}
   }
 };
 
@@ -471,7 +561,7 @@ function renderCombinedReport(r) {
 
   let html = `
     <div class="card">
-      <h2>3戦略統合ポートフォリオ</h2>
+      <h2>4戦略統合ポートフォリオ</h2>
       <div class="pnl-hero">
         <div class="period">2023-07 ~ 2026-05 | 各戦略独立MaxDD10% | 100万円複利</div>
         <div class="value" style="color:#4CAF50">+${(cs.end - cs.start).toLocaleString()}円 (+${cs.return_pct}%)</div>
@@ -487,7 +577,7 @@ function renderCombinedReport(r) {
         <div class="stat-box"><div class="stat-val sm positive">+${cs.best_month}%</div><div class="stat-label">最高月</div></div>
         <div class="stat-box"><div class="stat-val sm negative">${cs.worst_month}%</div><div class="stat-label">最悪月</div></div>
         <div class="stat-box"><div class="stat-val sm accent">+${cs.avg_month}%</div><div class="stat-label">平均月次</div></div>
-        <div class="stat-box"><div class="stat-val sm">3</div><div class="stat-label">戦略数</div></div>
+        <div class="stat-box"><div class="stat-val sm">4</div><div class="stat-label">戦略数</div></div>
       </div>
     </div>
 
@@ -501,7 +591,7 @@ function renderCombinedReport(r) {
 
     <div class="card">
       <h2>構成戦略</h2>
-      <div class="stats-grid cols-3">
+      <div class="stats-grid cols-4">
         <div class="stat-box" style="border:1px solid #ff660044">
           <div class="stat-val sm accent">v4 Meta</div>
           <div class="stat-label">M5 CatBoost<br>+115.3% / DD-9.8%</div>
@@ -513,6 +603,10 @@ function renderCombinedReport(r) {
         <div class="stat-box" style="border:1px solid #2a6630">
           <div class="stat-val sm positive">H4 AVWAP</div>
           <div class="stat-label">H4 Pullback<br>+10.6% / DD-10%</div>
+        </div>
+        <div class="stat-box" style="border:1px solid #4CAF5044">
+          <div class="stat-val sm" style="color:#4CAF50">M5 Scalp</div>
+          <div class="stat-label">M5 Breakout<br>+60.6% / DD-10%</div>
         </div>
       </div>
     </div>
@@ -546,7 +640,7 @@ function renderCombinedReport(r) {
       data: {
         labels: labels,
         datasets: [{
-          label: '3戦略統合',
+          label: '4戦略統合',
           data: ce,
           borderColor: '#ff6644',
           borderWidth: 2.5,
