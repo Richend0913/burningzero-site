@@ -245,8 +245,21 @@ const INLINE_BT_DATA = {
       "key_finding": "Continuous shape features > binary pattern detectors for XAUUSD meta-labeling"
     },
     "long_short": { "buy_trades":0,"buy_wr":0,"buy_pf":0,"buy_pnl_pts":0,"sell_trades":0,"sell_wr":0,"sell_pf":0,"sell_pnl_pts":0 },
-    "monthly": [],
-    "equity_curve": [],
+    "monthly": [
+      {"month":"2023-07","pnl_pct":-0.01},{"month":"2023-08","pnl_pct":0.03},{"month":"2023-09","pnl_pct":0.03},
+      {"month":"2023-10","pnl_pct":0.01},{"month":"2023-11","pnl_pct":0.01},{"month":"2023-12","pnl_pct":-0.07},
+      {"month":"2024-01","pnl_pct":-0.06},{"month":"2024-02","pnl_pct":0.00},{"month":"2024-03","pnl_pct":0.01},
+      {"month":"2024-04","pnl_pct":0.01},{"month":"2024-05","pnl_pct":-0.01},{"month":"2024-06","pnl_pct":0.01},
+      {"month":"2024-07","pnl_pct":0.02},{"month":"2024-08","pnl_pct":-0.01},{"month":"2024-09","pnl_pct":0.03},
+      {"month":"2024-10","pnl_pct":0.05},{"month":"2024-11","pnl_pct":0.13},{"month":"2024-12","pnl_pct":0.01},
+      {"month":"2025-01","pnl_pct":0.02},{"month":"2025-02","pnl_pct":0.00},{"month":"2025-03","pnl_pct":-0.03},
+      {"month":"2025-04","pnl_pct":0.00},{"month":"2025-05","pnl_pct":0.09},{"month":"2025-06","pnl_pct":0.02},
+      {"month":"2025-07","pnl_pct":0.04},{"month":"2025-08","pnl_pct":0.01},{"month":"2025-09","pnl_pct":0.06},
+      {"month":"2025-10","pnl_pct":0.16},{"month":"2025-11","pnl_pct":0.01},{"month":"2025-12","pnl_pct":0.02},
+      {"month":"2026-01","pnl_pct":0.08},{"month":"2026-02","pnl_pct":0.04},{"month":"2026-03","pnl_pct":0.04},
+      {"month":"2026-04","pnl_pct":-0.02},{"month":"2026-05","pnl_pct":0.05}
+    ],
+    "equity_curve": {"dates":["2023-07","2023-10","2024-01","2024-04","2024-07","2024-10","2025-01","2025-04","2025-07","2025-10","2026-01","2026-05"],"baseline":[100000,102651,95904,95964,101710,100549,105630,103033,116828,118848,138472,148828],"meta":[100000,100067,99935,99956,99969,100027,100228,100095,100356,100567,100702,100780]},
     "bootstrap_pf": {"p5":0,"p25":0,"p50":0,"p75":0,"p95":0},
     "feature_importance": {"lower_wick_ratio":113,"compression_ratio":110,"upper_wick_ratio":73,"body_ratio":43,"consec_dir":26,"atr_norm":95,"rsi_14":88,"ema_slope":82,"volatility_ratio":78,"price_vs_ema":72,"bb_width":65,"momentum":58,"dist_to_high":52,"dist_to_low":45}
   },
@@ -437,8 +450,62 @@ function renderMetaLabelReport(r) {
     </div>
   `;
 
+    <div class="card">
+      <h2>Equity Curve (OOS, 10万円 start)</h2>
+      <canvas id="v4-equity-chart" height="200"></canvas>
+      <div style="margin-top:8px;font-size:11px;color:#666;text-align:center">
+        Baseline (take all): 100,000 → 148,828 (+48.8%, MaxDD -11.7%) |
+        Meta-filtered: 100,000 → 100,780 (+0.8%, MaxDD -0.2%)
+      </div>
+      <div style="margin-top:4px;font-size:10px;color:#555;text-align:center">
+        Meta returns are small due to Half-Kelly sizing (conservative at p_take ≈ 0.5)
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Monthly Returns (Meta-filtered)</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:3px">
+        ${(r.monthly || []).map(m => {
+          const v = m.pnl_pct;
+          const bg = v > 0.05 ? '#1a3a1a' : v > 0 ? '#141a14' : v > -0.03 ? '#1a1414' : '#2a1414';
+          const clr = v > 0 ? '#4CAF50' : v < -0.03 ? '#ff4444' : '#888';
+          return '<div style="background:'+bg+';padding:4px 6px;border-radius:4px;font-size:10px;min-width:60px;text-align:center">' +
+            '<div style="color:#666">'+m.month+'</div>' +
+            '<div style="color:'+clr+';font-weight:600">'+(v>0?'+':'')+v.toFixed(2)+'%</div>' +
+          '</div>';
+        }).join('')}
+      </div>
+    </div>
+  `;
+
   if (reportChart) { reportChart.destroy(); reportChart = null; }
   document.getElementById('report-content').innerHTML = html;
+
+  // Draw equity chart
+  const ec = r.equity_curve;
+  if (ec && ec.dates && ec.dates.length > 0) {
+    const ctx = document.getElementById('v4-equity-chart');
+    if (ctx) {
+      reportChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ec.dates,
+          datasets: [
+            { label: 'Baseline (take all)', data: ec.baseline, borderColor: '#666', borderWidth: 1.5, pointRadius: 0, fill: false },
+            { label: 'Meta-filtered', data: ec.meta, borderColor: '#ff6644', borderWidth: 2, pointRadius: 0, fill: false }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { labels: { color: '#888', font: { size: 11 } } } },
+          scales: {
+            x: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: '#1e1e30' } },
+            y: { ticks: { color: '#555', font: { size: 10 }, callback: v => (v/1000).toFixed(0)+'k' }, grid: { color: '#1e1e30' } }
+          }
+        }
+      });
+    }
+  }
 }
 
 function selectStrategy(id) {
