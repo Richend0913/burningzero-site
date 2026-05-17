@@ -188,6 +188,41 @@ a { text-decoration: none; color: inherit; }
   <h1 class="page-title">検証方法論</h1>
   <p class="page-intro">各戦略で実際に適用した検証手法を正直に記載しています</p>
 
+  <!-- Validation Status Dashboard -->
+  <div class="method-section" style="border-color:#2a4a2a">
+    <h2>Validation Status <span>全戦略検証ステータス</span></h2>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <tr>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Walk-Forward OOS</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">PASSED</span></td>
+      </tr>
+      <tr>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Bootstrap Confidence</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">PASSED</span> <span style="color:#666;font-size:10px;margin-left:4px">5th %ile PF > 1.0</span></td>
+      </tr>
+      <tr>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">OOS Parameter Validation</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">PASSED</span> <span style="color:#666;font-size:10px;margin-left:4px">4/4 strategies</span></td>
+      </tr>
+      <tr>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Leak Test (7 checks)</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">PASSED</span> <span style="color:#666;font-size:10px;margin-left:4px">7/7</span></td>
+      </tr>
+      <tr>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Monte Carlo Survival</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">PASSED</span> <span style="color:#666;font-size:10px;margin-left:4px">ruin < 1%</span></td>
+      </tr>
+      <tr>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Regime Robustness</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#2a2a10;color:#ff8800;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">WARNING</span> <span style="color:#666;font-size:10px;margin-left:4px">BUY-only bias</span></td>
+      </tr>
+      <tr>
+        <td style="padding:10px 8px;color:#ccc">Bear Market Stress Test</td>
+        <td style="text-align:right;padding:10px 8px"><span style="background:#2a1010;color:#f44336;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">NOT TESTED</span></td>
+      </tr>
+    </table>
+  </div>
+
   <!-- Per-strategy validation status -->
   <div class="method-section">
     <h2>戦略別 検証状況 <span>Validation Coverage</span></h2>
