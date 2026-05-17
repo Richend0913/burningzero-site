@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BURNING ZERO - Quantitative Gold Trading Platform</title>
-<meta name="description" content="BURNING ZERO: Quantitative gold trading platform. v4 Meta-Label PoC Delta Sharpe +0.495 PSR 0.995 + v3 H1 Sharpe 2.12 + H4 AVWAP Sharpe 7.55. Automated XAU/USD trading via MT5.">
+<meta name="description" content="BURNING ZERO: Quantitative gold trading platform. 4 strategies, 78-month OOS validated. v4 Meta-Label Delta Sharpe +0.934, PSR 0.998. Automated XAU/USD trading via MT5.">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="i18n.js" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
 <script>if(typeof t==='undefined'){window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';}</script>
@@ -478,16 +478,16 @@ a { text-decoration: none; color: inherit; }
   <!-- ── Hero ── -->
   <section class="hero">
     <h1 class="hero-title" data-i18n="hero_title">Quantitative Gold Trading</h1>
-    <p class="hero-subtitle" data-i18n="hero_subtitle">Statistically validated XAU/USD automation via meta-labeling ML.</p>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">4-strategy XAU/USD automation, 78-month out-of-sample validated via meta-labeling ML.</p>
 
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="hero-stat-val">+0.495</div>
-        <div class="hero-stat-label">Delta Sharpe (v4)</div>
+        <div class="hero-stat-val">+0.934</div>
+        <div class="hero-stat-label">Delta Sharpe (78mo)</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val">0.995</div>
-        <div class="hero-stat-label">PSR (v4)</div>
+        <div class="hero-stat-val">0.998</div>
+        <div class="hero-stat-label">PSR (v4 Meta)</div>
       </div>
       <div class="hero-stat">
         <div class="hero-stat-val">4</div>
@@ -530,25 +530,25 @@ a { text-decoration: none; color: inherit; }
     <h2 class="section-title" data-i18n="bt_title">Backtest Results</h2>
     <div class="bt-cards">
       <a href="backtest.html" class="bt-card featured" style="grid-column:1/-1">
-        <div class="bt-card-name" style="background:linear-gradient(135deg,#ff4444,#ff8800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">v4 Meta-Label PoC</div>
+        <div class="bt-card-name" style="background:linear-gradient(135deg,#ff4444,#ff8800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">v4 Meta-Label (78 months OOS)</div>
         <div class="bt-card-stats">
-          <div class="bt-card-stat"><div class="bt-card-stat-val">+0.495</div><div class="bt-card-stat-label">Delta Sharpe</div></div>
-          <div class="bt-card-stat"><div class="bt-card-stat-val">0.995</div><div class="bt-card-stat-label">PSR</div></div>
-          <div class="bt-card-stat"><div class="bt-card-stat-val">+58.2%</div><div class="bt-card-stat-label">Return</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">+0.934</div><div class="bt-card-stat-label">Delta Sharpe</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">0.998</div><div class="bt-card-stat-label">PSR</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">4</div><div class="bt-card-stat-label">Strategies</div></div>
         </div>
       </a>
       <a href="backtest.html" class="bt-card">
         <div class="bt-card-name">v3 H1</div>
         <div class="bt-card-stats">
-          <div class="bt-card-stat"><div class="bt-card-stat-val">2.12</div><div class="bt-card-stat-label">Sharpe</div></div>
-          <div class="bt-card-stat"><div class="bt-card-stat-val">1.39</div><div class="bt-card-stat-label">PF</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">1.62</div><div class="bt-card-stat-label">Sharpe</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">1.30</div><div class="bt-card-stat-label">PF</div></div>
         </div>
       </a>
       <a href="backtest.html" class="bt-card">
         <div class="bt-card-name">H4 AVWAP</div>
         <div class="bt-card-stats">
-          <div class="bt-card-stat"><div class="bt-card-stat-val">7.55</div><div class="bt-card-stat-label">Sharpe</div></div>
-          <div class="bt-card-stat"><div class="bt-card-stat-val">2.95</div><div class="bt-card-stat-label">PF</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">4.28</div><div class="bt-card-stat-label">OOS PF</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">BUY</div><div class="bt-card-stat-label">Direction</div></div>
         </div>
       </a>
     </div>
@@ -562,43 +562,57 @@ a { text-decoration: none; color: inherit; }
 
       <div class="strategy-card featured">
         <div class="strategy-card-header">
-          <span class="strategy-card-name">v4 Meta-Label PoC</span>
+          <span class="strategy-card-name">v4 Meta-Label</span>
           <span class="strategy-tag new">v4</span>
         </div>
-        <div class="strategy-card-desc">CatBoost meta-label filtering EMA+RSI signals. 14 continuous shape features. PSR 0.995, MaxDD -5.9%.</div>
+        <div class="strategy-card-desc">CatBoost meta-label filtering. 78 months OOS validated. Delta Sharpe +0.934, PSR 0.998.</div>
         <div class="strategy-metrics">
-          <div class="strategy-metric"><div class="strategy-metric-val">+0.495</div><div class="strategy-metric-label">Delta Sharpe</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">0.995</div><div class="strategy-metric-label">PSR</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">+3.4pp</div><div class="strategy-metric-label">Cond WR Lift</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">+0.934</div><div class="strategy-metric-label">Delta Sharpe</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">0.998</div><div class="strategy-metric-label">PSR</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">78mo</div><div class="strategy-metric-label">OOS Period</div></div>
           <div class="strategy-metric"><div class="strategy-metric-val">0/5</div><div class="strategy-metric-label">Neg Folds</div></div>
         </div>
       </div>
 
       <div class="strategy-card">
         <div class="strategy-card-header">
-          <span class="strategy-card-name">v3 Full System (H1)</span>
+          <span class="strategy-card-name">v3 H1 Full System</span>
           <span class="strategy-tag current">v3</span>
         </div>
-        <div class="strategy-card-desc">ML ensemble on H1. 250 trades, 1% compound sizing, Sharpe 2.12.</div>
+        <div class="strategy-card-desc">Walk-Forward OOS validated. BUY-only direction, PF 1.30, Sharpe 1.62.</div>
         <div class="strategy-metrics">
-          <div class="strategy-metric"><div class="strategy-metric-val">44.4%</div><div class="strategy-metric-label">WR</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">1.39</div><div class="strategy-metric-label">PF</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">2.12</div><div class="strategy-metric-label">Sharpe</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">250</div><div class="strategy-metric-label">Trades</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">1.62</div><div class="strategy-metric-label">Sharpe</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">1.30</div><div class="strategy-metric-label">PF</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">BUY</div><div class="strategy-metric-label">Direction</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">WF</div><div class="strategy-metric-label">Validation</div></div>
         </div>
       </div>
 
       <div class="strategy-card">
         <div class="strategy-card-header">
-          <span class="strategy-card-name">H4 AVWAP Bot</span>
-          <span class="strategy-tag new">v3</span>
+          <span class="strategy-card-name">H4 AVWAP</span>
+          <span class="strategy-tag current">OOS</span>
         </div>
-        <div class="strategy-card-desc">AVWAP swing bot on H4. Low frequency, high conviction. Sharpe 7.55.</div>
+        <div class="strategy-card-desc">OOS validated AVWAP swing strategy. BUY-only, high conviction entries.</div>
         <div class="strategy-metrics">
-          <div class="strategy-metric"><div class="strategy-metric-val">61.1%</div><div class="strategy-metric-label">WR</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">2.95</div><div class="strategy-metric-label">PF</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">7.55</div><div class="strategy-metric-label">Sharpe</div></div>
-          <div class="strategy-metric"><div class="strategy-metric-val">18</div><div class="strategy-metric-label">Trades</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">4.28</div><div class="strategy-metric-label">OOS PF</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">BUY</div><div class="strategy-metric-label">Direction</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">H4</div><div class="strategy-metric-label">Timeframe</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">OOS</div><div class="strategy-metric-label">Validated</div></div>
+        </div>
+      </div>
+
+      <div class="strategy-card">
+        <div class="strategy-card-header">
+          <span class="strategy-card-name">M5 Breakout Scalp</span>
+          <span class="strategy-tag current">OOS</span>
+        </div>
+        <div class="strategy-card-desc">OOS validated breakout scalper. TP25/SL8 asymmetric R:R, 640 trades.</div>
+        <div class="strategy-metrics">
+          <div class="strategy-metric"><div class="strategy-metric-val">1.60</div><div class="strategy-metric-label">OOS PF</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">640</div><div class="strategy-metric-label">Trades</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">25/8</div><div class="strategy-metric-label">TP/SL</div></div>
+          <div class="strategy-metric"><div class="strategy-metric-val">M5</div><div class="strategy-metric-label">Timeframe</div></div>
         </div>
       </div>
 
@@ -619,7 +633,7 @@ a { text-decoration: none; color: inherit; }
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q3">How does the system decide when to trade?</div>
-        <div class="faq-a" data-i18n="faq_a3">CatBoost meta-labeling filters primary signals, only taking trades the ML model validates. Multiple strategies run in parallel.</div>
+        <div class="faq-a" data-i18n="faq_a3">4 strategies run in parallel: v4 Meta-Label (CatBoost), v3 H1, H4 AVWAP, and M5 Breakout Scalp. Each is independently OOS validated before deployment.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q4">What is the minimum deposit?</div>
