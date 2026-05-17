@@ -597,6 +597,20 @@ function renderCombinedReport(r) {
     </div>
 
     <div class="card">
+      <h2>Monte Carlo Simulation (1,000回)</h2>
+      <canvas id="monte-carlo-chart" height="200"></canvas>
+      <div class="stats-grid cols-4" style="margin-top:12px" id="mc-stats-pct"></div>
+      <div class="stats-grid cols-2" style="margin-top:8px" id="mc-stats-risk"></div>
+      <div style="font-size:10px;color:#555;text-align:center;margin-top:8px">月次リターンをランダムに並べ替え×1,000回。順序依存性を排除した統計的検証</div>
+    </div>
+
+    <div class="card">
+      <h2>月次リターン分布</h2>
+      <canvas id="return-dist-chart" height="150"></canvas>
+      <div style="font-size:10px;color:#555;text-align:center;margin-top:8px">${cs.total_months}ヶ月の月次リターン分布。正規分布と比較</div>
+    </div>
+
+    <div class="card">
       <h2>構成戦略</h2>
       <div class="stats-grid cols-4">
         <div class="stat-box" style="border:1px solid #ff660044">
@@ -667,6 +681,207 @@ function renderCombinedReport(r) {
       }
     });
   }
+
+  // Monte Carlo Simulation
+  const monthlyReturns = cm.map(m => m.pnl_pct);
+  runMonteCarlo(monthlyReturns);
+
+  // Return Distribution
+  renderReturnDistribution(monthlyReturns);
+}
+
+function runMonteCarlo(monthlyReturns) {
+  const N = 1000;
+  const nMonths = monthlyReturns.length;
+  const simulations = [];
+
+  // Run N simulations
+  for (let i = 0; i < N; i++) {
+    const shuffled = [...monthlyReturns];
+    // Fisher-Yates shuffle
+    for (let j = shuffled.length - 1; j > 0; j--) {
+      const k = Math.floor(Math.random() * (j + 1));
+      [shuffled[j], shuffled[k]] = [shuffled[k], shuffled[j]];
+    }
+    // Compound
+    const path = [1];
+    let eq = 1;
+    let peak = 1;
+    let maxDD = 0;
+    for (let m = 0; m < nMonths; m++) {
+      eq *= (1 + shuffled[m] / 100);
+      path.push(eq);
+      if (eq > peak) peak = eq;
+      const dd = (eq - peak) / peak;
+      if (dd < maxDD) maxDD = dd;
+    }
+    simulations.push({ finalReturn: (eq - 1) * 100, maxDD: maxDD * 100, path });
+  }
+
+  // Original path
+  const origPath = [1];
+  let origEq = 1;
+  for (let m = 0; m < nMonths; m++) {
+    origEq *= (1 + monthlyReturns[m] / 100);
+    origPath.push(origEq);
+  }
+
+  // Sort by final return for percentiles
+  const sortedReturns = simulations.map(s => s.finalReturn).sort((a, b) => a - b);
+  const sortedDD = simulations.map(s => s.maxDD).sort((a, b) => a - b);
+
+  const percentile = (arr, p) => arr[Math.floor(arr.length * p / 100)];
+  const p5 = percentile(sortedReturns, 5);
+  const p25 = percentile(sortedReturns, 25);
+  const p50 = percentile(sortedReturns, 50);
+  const p95 = percentile(sortedReturns, 95);
+  const worstDD = percentile(sortedDD, 5); // 5th percentile of DD (most negative)
+  const riskOfRuin = (simulations.filter(s => s.maxDD < -50).length / N * 100).toFixed(1);
+
+  // Update stats
+  document.getElementById('mc-stats-pct').innerHTML = `
+    <div class="stat-box"><div class="stat-val sm positive">+${p5.toFixed(1)}%</div><div class="stat-label">5th %ile</div></div>
+    <div class="stat-box"><div class="stat-val sm positive">+${p25.toFixed(1)}%</div><div class="stat-label">25th %ile</div></div>
+    <div class="stat-box"><div class="stat-val sm accent">+${p50.toFixed(1)}%</div><div class="stat-label">Median</div></div>
+    <div class="stat-box"><div class="stat-val sm positive">+${p95.toFixed(1)}%</div><div class="stat-label">95th %ile</div></div>
+  `;
+  document.getElementById('mc-stats-risk').innerHTML = `
+    <div class="stat-box"><div class="stat-val sm negative">${worstDD.toFixed(1)}%</div><div class="stat-label">最悪MaxDD (5th)</div></div>
+    <div class="stat-box"><div class="stat-val sm ${riskOfRuin > 0 ? 'negative' : 'positive'}">${riskOfRuin}%</div><div class="stat-label">破産確率 (DD>50%)</div></div>
+  `;
+
+  // Draw chart - pick 25 random paths + median path + original
+  const ctx = document.getElementById('monte-carlo-chart');
+  if (!ctx) return;
+
+  // Find median path (simulation closest to median final return)
+  const medianTarget = p50;
+  let medianIdx = 0;
+  let minDiff = Infinity;
+  simulations.forEach((s, i) => {
+    const diff = Math.abs(s.finalReturn - medianTarget);
+    if (diff < minDiff) { minDiff = diff; medianIdx = i; }
+  });
+
+  const labels = Array.from({length: nMonths + 1}, (_, i) => i === 0 ? 'Start' : 'M' + i);
+  const datasets = [];
+
+  // 25 random paths (thin gray)
+  const indices = [];
+  while (indices.length < 25) {
+    const idx = Math.floor(Math.random() * N);
+    if (!indices.includes(idx)) indices.push(idx);
+  }
+  indices.forEach(idx => {
+    datasets.push({
+      data: simulations[idx].path,
+      borderColor: 'rgba(150,150,150,0.15)',
+      borderWidth: 1,
+      pointRadius: 0,
+      fill: false,
+    });
+  });
+
+  // Median path (orange)
+  datasets.push({
+    label: 'Median',
+    data: simulations[medianIdx].path,
+    borderColor: '#ff8800',
+    borderWidth: 2,
+    pointRadius: 0,
+    fill: false,
+  });
+
+  // Original path (white)
+  datasets.push({
+    label: 'Original',
+    data: origPath,
+    borderColor: '#ffffff',
+    borderWidth: 2,
+    pointRadius: 0,
+    fill: false,
+  });
+
+  new Chart(ctx, {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      animation: false,
+      plugins: { legend: { labels: { color: '#888', font: { size: 10 }, filter: item => item.text } } },
+      scales: {
+        x: { ticks: { color: '#555', font: { size: 8 } }, grid: { color: '#1e1e30' } },
+        y: { ticks: { color: '#555', font: { size: 10 }, callback: v => (v * 100).toFixed(0) + '%' }, grid: { color: '#1e1e30' } }
+      }
+    }
+  });
+}
+
+function renderReturnDistribution(monthlyReturns) {
+  const ctx = document.getElementById('return-dist-chart');
+  if (!ctx) return;
+
+  // Bins from -10 to 40, step 5
+  const binEdges = [];
+  for (let i = -10; i <= 40; i += 5) binEdges.push(i);
+  const binCounts = new Array(binEdges.length - 1).fill(0);
+  const binLabels = [];
+  for (let i = 0; i < binEdges.length - 1; i++) {
+    binLabels.push(binEdges[i] + '~' + binEdges[i+1] + '%');
+  }
+
+  monthlyReturns.forEach(r => {
+    for (let i = 0; i < binEdges.length - 1; i++) {
+      if (r >= binEdges[i] && r < binEdges[i+1]) { binCounts[i]++; break; }
+    }
+    // Handle edge case for max value
+    if (r >= binEdges[binEdges.length - 1]) binCounts[binCounts.length - 1]++;
+  });
+
+  // Colors: green for positive bins, red for negative
+  const barColors = binEdges.slice(0, -1).map(e => e >= 0 ? 'rgba(76,175,80,0.7)' : 'rgba(244,67,54,0.7)');
+
+  // Normal distribution overlay
+  const mean = monthlyReturns.reduce((a, b) => a + b, 0) / monthlyReturns.length;
+  const std = Math.sqrt(monthlyReturns.reduce((a, b) => a + (b - mean) ** 2, 0) / monthlyReturns.length);
+  const normalCurve = binEdges.slice(0, -1).map((e, i) => {
+    const mid = (binEdges[i] + binEdges[i+1]) / 2;
+    const density = (1 / (std * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * ((mid - mean) / std) ** 2);
+    return density * monthlyReturns.length * 5; // scale to histogram
+  });
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: binLabels,
+      datasets: [
+        {
+          label: '月次リターン',
+          data: binCounts,
+          backgroundColor: barColors,
+          borderRadius: 4,
+        },
+        {
+          label: '正規分布',
+          data: normalCurve,
+          type: 'line',
+          borderColor: '#ff8800',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      animation: false,
+      plugins: { legend: { labels: { color: '#888', font: { size: 10 } } } },
+      scales: {
+        x: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: '#1e1e30' } },
+        y: { ticks: { color: '#555', font: { size: 10 } }, grid: { color: '#1e1e30' } }
+      }
+    }
+  });
 }
 
 function renderMetaLabelReport(r) {
