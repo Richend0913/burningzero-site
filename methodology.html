@@ -186,15 +186,83 @@ a { text-decoration: none; color: inherit; }
 
   <!-- Title -->
   <h1 class="page-title">検証方法論</h1>
-  <p class="page-intro">BURNING ZEROは統計的に検証されたエッジのみを運用します</p>
+  <p class="page-intro">各戦略で実際に適用した検証手法を正直に記載しています</p>
 
-  <!-- Walk-Forward OOS -->
+  <!-- Per-strategy validation status -->
   <div class="method-section">
-    <h2>Walk-Forward OOS <span>Out-of-Sample Validation</span></h2>
+    <h2>戦略別 検証状況 <span>Validation Coverage</span></h2>
+    <p style="margin-bottom:16px;color:#888">全戦略に全検証を適用しているわけではありません。各戦略で実際に実施した検証を明示します。</p>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px">
+      <tr>
+        <th style="text-align:left;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#888">検証項目</th>
+        <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#ff6644">v4 Meta</th>
+        <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#4CAF50">v3 H1</th>
+        <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#4ea8de">H4 AVWAP</th>
+        <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#aa88ff">M5 Scalp</th>
+      </tr>
+      <tr>
+        <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">Walk-Forward OOS</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">Purged K-Fold</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">6mo/2mo rolling</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#f44336">未実施</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#f44336">未実施</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">リークテスト</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">7/7パス</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">ML無し</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">ML無し</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">レジーム検証</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">実施済</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#ff8800">artifact確定</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">Bootstrap CI</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">1000 resamples</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">コスト込みBT</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">spread+slip</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">0.35固定</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">0.35固定</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">1.5pips</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 6px;color:#ccc">ML使用</td>
+        <td style="text-align:center;padding:8px;color:#4CAF50">CatBoost</td>
+        <td style="text-align:center;padding:8px;color:#4CAF50">LightGBM</td>
+        <td style="text-align:center;padding:8px;color:#888">ルールベース</td>
+        <td style="text-align:center;padding:8px;color:#888">ルールベース</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- What we DID do -->
+  <div class="method-section">
+    <h2>v4 Meta-Label <span>最も厳密に検証済み</span></h2>
     <ul>
-      <li>6ヶ月学習 → 2ヶ月テスト → ローリング</li>
-      <li>全結果はOut-of-Sample（学習データと評価データを完全分離）</li>
-      <li>過学習を排除し、未知の市場環境での性能を評価</li>
+      <li>Purged K-Fold (5分割, 48時間エンバーゴ) でOOS評価</li>
+      <li>7つのリークテスト全パス — shift(1)による未来データ遮断、centered rolling禁止</li>
+      <li>AVWAP regime test — Bull/Range/Downtrend各期間でOOS。regime artifact確定したAVWAP単体運用を排除</li>
+      <li>PA特徴量の検証 — 二値パターン(pin_bar等)は過学習、連続値(wick ratio等)が汎化することを確認</li>
+      <li>Feature parity test — 学習時とライブで特徴量が一致することをbit-exact検証</li>
+    </ul>
+  </div>
+
+  <div class="method-section">
+    <h2>v3 H1 Full System <span>Walk-Forward OOS</span></h2>
+    <ul>
+      <li>6ヶ月学習 → 2ヶ月テスト → ローリング（全35ヶ月分OOS）</li>
+      <li>Bootstrap 1000回 — 5th percentile PF > 1.0 を確認</li>
+      <li>レジーム分類器 (KMeans) でStrong Trend Up / Volatility Expansion を識別</li>
     </ul>
     <div class="timeline-diagram">
       <div class="timeline-block train">Train 6M</div>
@@ -206,33 +274,34 @@ a { text-decoration: none; color: inherit; }
     </div>
   </div>
 
-  <!-- Anti-Leak -->
   <div class="method-section">
-    <h2>リーク防止 <span>Anti-Leak Protocol</span></h2>
+    <h2>H4 AVWAP <span>注意: レジーム依存</span></h2>
     <ul>
-      <li>7つのリークテスト全パス</li>
-      <li>shift(1)による未来データ遮断 — 全特徴量は1期前のデータのみ使用</li>
-      <li>Purged K-Fold + 48時間エンバーゴ — 学習/テスト間の情報漏洩を物理的に遮断</li>
+      <li>ルールベース戦略（ML不使用）— AVWAP pullback/breakout</li>
+      <li>Walk-forward未実施 — 固定ルールの全期間バックテスト</li>
+      <li style="color:#ff8800">レジーム検証でartifact確定: Bull Sharpe +2.09 / Range Sharpe -1.60</li>
+      <li style="color:#ff8800">上昇相場でのみ機能する可能性が高い。これを承知の上で分散要素として運用</li>
     </ul>
   </div>
 
-  <!-- Regime Testing -->
   <div class="method-section">
-    <h2>レジーム検証 <span>Regime Testing</span></h2>
+    <h2>M5 Breakout Scalp <span>最も検証が浅い</span></h2>
     <ul>
-      <li>Bull / Range / Downtrend 各期間で個別にOOS検証</li>
-      <li>レジーム依存の戦略は採用しない</li>
-      <li>AVWAP regime artifact検証の教訓を反映 — 特定環境でのみ機能する戦略を排除</li>
+      <li>ルールベース戦略（ML不使用）— M15トレンド方向にM5ブレイクアウト</li>
+      <li>Walk-forward未実施 — 全期間の単純バックテスト</li>
+      <li>Bootstrap/レジーム検証未実施</li>
+      <li style="color:#ff8800">35ヶ月中前半12ヶ月は微損〜横ばい。後半に偏って利益が出ており、regime依存の可能性を排除できない</li>
+      <li>コスト1.5pips込みでPF 1.27。マージンが薄く、実運用ではBTより悪化する可能性が高い</li>
     </ul>
   </div>
 
   <!-- Monte Carlo -->
   <div class="method-section">
-    <h2>Monte Carlo <span>1,000回シミュレーション</span></h2>
+    <h2>Monte Carlo <span>統合ポートフォリオに適用</span></h2>
     <ul>
-      <li>月次リターンのランダムシャッフルで1,000パス生成</li>
-      <li>破産確率の算出 — 最悪ケースでの資金枯渇リスクを定量化</li>
-      <li>5th / 25th / 50th / 75th / 95thパーセンタイル分布で期待リターン帯を把握</li>
+      <li>4戦略統合の月次リターンをランダムシャッフルで1,000パス生成</li>
+      <li>個別戦略ではなく統合ポートフォリオに対してのみ実施</li>
+      <li>破産確率・パーセンタイル分布はバックテストページで表示</li>
     </ul>
   </div>
 
@@ -240,18 +309,22 @@ a { text-decoration: none; color: inherit; }
   <div class="method-section">
     <h2>コスト前提 <span>Cost Model</span></h2>
     <ul>
-      <li>スプレッド + スリッページ込みでバックテスト実行</li>
-      <li>固定コスト: 0.35 (v3 H1) / 1.5 pips (Scalp)</li>
-      <li>BT結果は50%割引で見積もる運用方針 — 実運用との乖離を織り込み済み</li>
+      <li>全戦略でスプレッド+スリッページをコストとしてBT実行</li>
+      <li>v3 H1 / H4 AVWAP: 固定0.35（保守的見積もり）</li>
+      <li>v4 Meta / M5 Scalp: 1.5 pips（Exness London/NY時間帯の実測値ベース）</li>
+      <li>BT結果は50%割引で見積もる運用方針 — BT vs 実運用の乖離は過去に確認済み</li>
     </ul>
   </div>
 
-  <!-- Disclaimer -->
-  <div class="method-section" style="border-color: #3a2a1a;">
-    <h2>免責事項 <span>Disclaimer</span></h2>
+  <!-- What we DON'T claim -->
+  <div class="method-section" style="border-color:#3a2a1a">
+    <h2>主張しないこと <span>Honest Limitations</span></h2>
     <ul>
-      <li>バックテスト結果は将来の利益を保証するものではありません</li>
-      <li>過去のパフォーマンスは将来の結果を示すものではありません</li>
+      <li>全戦略が統計的に有意であるとは主張しない — v4 MetaとV3 H1のみPSR/Bootstrap検証済み</li>
+      <li>H4 AVWAPはregime artifactの可能性がある（上昇相場依存）</li>
+      <li>M5 Scalpは検証が不十分で、実運用での性能低下リスクが最も高い</li>
+      <li>35ヶ月のBTは統計的には短い — 最低でも3ヶ月のデモ検証を経てからライブ移行する方針</li>
+      <li>バックテスト結果は将来の利益を保証しない</li>
     </ul>
   </div>
 
