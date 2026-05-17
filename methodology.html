@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BURNING ZERO — Validation Methodology</title>
+<title>BURNING ZERO — 検証方法論</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -178,9 +178,9 @@ a { text-decoration: none; color: inherit; }
   <header class="header">
     <a href="/" class="header-logo">BURNING ZERO</a>
     <div class="header-right">
-      <a href="/" class="nav-link">Home</a>
-      <a href="backtest.html" class="nav-link">Backtest</a>
-      <a href="https://app.burningzero.com" class="nav-link">Dashboard</a>
+      <a href="/" class="nav-link">ホーム</a>
+      <a href="backtest.html" class="nav-link">バックテスト</a>
+      <a href="https://app.burningzero.com" class="nav-link">ダッシュボード</a>
     </div>
   </header>
 
@@ -190,42 +190,42 @@ a { text-decoration: none; color: inherit; }
 
   <!-- Validation Status Dashboard -->
   <div class="method-section" style="border-color:#2a4a2a">
-    <h2>Validation Status <span>全戦略検証ステータス</span></h2>
+    <h2>検証ステータス</h2>
     <table style="width:100%;border-collapse:collapse;font-size:13px">
       <tr>
         <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Walk-Forward OOS</td>
-        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">PASSED</span></td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">合格</span></td>
       </tr>
       <tr>
-        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Bootstrap Confidence</td>
-        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">PASSED</span> <span style="color:#666;font-size:10px;margin-left:4px">5th %ile PF > 1.0</span></td>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Bootstrap 信頼区間</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">合格</span> <span style="color:#666;font-size:10px;margin-left:4px">5th %ile PF > 1.0</span></td>
       </tr>
       <tr>
-        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">OOS Parameter Validation</td>
-        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">PASSED</span> <span style="color:#666;font-size:10px;margin-left:4px">4/4 strategies</span></td>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">OOSパラメータ検証</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">合格</span> <span style="color:#666;font-size:10px;margin-left:4px">4/4戦略</span></td>
       </tr>
       <tr>
-        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Leak Test (7 checks)</td>
-        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">PASSED</span> <span style="color:#666;font-size:10px;margin-left:4px">7/7</span></td>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">リークテスト (7項目)</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">合格</span> <span style="color:#666;font-size:10px;margin-left:4px">7/7</span></td>
       </tr>
       <tr>
-        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Monte Carlo Survival</td>
-        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">PASSED</span> <span style="color:#666;font-size:10px;margin-left:4px">ruin < 1%</span></td>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Monte Carlo 生存率</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">合格</span> <span style="color:#666;font-size:10px;margin-left:4px">破産率 < 1%</span></td>
       </tr>
       <tr>
-        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">Regime Robustness</td>
-        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#2a2a10;color:#ff8800;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">WARNING</span> <span style="color:#666;font-size:10px;margin-left:4px">BUY-only bias</span></td>
+        <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">レジーム頑健性</td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#2a2a10;color:#ff8800;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">注意</span> <span style="color:#666;font-size:10px;margin-left:4px">BUY偏重</span></td>
       </tr>
       <tr>
-        <td style="padding:10px 8px;color:#ccc">Bear Market Stress Test</td>
-        <td style="text-align:right;padding:10px 8px"><span style="background:#2a1010;color:#f44336;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">NOT TESTED</span></td>
+        <td style="padding:10px 8px;color:#ccc">下落相場ストレステスト</td>
+        <td style="text-align:right;padding:10px 8px"><span style="background:#2a1010;color:#f44336;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">未検証</span></td>
       </tr>
     </table>
   </div>
 
   <!-- Per-strategy validation status -->
   <div class="method-section">
-    <h2>戦略別 検証状況 <span>Validation Coverage</span></h2>
+    <h2>戦略別 検証状況</h2>
     <p style="margin-bottom:16px;color:#888">全戦略に全検証を適用しているわけではありません。各戦略で実際に実施した検証を明示します。</p>
     <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px">
       <tr>
@@ -296,7 +296,7 @@ a { text-decoration: none; color: inherit; }
 
   <!-- What we DID do -->
   <div class="method-section">
-    <h2>v4 Meta-Label <span>最も厳密に検証済み</span></h2>
+    <h2>v4 Meta-Label (最も厳密に検証済み)</h2>
     <ul>
       <li>Purged K-Fold (5分割, 48時間エンバーゴ) でOOS評価</li>
       <li>7つのリークテスト全パス — shift(1)による未来データ遮断、centered rolling禁止</li>
@@ -307,7 +307,7 @@ a { text-decoration: none; color: inherit; }
   </div>
 
   <div class="method-section">
-    <h2>v3 H1 Full System <span>Walk-Forward OOS</span></h2>
+    <h2>v3 H1 Full System (Walk-Forward OOS検証)</h2>
     <ul>
       <li>6ヶ月学習 → 2ヶ月テスト → ローリング（全35ヶ月分OOS）</li>
       <li>Bootstrap 1000回 — 5th percentile PF > 1.0 を確認</li>
@@ -324,7 +324,7 @@ a { text-decoration: none; color: inherit; }
   </div>
 
   <div class="method-section">
-    <h2>H4 AVWAP <span>OOS検証済み (レジーム依存)</span></h2>
+    <h2>H4 AVWAP (OOS検証済み / レジーム依存)</h2>
     <ul>
       <li>ルールベース戦略（ML不使用）— AVWAP pullback/breakout</li>
       <li style="color:#4CAF50">OOS検証実施済み（2020-2023で最適化→2024-2026でOOS）</li>
@@ -337,7 +337,7 @@ a { text-decoration: none; color: inherit; }
   </div>
 
   <div class="method-section">
-    <h2>M5 Breakout Scalp <span>OOS検証済み</span></h2>
+    <h2>M5 Breakout Scalp (OOS検証済み)</h2>
     <ul>
       <li>ルールベース戦略（ML不使用）— M15トレンド方向にM5ブレイクアウト</li>
       <li style="color:#4CAF50">OOS検証実施済み（2020-2023で最適化→2024-2026でOOS）</li>
@@ -350,7 +350,7 @@ a { text-decoration: none; color: inherit; }
 
   <!-- Monte Carlo -->
   <div class="method-section">
-    <h2>Monte Carlo <span>統合ポートフォリオに適用</span></h2>
+    <h2>Monte Carlo (1,000回)</h2>
     <ul>
       <li>4戦略統合の月次リターンをランダムシャッフルで1,000パス生成</li>
       <li>個別戦略ではなく統合ポートフォリオに対してのみ実施</li>
@@ -360,7 +360,7 @@ a { text-decoration: none; color: inherit; }
 
   <!-- Cost Assumptions -->
   <div class="method-section">
-    <h2>コスト前提 <span>Cost Model</span></h2>
+    <h2>コスト前提</h2>
     <ul>
       <li>全戦略でスプレッド+スリッページをコストとしてBT実行</li>
       <li>v3 H1 / H4 AVWAP: 固定0.35（保守的見積もり）</li>
@@ -371,7 +371,7 @@ a { text-decoration: none; color: inherit; }
 
   <!-- What we DON'T claim -->
   <div class="method-section" style="border-color:#3a2a1a">
-    <h2>主張しないこと <span>Honest Limitations</span></h2>
+    <h2>正直な限界</h2>
     <ul>
       <li>全戦略が統計的に有意であるとは主張しない — v4 MetaとV3 H1のみPSR/Bootstrap検証済み</li>
       <li>H4 AVWAP: OOS PF 4.28 だがBUY-only + 82取引でregime依存リスクあり</li>
@@ -388,7 +388,7 @@ a { text-decoration: none; color: inherit; }
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-logo">BURNING ZERO</div>
-    <p class="footer-disclaimer">Trading involves risk. Past performance does not guarantee future results. BURNING ZERO is not a financial advisor.</p>
+    <p class="footer-disclaimer">取引にはリスクが伴います。過去のパフォーマンスは将来の結果を保証しません。BURNING ZEROは金融アドバイザーではありません。</p>
   </footer>
 
 </div>
