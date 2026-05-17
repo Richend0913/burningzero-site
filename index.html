@@ -59,6 +59,34 @@ a { text-decoration: none; color: inherit; }
 .lang-option:hover { background: #2a2a3e; }
 .lang-option.active { color: #ff6644; }
 
+/* ── Live Status Bar ── */
+.live-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #0a1a0e;
+  border: 1px solid #1a3a1e;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  margin-top: 16px;
+  font-size: 11px;
+  color: #4CAF50;
+  font-weight: 600;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  background: #4CAF50;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.status-sep { color: #1a3a1e; }
+
 /* ── Hero ── */
 .hero {
   text-align: center;
@@ -142,13 +170,13 @@ a { text-decoration: none; color: inherit; }
 
 /* ── Section ── */
 .section {
-  padding: 48px 0;
+  padding: 56px 0;
 }
 .section-title {
   font-size: 22px;
   font-weight: 800;
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
   color: #fff;
 }
 
@@ -287,30 +315,6 @@ a { text-decoration: none; color: inherit; }
   padding-bottom: 18px;
 }
 
-/* ── Footer ── */
-.footer {
-  text-align: center;
-  padding: 48px 0 32px;
-  border-top: 1px solid #1e1e30;
-  margin-top: 24px;
-}
-.footer-logo {
-  font-size: 16px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  background: linear-gradient(135deg, #ff4444, #ff8800);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 12px;
-}
-.footer-disclaimer {
-  font-size: 11px;
-  color: #555;
-  max-width: 480px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
 /* ── Strategy Cards ── */
 .strategy-cards {
   display: grid;
@@ -394,12 +398,41 @@ a { text-decoration: none; color: inherit; }
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-.strategy-pnl {
-  margin-top: 10px;
+
+/* ── Details Link ── */
+.details-link {
+  display: block;
   text-align: center;
-  font-size: 13px;
-  color: #4CAF50;
-  font-weight: 700;
+  margin-top: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff6644;
+  transition: color 0.15s;
+}
+.details-link:hover { color: #ff8844; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 56px 0 32px;
+  border-top: 1px solid #1e1e30;
+  margin-top: 32px;
+}
+.footer-logo {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+.footer-disclaimer {
+  font-size: 11px;
+  color: #555;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 /* ── Responsive ── */
@@ -427,14 +460,25 @@ a { text-decoration: none; color: inherit; }
     <div class="header-right">
       <a href="https://app.burningzero.com" class="nav-link" data-i18n="nav_app">Dashboard</a>
       <a href="backtest.html" class="nav-link" data-i18n="nav_backtest">Backtest</a>
+      <a href="methodology.html" class="nav-link">Methodology</a>
       <div id="lang-picker-mount"></div>
     </div>
   </header>
 
+  <!-- ── Live Status Bar ── -->
+  <div class="live-status-bar">
+    <span class="status-dot"></span>
+    <span>SYSTEM ONLINE</span>
+    <span class="status-sep">|</span>
+    <span>4 Strategies Active</span>
+    <span class="status-sep">|</span>
+    <span id="status-update">Monitoring...</span>
+  </div>
+
   <!-- ── Hero ── -->
   <section class="hero">
     <h1 class="hero-title" data-i18n="hero_title">Quantitative Gold Trading</h1>
-    <p class="hero-subtitle" data-i18n="hero_subtitle">Fully automated XAU/USD trading driven by statistical models. Meta-labeling filters primary signals with CatBoost for statistically validated edge.</p>
+    <p class="hero-subtitle" data-i18n="hero_subtitle">Statistically validated XAU/USD automation via meta-labeling ML.</p>
 
     <div class="hero-stats">
       <div class="hero-stat">
@@ -446,13 +490,12 @@ a { text-decoration: none; color: inherit; }
         <div class="hero-stat-label">PSR (v4)</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-val">3</div>
+        <div class="hero-stat-val">4</div>
         <div class="hero-stat-label" data-i18n="hero_stats_strategies">Strategies</div>
       </div>
     </div>
 
     <div class="slots-badge">
-      <span class="slots-icon">🔥</span>
       <span data-i18n="slots_limited">Limited to 10 users</span>
       <span class="slots-count" id="slots-remaining"></span>
     </div>
@@ -467,17 +510,17 @@ a { text-decoration: none; color: inherit; }
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-title" data-i18n="how_step1_title">Open Account</div>
-        <div class="step-desc" data-i18n="how_step1_desc">Create a free Exness account through our partner link to unlock the platform.</div>
+        <div class="step-desc" data-i18n="how_step1_desc">Create a free Exness account through our partner link.</div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-title" data-i18n="how_step2_title">Register</div>
-        <div class="step-desc" data-i18n="how_step2_desc">Connect your MT5 account credentials. We verify your broker link and approve access.</div>
+        <div class="step-desc" data-i18n="how_step2_desc">Connect your MT5 credentials. We verify and approve access.</div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-title" data-i18n="how_step3_title">Auto-Trade</div>
-        <div class="step-desc" data-i18n="how_step3_desc">Our ML models analyze the market 24/5 and execute trades automatically on your account.</div>
+        <div class="step-desc" data-i18n="how_step3_desc">ML models execute trades 24/5 on your account automatically.</div>
       </div>
     </div>
   </section>
@@ -491,29 +534,25 @@ a { text-decoration: none; color: inherit; }
         <div class="bt-card-stats">
           <div class="bt-card-stat"><div class="bt-card-stat-val">+0.495</div><div class="bt-card-stat-label">Delta Sharpe</div></div>
           <div class="bt-card-stat"><div class="bt-card-stat-val">0.995</div><div class="bt-card-stat-label">PSR</div></div>
-          <div class="bt-card-stat"><div class="bt-card-stat-val">+3.4pp</div><div class="bt-card-stat-label">WR Lift</div></div>
-          <div class="bt-card-stat"><div class="bt-card-stat-val">0/5</div><div class="bt-card-stat-label">Neg Folds</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">+58.2%</div><div class="bt-card-stat-label">Return</div></div>
         </div>
       </a>
       <a href="backtest.html" class="bt-card">
-        <div class="bt-card-name">v3 Full System (H1)</div>
+        <div class="bt-card-name">v3 H1</div>
         <div class="bt-card-stats">
-          <div class="bt-card-stat"><div class="bt-card-stat-val">250</div><div class="bt-card-stat-label">Trades</div></div>
-          <div class="bt-card-stat"><div class="bt-card-stat-val">44.4%</div><div class="bt-card-stat-label">WR</div></div>
-          <div class="bt-card-stat"><div class="bt-card-stat-val">1.39</div><div class="bt-card-stat-label">PF</div></div>
           <div class="bt-card-stat"><div class="bt-card-stat-val">2.12</div><div class="bt-card-stat-label">Sharpe</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">1.39</div><div class="bt-card-stat-label">PF</div></div>
         </div>
       </a>
       <a href="backtest.html" class="bt-card">
-        <div class="bt-card-name">H4 AVWAP Bot</div>
+        <div class="bt-card-name">H4 AVWAP</div>
         <div class="bt-card-stats">
-          <div class="bt-card-stat"><div class="bt-card-stat-val">18</div><div class="bt-card-stat-label">Trades</div></div>
-          <div class="bt-card-stat"><div class="bt-card-stat-val">61.1%</div><div class="bt-card-stat-label">WR</div></div>
-          <div class="bt-card-stat"><div class="bt-card-stat-val">2.95</div><div class="bt-card-stat-label">PF</div></div>
           <div class="bt-card-stat"><div class="bt-card-stat-val">7.55</div><div class="bt-card-stat-label">Sharpe</div></div>
+          <div class="bt-card-stat"><div class="bt-card-stat-val">2.95</div><div class="bt-card-stat-label">PF</div></div>
         </div>
       </a>
     </div>
+    <a href="backtest.html" class="details-link">詳細な検証結果を見る →</a>
   </section>
 
   <!-- ── Strategies ── -->
@@ -526,14 +565,13 @@ a { text-decoration: none; color: inherit; }
           <span class="strategy-card-name">v4 Meta-Label PoC</span>
           <span class="strategy-tag new">v4</span>
         </div>
-        <div class="strategy-card-desc">EMA+RSI primary signal filtered by CatBoost meta-label. 14 features (5 price-action + 9 price/volatility). Delta Sharpe +0.495, PSR 0.995. 1,422 trades, WR 42.7%, PF 1.30, Sharpe 1.00. +58.2% return, MaxDD -5.9%. Continuous shape features outperform binary pattern detectors.</div>
+        <div class="strategy-card-desc">CatBoost meta-label filtering EMA+RSI signals. 14 continuous shape features. PSR 0.995, MaxDD -5.9%.</div>
         <div class="strategy-metrics">
           <div class="strategy-metric"><div class="strategy-metric-val">+0.495</div><div class="strategy-metric-label">Delta Sharpe</div></div>
           <div class="strategy-metric"><div class="strategy-metric-val">0.995</div><div class="strategy-metric-label">PSR</div></div>
           <div class="strategy-metric"><div class="strategy-metric-val">+3.4pp</div><div class="strategy-metric-label">Cond WR Lift</div></div>
           <div class="strategy-metric"><div class="strategy-metric-val">0/5</div><div class="strategy-metric-label">Neg Folds</div></div>
         </div>
-        <div class="strategy-pnl">Top features: lower_wick_ratio 11.3% | compression_ratio 11.0% | upper_wick_ratio 7.3%</div>
       </div>
 
       <div class="strategy-card">
@@ -541,14 +579,13 @@ a { text-decoration: none; color: inherit; }
           <span class="strategy-card-name">v3 Full System (H1)</span>
           <span class="strategy-tag current">v3</span>
         </div>
-        <div class="strategy-card-desc">ML ensemble on H1 timeframe. 250 trades over 18 months with 1% compound sizing. Sharpe 2.12.</div>
+        <div class="strategy-card-desc">ML ensemble on H1. 250 trades, 1% compound sizing, Sharpe 2.12.</div>
         <div class="strategy-metrics">
           <div class="strategy-metric"><div class="strategy-metric-val">44.4%</div><div class="strategy-metric-label">WR</div></div>
           <div class="strategy-metric"><div class="strategy-metric-val">1.39</div><div class="strategy-metric-label">PF</div></div>
           <div class="strategy-metric"><div class="strategy-metric-val">2.12</div><div class="strategy-metric-label">Sharpe</div></div>
           <div class="strategy-metric"><div class="strategy-metric-val">250</div><div class="strategy-metric-label">Trades</div></div>
         </div>
-        <div class="strategy-pnl">+764.0 pts | R:R 1.74 | PnL/DD 2.89</div>
       </div>
 
       <div class="strategy-card">
@@ -556,19 +593,15 @@ a { text-decoration: none; color: inherit; }
           <span class="strategy-card-name">H4 AVWAP Bot</span>
           <span class="strategy-tag new">v3</span>
         </div>
-        <div class="strategy-card-desc">AVWAP-based swing bot on H4. Low frequency, high quality. Sharpe 7.55.</div>
+        <div class="strategy-card-desc">AVWAP swing bot on H4. Low frequency, high conviction. Sharpe 7.55.</div>
         <div class="strategy-metrics">
           <div class="strategy-metric"><div class="strategy-metric-val">61.1%</div><div class="strategy-metric-label">WR</div></div>
           <div class="strategy-metric"><div class="strategy-metric-val">2.95</div><div class="strategy-metric-label">PF</div></div>
           <div class="strategy-metric"><div class="strategy-metric-val">7.55</div><div class="strategy-metric-label">Sharpe</div></div>
           <div class="strategy-metric"><div class="strategy-metric-val">18</div><div class="strategy-metric-label">Trades</div></div>
         </div>
-        <div class="strategy-pnl">+498.4 pts | R:R 1.88 | PnL/DD 4.43</div>
       </div>
 
-    </div>
-    <div style="text-align:center;margin-top:20px">
-      <a href="backtest.html" class="hero-cta" style="font-size:14px;padding:12px 32px" data-i18n="strategy_compare">Compare All Strategies</a>
     </div>
   </section>
 
@@ -578,19 +611,19 @@ a { text-decoration: none; color: inherit; }
     <div class="faq-list">
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q1">Is this really free?</div>
-        <div class="faq-a" data-i18n="faq_a1">Yes. The platform is completely free to use. We earn a commission from the broker when you trade, so there is no cost to you.</div>
+        <div class="faq-a" data-i18n="faq_a1">Yes, completely free. We earn from broker commissions when you trade.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q2">What broker do I need?</div>
-        <div class="faq-a" data-i18n="faq_a2">You need an Exness MT5 account opened through our partner link. This is how we verify eligibility and keep the service free.</div>
+        <div class="faq-a" data-i18n="faq_a2">An Exness MT5 account opened through our partner link. This verifies eligibility.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q3">How does the system decide when to trade?</div>
-        <div class="faq-a" data-i18n="faq_a3">Our v4 system uses CatBoost meta-labeling to filter EMA+RSI primary signals. 14 features including price-action shape (wick ratios, compression) and volatility metrics. The meta-label approach only takes trades the ML model predicts will be profitable, achieving PSR 0.995. We also run v3 H1 and H4 AVWAP bots in parallel.</div>
+        <div class="faq-a" data-i18n="faq_a3">CatBoost meta-labeling filters primary signals, only taking trades the ML model validates. Multiple strategies run in parallel.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q4">What is the minimum deposit?</div>
-        <div class="faq-a" data-i18n="faq_a4">Exness has no fixed minimum for most account types. We recommend starting with at least $100 and using 0.01 lot size to manage risk properly.</div>
+        <div class="faq-a" data-i18n="faq_a4">No fixed minimum. We recommend $100+ with 0.01 lot for proper risk management.</div>
       </div>
     </div>
   </section>
@@ -610,21 +643,31 @@ function toggleFaq(el) {
   item.classList.toggle('open');
 }
 
+// Live status update
+(function() {
+  fetch('https://app.burningzero.com/api/status')
+    .then(r => r.json())
+    .then(d => {
+      const el = document.getElementById('status-update');
+      if (el && d.last_update) {
+        el.textContent = 'Last: ' + d.last_update;
+      }
+    })
+    .catch(() => {});
+})();
+
 // i18n init
 document.addEventListener('DOMContentLoaded', function() {
-  // Render language picker
   if (typeof renderLangPicker === 'function') {
     document.getElementById('lang-picker-mount').innerHTML = renderLangPicker();
   }
-  // Apply translations
   if (typeof setLang === 'function' && typeof currentLang !== 'undefined') {
     setLang(currentLang);
   }
-  // Fetch remaining slots
   fetch('/api/slots').then(r=>r.json()).then(d=>{
     const el = document.getElementById('slots-remaining');
     if(el) el.textContent = d.remaining + '/10';
-  });
+  }).catch(()=>{});
 });
 </script>
 

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BURNING ZERO — Validation Methodology</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Segoe UI', sans-serif;
+  background: #0a0a14;
+  color: #e0e0e0;
+  min-height: 100dvh;
+  line-height: 1.7;
+}
+a { text-decoration: none; color: inherit; }
+.page { max-width: 800px; margin: 0 auto; padding: 0 16px; }
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid #1e1e30;
+  margin-bottom: 48px;
+}
+.header-logo {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-link {
+  font-size: 13px;
+  color: #888;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.nav-link:hover { color: #ff6644; }
+
+/* Page Title */
+.page-title {
+  font-size: 32px;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #ffffff, #cccccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.page-intro {
+  text-align: center;
+  font-size: 15px;
+  color: #888;
+  margin-bottom: 56px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Sections */
+.method-section {
+  margin-bottom: 48px;
+  padding: 28px 24px;
+  background: #12121e;
+  border: 1px solid #1e1e30;
+  border-radius: 14px;
+}
+.method-section h2 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #1e1e30;
+}
+.method-section h2 span {
+  font-size: 13px;
+  color: #888;
+  font-weight: 500;
+  margin-left: 8px;
+}
+.method-section p,
+.method-section li {
+  font-size: 14px;
+  color: #aaa;
+  line-height: 1.8;
+}
+.method-section ul {
+  list-style: none;
+  padding: 0;
+}
+.method-section ul li {
+  padding: 6px 0;
+  padding-left: 20px;
+  position: relative;
+}
+.method-section ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff6644;
+}
+
+/* Timeline diagram */
+.timeline-diagram {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+.timeline-block {
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+}
+.timeline-block.train {
+  background: #1a2a3a;
+  color: #4ea8de;
+  border: 1px solid #2a4a6a;
+}
+.timeline-block.test {
+  background: #2a1a0a;
+  color: #ff8844;
+  border: 1px solid #5a3a1a;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 48px 0 32px;
+  border-top: 1px solid #1e1e30;
+  margin-top: 32px;
+}
+.footer-logo {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ff4444, #ff8800);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+.footer-disclaimer {
+  font-size: 11px;
+  color: #555;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .page-title { font-size: 24px; }
+  .method-section { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <header class="header">
+    <a href="/" class="header-logo">BURNING ZERO</a>
+    <div class="header-right">
+      <a href="/" class="nav-link">Home</a>
+      <a href="backtest.html" class="nav-link">Backtest</a>
+      <a href="https://app.burningzero.com" class="nav-link">Dashboard</a>
+    </div>
+  </header>
+
+  <!-- Title -->
+  <h1 class="page-title">検証方法論</h1>
+  <p class="page-intro">BURNING ZEROは統計的に検証されたエッジのみを運用します</p>
+
+  <!-- Walk-Forward OOS -->
+  <div class="method-section">
+    <h2>Walk-Forward OOS <span>Out-of-Sample Validation</span></h2>
+    <ul>
+      <li>6ヶ月学習 → 2ヶ月テスト → ローリング</li>
+      <li>全結果はOut-of-Sample（学習データと評価データを完全分離）</li>
+      <li>過学習を排除し、未知の市場環境での性能を評価</li>
+    </ul>
+    <div class="timeline-diagram">
+      <div class="timeline-block train">Train 6M</div>
+      <div class="timeline-block test">Test 2M</div>
+      <div class="timeline-block train">Train 6M</div>
+      <div class="timeline-block test">Test 2M</div>
+      <div class="timeline-block train">Train 6M</div>
+      <div class="timeline-block test">Test 2M</div>
+    </div>
+  </div>
+
+  <!-- Anti-Leak -->
+  <div class="method-section">
+    <h2>リーク防止 <span>Anti-Leak Protocol</span></h2>
+    <ul>
+      <li>7つのリークテスト全パス</li>
+      <li>shift(1)による未来データ遮断 — 全特徴量は1期前のデータのみ使用</li>
+      <li>Purged K-Fold + 48時間エンバーゴ — 学習/テスト間の情報漏洩を物理的に遮断</li>
+    </ul>
+  </div>
+
+  <!-- Regime Testing -->
+  <div class="method-section">
+    <h2>レジーム検証 <span>Regime Testing</span></h2>
+    <ul>
+      <li>Bull / Range / Downtrend 各期間で個別にOOS検証</li>
+      <li>レジーム依存の戦略は採用しない</li>
+      <li>AVWAP regime artifact検証の教訓を反映 — 特定環境でのみ機能する戦略を排除</li>
+    </ul>
+  </div>
+
+  <!-- Monte Carlo -->
+  <div class="method-section">
+    <h2>Monte Carlo <span>1,000回シミュレーション</span></h2>
+    <ul>
+      <li>月次リターンのランダムシャッフルで1,000パス生成</li>
+      <li>破産確率の算出 — 最悪ケースでの資金枯渇リスクを定量化</li>
+      <li>5th / 25th / 50th / 75th / 95thパーセンタイル分布で期待リターン帯を把握</li>
+    </ul>
+  </div>
+
+  <!-- Cost Assumptions -->
+  <div class="method-section">
+    <h2>コスト前提 <span>Cost Model</span></h2>
+    <ul>
+      <li>スプレッド + スリッページ込みでバックテスト実行</li>
+      <li>固定コスト: 0.35 (v3 H1) / 1.5 pips (Scalp)</li>
+      <li>BT結果は50%割引で見積もる運用方針 — 実運用との乖離を織り込み済み</li>
+    </ul>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="method-section" style="border-color: #3a2a1a;">
+    <h2>免責事項 <span>Disclaimer</span></h2>
+    <ul>
+      <li>バックテスト結果は将来の利益を保証するものではありません</li>
+      <li>過去のパフォーマンスは将来の結果を示すものではありません</li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-logo">BURNING ZERO</div>
+    <p class="footer-disclaimer">Trading involves risk. Past performance does not guarantee future results. BURNING ZERO is not a financial advisor.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
