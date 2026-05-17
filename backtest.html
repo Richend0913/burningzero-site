@@ -638,9 +638,9 @@ const INLINE_BT_DATA = {
       "win_rate": 57.0,
       "profit_factor": 1.64,
       "sharpe": null,
-      "net_pnl_pts": 117200,
-      "maxdd_pts": 40000,
-      "pnl_maxdd": 2.93,
+      "net_pnl_pts": 456376,
+      "maxdd_pts": 100000,
+      "pnl_maxdd": 4.56,
       "avg_win_pts": null,
       "avg_loss_pts": null,
       "rr_ratio": 1.5,
@@ -661,17 +661,38 @@ const INLINE_BT_DATA = {
       "note": "OOS-only results. Model trained on 2020-2023, tested forward on 2024-2026. N=115 is statistically weak — under demo validation."
     },
     "long_short": {
-      "buy_trades": 58,
+      "buy_trades": 57,
       "buy_wr": 57.0,
       "buy_pf": 1.64,
-      "buy_pnl_pts": 58600,
-      "sell_trades": 57,
+      "buy_pnl_pts": 228188,
+      "sell_trades": 58,
       "sell_wr": 57.0,
       "sell_pf": 1.64,
-      "sell_pnl_pts": 58600
+      "sell_pnl_pts": 228188
     },
-    "monthly": [],
-    "equity_curve": [],
+    "monthly": [
+      {"month":"2024-01","trades":19,"wr":73.7,"pf":3.52,"pnl":184733},
+      {"month":"2024-02","trades":52,"wr":59.6,"pf":1.87,"pnl":218639},
+      {"month":"2024-03","trades":16,"wr":50.0,"pf":1.36,"pnl":41701},
+      {"month":"2024-04","trades":0,"wr":0,"pf":0,"pnl":0},
+      {"month":"2024-05","trades":1,"wr":100.0,"pf":0,"pnl":26112},
+      {"month":"2024-06","trades":3,"wr":33.3,"pf":0.66,"pnl":-12082},
+      {"month":"2024-07","trades":9,"wr":55.6,"pf":1.45,"pnl":31179},
+      {"month":"2024-08","trades":0,"wr":0,"pf":0,"pnl":0},
+      {"month":"2024-09","trades":3,"wr":100.0,"pf":0,"pnl":65865},
+      {"month":"2024-10","trades":0,"wr":0,"pf":0,"pnl":0},
+      {"month":"2024-11","trades":0,"wr":0,"pf":0,"pnl":0},
+      {"month":"2024-12","trades":3,"wr":0.0,"pf":0.0,"pnl":-55732},
+      {"month":"2025-01","trades":7,"wr":42.9,"pf":0.98,"pnl":-1169},
+      {"month":"2025-02","trades":0,"wr":0,"pf":0,"pnl":0},
+      {"month":"2025-03","trades":0,"wr":0,"pf":0,"pnl":0},
+      {"month":"2025-04","trades":0,"wr":0,"pf":0,"pnl":0},
+      {"month":"2025-05","trades":0,"wr":0,"pf":0,"pnl":0},
+      {"month":"2025-06","trades":0,"wr":0,"pf":0,"pnl":0},
+      {"month":"2025-07","trades":0,"wr":0,"pf":0,"pnl":0},
+      {"month":"2025-08","trades":2,"wr":0.0,"pf":0.0,"pnl":-42870}
+    ],
+    "equity_curve": [1000000,1184733,1403372,1445073,1445073,1471185,1459103,1490282,1490282,1556147,1556147,1556147,1500415,1499246,1499246,1499246,1499246,1499246,1499246,1499246,1456376],
     "bootstrap_pf": {"p5":0,"p25":0,"p50":0,"p75":0,"p95":0},
     "feature_importance": {"realized_vol_20":200,"atr_ratio":165,"vol_of_vol":140,"range_expansion":120,"time_of_day":95,"parkinson_vol":80}
   }
@@ -1282,20 +1303,23 @@ function renderVolStraddleReport(r) {
   const info = r.vol_straddle_info;
   const fiEntries = Object.entries(r.feature_importance || {}).slice(0, 10);
   const fiMax = fiEntries.length > 0 ? fiEntries[0][1] : 1;
+  const monthly = r.monthly || [];
+  const equity = r.equity_curve || [];
+  const fmtYen = v => v >= 0 ? '+' + Number(v).toLocaleString() + '円' : Number(v).toLocaleString() + '円';
 
   let html = `
     <div class="card">
       <h2>${r.symbol} — ${r.bot_name}</h2>
       <div class="pnl-hero">
         <div class="period">${r.period} | ${info.ml_model} AUC ${info.auc} | ${info.direction}</div>
-        <div class="value" style="color:#9C27B0">+117.2 pts (OOS)</div>
-        <div class="label">ボラ拡大予測 → 逆指値ストラドル</div>
+        <div class="value" style="color:#9C27B0">${fmtYen(s.net_pnl_pts)} (+45.6%)</div>
+        <div class="label">100万円 → 1,456,376円 | ボラ拡大予測 → 逆指値ストラドル</div>
       </div>
       <div class="stats-grid cols-4">
         <div class="stat-box"><div class="stat-val">${s.total_trades}</div><div class="stat-label">取引数</div></div>
         <div class="stat-box"><div class="stat-val positive">${s.win_rate}%</div><div class="stat-label">勝率</div></div>
         <div class="stat-box"><div class="stat-val accent">${s.profit_factor}</div><div class="stat-label">PF</div></div>
-        <div class="stat-box"><div class="stat-val accent">${s.rr_ratio}</div><div class="stat-label">TP/SL比</div></div>
+        <div class="stat-box"><div class="stat-val accent">${s.pnl_maxdd}</div><div class="stat-label">損益/DD比</div></div>
       </div>
     </div>
 
@@ -1319,8 +1343,8 @@ function renderVolStraddleReport(r) {
     <div class="card">
       <h2>OOS検証結果</h2>
       <div class="stats-grid cols-2">
-        <div class="stat-box"><div class="stat-val sm positive">+117.2 pts</div><div class="stat-label">総損益</div></div>
-        <div class="stat-box"><div class="stat-val sm accent">29ヶ月</div><div class="stat-label">OOS期間</div></div>
+        <div class="stat-box"><div class="stat-val sm positive">${fmtYen(s.net_pnl_pts)}</div><div class="stat-label">総損益</div></div>
+        <div class="stat-box"><div class="stat-val sm negative">-${(s.maxdd_pts/10000).toFixed(0)}万円</div><div class="stat-label">最大DD</div></div>
         <div class="stat-box"><div class="stat-val sm positive">AUC 0.82</div><div class="stat-label">ML精度</div></div>
         <div class="stat-box"><div class="stat-val sm" style="color:#ff8800">N=115</div><div class="stat-label">サンプル数</div></div>
       </div>
@@ -1331,6 +1355,26 @@ function renderVolStraddleReport(r) {
           現在デモ口座で実運用検証中。実用性を確認してから統合ポートフォリオに組み込み予定。
         </div>
       </div>
+    </div>
+
+    <div class="card">
+      <h2>資金推移 (100万円スタート)</h2>
+      <div class="chart-wrap">
+        <canvas id="vs-equity-chart" height="200"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>月次損益</h2>
+      <table>
+        <thead><tr><th>月</th><th>取引数</th><th>勝率</th><th>PF</th><th>損益</th></tr></thead>
+        <tbody>
+          ${monthly.map(m => {
+            const c = m.pnl > 0 ? 'positive' : m.pnl < 0 ? 'negative' : '';
+            return '<tr><td>' + m.month + '</td><td>' + m.trades + '</td><td>' + (m.trades > 0 ? m.wr + '%' : '-') + '</td><td>' + (m.trades > 0 && m.pf > 0 ? m.pf.toFixed(2) : '-') + '</td><td class="' + c + '">' + (m.trades > 0 ? fmtYen(m.pnl) : '-') + '</td></tr>';
+          }).join('')}
+        </tbody>
+      </table>
     </div>
 
     <div class="card">
@@ -1353,6 +1397,38 @@ function renderVolStraddleReport(r) {
 
   if (reportChart) { reportChart.destroy(); reportChart = null; }
   document.getElementById('report-content').innerHTML = html;
+
+  // Render equity curve chart
+  if (equity.length > 0 && monthly.length > 0) {
+    const labels = ['Start', ...monthly.map(m => m.month)];
+    const ctx = document.getElementById('vs-equity-chart');
+    if (ctx) {
+      reportChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '資金推移',
+            data: equity,
+            borderColor: '#9C27B0',
+            backgroundColor: 'rgba(156,39,176,0.1)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 2,
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#555', font: { size: 9 }, maxRotation: 45 }, grid: { color: '#1e1e30' } },
+            y: { ticks: { color: '#555', font: { size: 10 }, callback: v => (v/10000).toFixed(0) + '万円' }, grid: { color: '#1e1e30' } }
+          }
+        }
+      });
+    }
+  }
 }
 
 function selectStrategy(id) {
