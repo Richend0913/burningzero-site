@@ -236,6 +236,20 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">1.5pips</td>
       </tr>
       <tr>
+        <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">パラメータ最適化</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">CV内で学習</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">WF内で学習</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#f44336">全期間スイープ</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#f44336">全期間スイープ</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">BUY/SELL</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#ff8800">BUY-only</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#ff8800">BUY-only</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#ff8800">BUY-only</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">BUY+SELL</td>
+      </tr>
+      <tr>
         <td style="padding:8px 6px;color:#ccc">ML使用</td>
         <td style="text-align:center;padding:8px;color:#4CAF50">CatBoost</td>
         <td style="text-align:center;padding:8px;color:#4CAF50">LightGBM</td>
@@ -281,17 +295,18 @@ a { text-decoration: none; color: inherit; }
       <li>Walk-forward未実施 — 固定ルールの全期間バックテスト</li>
       <li style="color:#ff8800">レジーム検証でartifact確定: Bull Sharpe +2.09 / Range Sharpe -1.60</li>
       <li style="color:#ff8800">上昇相場でのみ機能する可能性が高い。これを承知の上で分散要素として運用</li>
+      <li style="color:#f44336">BUY-only + パラメータスイープ(in-sample最適化) — 全期間のデータを見て最適パラメータを選択しており、OOSではない。PF 4.35は過学習の可能性が高い</li>
     </ul>
   </div>
 
   <div class="method-section">
-    <h2>M5 Breakout Scalp <span>最も検証が浅い</span></h2>
+    <h2>M5 Breakout Scalp <span>in-sample最適化</span></h2>
     <ul>
       <li>ルールベース戦略（ML不使用）— M15トレンド方向にM5ブレイクアウト</li>
       <li>Walk-forward未実施 — 全期間の単純バックテスト</li>
+      <li style="color:#f44336">パラメータスイープ(TP/SL/トレンド閾値/ATR閾値)を全78ヶ月データで実施 — 最適パラメータは未来データを含む期間で選択されており、真のOOSではない</li>
       <li>Bootstrap/レジーム検証未実施</li>
-      <li style="color:#ff8800">35ヶ月中前半12ヶ月は微損〜横ばい。後半に偏って利益が出ており、regime依存の可能性を排除できない</li>
-      <li>コスト1.5pips込みでPF 1.27。マージンが薄く、実運用ではBTより悪化する可能性が高い</li>
+      <li>コスト1.5pips込みでPF 1.38だが、in-sample最適化の結果であり実運用では劣化する可能性が高い</li>
     </ul>
   </div>
 
@@ -321,9 +336,12 @@ a { text-decoration: none; color: inherit; }
     <h2>主張しないこと <span>Honest Limitations</span></h2>
     <ul>
       <li>全戦略が統計的に有意であるとは主張しない — v4 MetaとV3 H1のみPSR/Bootstrap検証済み</li>
-      <li>H4 AVWAPはregime artifactの可能性がある（上昇相場依存）</li>
-      <li>M5 Scalpは検証が不十分で、実運用での性能低下リスクが最も高い</li>
-      <li>35ヶ月のBTは統計的には短い — 最低でも3ヶ月のデモ検証を経てからライブ移行する方針</li>
+      <li>H4 AVWAPとM5 Scalpはin-sample最適化の結果であり、OOS検証されていない</li>
+      <li style="color:#f44336">統合ポートフォリオの+3,244%は信用すべきでない — (1) H4 AVWAP PF 4.35はoverfitの可能性極めて高い (2) 4戦略加算で実効リスクは最大40% (3) 全戦略BUY-onlyで金bull前提 (4) 複利の増幅効果で見かけ上大きくなる</li>
+      <li>全戦略がBUY-only — 2020-2026の金上昇トレンドに依存。下落相場に転換した場合、全戦略が同時に損失を出すリスクがある</li>
+      <li>「各戦略MaxDD 10%」は個別の最大リスクであり、4戦略同時運用の最大リスクは理論上40%</li>
+      <li>BT結果は50%割引で見積もる — 実運用との乖離は過去に確認済み</li>
+      <li>最低3ヶ月のデモ検証を経てからライブ移行する方針</li>
       <li>バックテスト結果は将来の利益を保証しない</li>
     </ul>
   </div>
