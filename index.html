@@ -437,16 +437,34 @@ a { text-decoration: none; color: inherit; }
 
 /* ── Responsive ── */
 @media (max-width: 600px) {
-  .hero-title { font-size: 26px; }
-  .hero-subtitle { font-size: 14px; }
-  .hero-stat-val { font-size: 22px; }
-  .hero-cta { padding: 14px 36px; font-size: 15px; }
+  .header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .header-right {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .nav-link {
+    font-size: 11px;
+    padding: 4px 6px;
+    white-space: nowrap;
+  }
+  .hero-title { font-size: 24px; }
+  .hero-subtitle { font-size: 13px; }
+  .hero-stat-val { font-size: 20px; }
+  .hero-stat-label { font-size: 9px; }
+  .hero-stats { gap: 8px; }
+  .hero-stat { padding: 14px 8px; }
+  .hero-cta { padding: 14px 32px; font-size: 14px; }
   .steps { grid-template-columns: 1fr; gap: 12px; }
   .bt-cards { grid-template-columns: 1fr; }
   .section-title { font-size: 19px; }
   .strategy-metrics { grid-template-columns: repeat(2, 1fr); }
   .strategy-card-name { font-size: 15px; }
   .hero { padding: 40px 0 36px; }
+  .live-status-bar { font-size: 10px; padding: 6px 10px; flex-wrap: wrap; justify-content: center; }
+  .slots-badge { font-size: 12px; padding: 6px 14px; }
 }
 </style>
 </head>
@@ -458,9 +476,9 @@ a { text-decoration: none; color: inherit; }
   <header class="header">
     <div class="header-logo">BURNING ZERO</div>
     <div class="header-right">
-      <a href="https://app.burningzero.com" class="nav-link" data-i18n="nav_app">Dashboard</a>
+      <a href="https://app.burningzero.com" class="nav-link" data-i18n="nav_app">App</a>
       <a href="backtest.html" class="nav-link" data-i18n="nav_backtest">Backtest</a>
-      <a href="methodology.html" class="nav-link">Methodology</a>
+      <a href="methodology.html" class="nav-link" data-i18n="nav_methodology">Methodology</a>
       <div id="lang-picker-mount"></div>
     </div>
   </header>
@@ -468,11 +486,11 @@ a { text-decoration: none; color: inherit; }
   <!-- ── Live Status Bar ── -->
   <div class="live-status-bar">
     <span class="status-dot"></span>
-    <span>SYSTEM ONLINE</span>
+    <span data-i18n="live_status_online">SYSTEM ONLINE</span>
     <span class="status-sep">|</span>
-    <span>4 Strategies Active</span>
+    <span data-i18n="live_status_strategies">4 Strategies Active</span>
     <span class="status-sep">|</span>
-    <span id="status-update">Monitoring...</span>
+    <span id="status-update" data-i18n="live_status_monitoring">Monitoring...</span>
   </div>
 
   <!-- ── Hero ── -->
