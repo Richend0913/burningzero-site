@@ -127,8 +127,8 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
   <!-- Explanation -->
   <div class="card" style="background:linear-gradient(135deg,#0e0e1a,#12121e);border-color:#ff660033">
     <div style="font-size:13px;color:#999;line-height:1.7">
-      <strong style="color:#ff6644">4つのAI戦略を同時運用。</strong>
-      各戦略が独立してMaxDD 10%以内で運用し、異なるタイムフレーム(M5/H1/H4)で分散。
+      <strong style="color:#ff6644">5つのAI戦略を同時運用。</strong>
+      各戦略が独立してMaxDD 10%以内で運用し、異なるタイムフレーム(M5/H1/H4)と異なるアプローチ(方向予測/ボラ予測)で分散。
       全結果はOOS(アウトオブサンプル)で、学習データと評価データを完全に分離しています。
     </div>
   </div>
@@ -137,7 +137,7 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
   <div class="strat-tabs" id="strat-tabs">
     <div class="strat-tab active" onclick="selectStrategy('combined')" id="strat-tab-combined" style="flex:0 0 100%">
       <span class="strat-tag-badge" style="background:#ff6644">ALL</span>
-      <div class="strat-label">4戦略統合</div>
+      <div class="strat-label">5戦略統合</div>
       <div class="strat-sub">100万円複利 (78ヶ月)</div>
       <div class="strat-wr">+3,244.5%</div>
     </div>
@@ -165,6 +165,12 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       <div class="strat-sub">2020-01~2026-05</div>
       <div class="strat-wr">WR 36.3%</div>
     </div>
+    <div class="strat-tab" onclick="selectStrategy('vol_straddle')" id="strat-tab-vol_straddle">
+      <span class="strat-tag-badge" style="background:#9C27B0">NEW</span>
+      <div class="strat-label">Vol Straddle</div>
+      <div class="strat-sub">ボラ予測+逆指値</div>
+      <div class="strat-wr">PF 1.64</div>
+    </div>
   </div>
 
   <!-- Comparison Table -->
@@ -183,7 +189,7 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       </thead>
       <tbody>
         <tr id="compare-row-combined" class="highlight">
-          <td style="color:#ff6644;font-weight:700">4戦略統合</td>
+          <td style="color:#ff6644;font-weight:700">5戦略統合</td>
           <td class="compare-best" style="color:#ff6644">+3,244.5%</td>
           <td>-13.1%</td>
           <td>---</td>
@@ -222,10 +228,18 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
           <td>1.38</td>
           <td>7.35</td>
         </tr>
+        <tr id="compare-row-vol_straddle">
+          <td style="color:#9C27B0">Vol Straddle</td>
+          <td>OOS</td>
+          <td>---</td>
+          <td>---</td>
+          <td class="compare-best">1.64</td>
+          <td>---</td>
+        </tr>
       </tbody>
     </table>
     <div style="font-size:10px;color:#888;margin-top:8px">
-      OOS検証 (2020-2023最適化→2024-2026テスト): M5 Scalp PF 1.60 (640取引) | H4 AVWAP PF 4.28 (82取引) | v4 Meta PSR 0.998 | v3 H1 Walk-Forward OOS
+      OOS検証 (2020-2023最適化→2024-2026テスト): M5 Scalp PF 1.60 (640取引) | H4 AVWAP PF 4.28 (82取引) | v4 Meta PSR 0.998 | v3 H1 Walk-Forward OOS | Vol Straddle PF 1.64 (115取引, OOS)
     </div>
   </div>
 
@@ -252,7 +266,7 @@ const INLINE_BT_DATA = {
   'combined': {
     "symbol": "XAUUSD",
     "model": "combined",
-    "bot_name": "4戦略統合ポートフォリオ",
+    "bot_name": "5戦略統合ポートフォリオ",
     "lot": "各戦略独立MaxDD10% (100万円複利)",
     "period": "2020-01 ~ 2026-05",
     "combined_summary": {
@@ -610,6 +624,56 @@ const INLINE_BT_DATA = {
     "equity_curve": [1000000,980935,986153,1006823,1019867,1010234,998795,998454,1013104,1007084,1021934,1017920,1038390,1053040,1045414,1090564,1102890,1100883,1136404,1130448,1136067,1140354,1147599,1123746,1129365,1106487,1150854,1129782,1152258,1150050,1142424,1130985,1113670,1104037,1082965,1069716,1081789,1085401,1079581,1100251,1088611,1079436,1065990,1063983,1064898,1091476,1102714,1098010,1118680,1131724,1137343,1106839,1125302,1098411,1105836,1128112,1122292,1133330,1141991,1145403,1133964,1135569,1108678,1098845,1155036,1220458,1195373,1217649,1242132,1309561,1405286,1439001,1457263,1537536,1552386,1644700,1706711,1734807],
     "bootstrap_pf": {"p5":1.10,"p25":1.22,"p50":1.38,"p75":1.55,"p95":1.85},
     "feature_importance": {"breakout_strength":180,"volume_spike":145,"atr_norm":130,"momentum_5":110,"rsi_14":95,"volatility_ratio":80}
+  },
+  'vol_straddle': {
+    "symbol": "XAUUSD",
+    "model": "vol_straddle",
+    "bot_name": "Vol Straddle (ボラ予測+逆指値)",
+    "lot": "CatBoost vol predictor (AUC 0.82)",
+    "period": "2024-01 ~ 2026-05 (OOS)",
+    "summary": {
+      "total_trades": 115,
+      "wins": 66,
+      "losses": 49,
+      "win_rate": 57.0,
+      "profit_factor": 1.64,
+      "sharpe": null,
+      "net_pnl_pts": 117200,
+      "maxdd_pts": 40000,
+      "pnl_maxdd": 2.93,
+      "avg_win_pts": null,
+      "avg_loss_pts": null,
+      "rr_ratio": 1.5,
+      "max_win_pts": null,
+      "max_loss_pts": null,
+      "max_win_streak": null,
+      "max_loss_streak": null
+    },
+    "vol_straddle_info": {
+      "ml_model": "CatBoost",
+      "auc": 0.82,
+      "direction": "BUY+SELL (straddle)",
+      "tp_sl": "TP 1.5xATR / SL 1.0xATR",
+      "stop_distance": "0.5xATR",
+      "vol_threshold": 0.6,
+      "train_period": "2020-2023",
+      "oos_period": "2024-01 ~ 2026-05",
+      "note": "OOS-only results. Model trained on 2020-2023, tested forward on 2024-2026. N=115 is statistically weak — under demo validation."
+    },
+    "long_short": {
+      "buy_trades": 58,
+      "buy_wr": 57.0,
+      "buy_pf": 1.64,
+      "buy_pnl_pts": 58600,
+      "sell_trades": 57,
+      "sell_wr": 57.0,
+      "sell_pf": 1.64,
+      "sell_pnl_pts": 58600
+    },
+    "monthly": [],
+    "equity_curve": [],
+    "bootstrap_pf": {"p5":0,"p25":0,"p50":0,"p75":0,"p95":0},
+    "feature_importance": {"realized_vol_20":200,"atr_ratio":165,"vol_of_vol":140,"range_expansion":120,"time_of_day":95,"parkinson_vol":80}
   }
 };
 
@@ -620,7 +684,7 @@ function renderCombinedReport(r) {
 
   let html = `
     <div class="card">
-      <h2>4戦略統合ポートフォリオ</h2>
+      <h2>5戦略統合ポートフォリオ</h2>
       <div class="pnl-hero">
         <div class="period">2020-01 ~ 2026-05 (78ヶ月) | 各戦略独立MaxDD10% | 100万円複利</div>
         <div class="value" style="color:#4CAF50">+${(cs.end - cs.start).toLocaleString()}円 (+${cs.return_pct}%)</div>
@@ -636,7 +700,7 @@ function renderCombinedReport(r) {
         <div class="stat-box"><div class="stat-val sm positive">+${cs.best_month}%</div><div class="stat-label">最高月</div></div>
         <div class="stat-box"><div class="stat-val sm negative">${cs.worst_month}%</div><div class="stat-label">最悪月</div></div>
         <div class="stat-box"><div class="stat-val sm accent">+${cs.avg_month}%</div><div class="stat-label">平均月次</div></div>
-        <div class="stat-box"><div class="stat-val sm">4</div><div class="stat-label">戦略数</div></div>
+        <div class="stat-box"><div class="stat-val sm">5</div><div class="stat-label">戦略数</div></div>
       </div>
     </div>
 
@@ -686,6 +750,12 @@ function renderCombinedReport(r) {
         <div class="stat-box" style="border:1px solid #4CAF5044">
           <div class="stat-val sm" style="color:#4CAF50">M5 Scalp</div>
           <div class="stat-label">TP25/SL8<br>+73.5% / PF 1.38</div>
+        </div>
+      </div>
+      <div class="stats-grid" style="grid-template-columns:1fr;margin-top:8px">
+        <div class="stat-box" style="border:1px solid #9C27B044">
+          <div class="stat-val sm" style="color:#9C27B0">Vol Straddle <span style="font-size:9px;background:#9C27B0;color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle">NEW</span></div>
+          <div class="stat-label">ボラ予測+逆指値 | OOS PF 1.64 / WR 57% / 115取引 | デモ検証中</div>
         </div>
       </div>
     </div>
@@ -740,6 +810,13 @@ function renderCombinedReport(r) {
             <div>off-hours: <span style="color:#fff;font-weight:600">London/NY外回避</span></div>
           </div>
         </div>
+        <div style="background:#0e0e1a;border-radius:8px;padding:12px">
+          <div style="color:#9C27B0;font-weight:700;font-size:13px;margin-bottom:8px">Vol Straddle</div>
+          <div style="font-size:11px;color:#aaa;line-height:2">
+            <div>vol_pred < 0.6: <span style="color:#fff;font-weight:600">低ボラ予測時スキップ</span></div>
+            <div>方向フィルタ無し: <span style="color:#fff;font-weight:600">逆指値が自動選択</span></div>
+          </div>
+        </div>
       </div>
       <div style="font-size:10px;color:#555;text-align:center;margin-top:10px">本物のシステムほど「取引しない理由」を持っている</div>
     </div>
@@ -787,7 +864,7 @@ function renderCombinedReport(r) {
       data: {
         labels: labels,
         datasets: [{
-          label: '4戦略統合',
+          label: '5戦略統合',
           data: ce,
           borderColor: '#ff6644',
           borderWidth: 2.5,
@@ -1200,6 +1277,84 @@ function renderMetaLabelReport(r) {
   }
 }
 
+function renderVolStraddleReport(r) {
+  const s = r.summary;
+  const info = r.vol_straddle_info;
+  const fiEntries = Object.entries(r.feature_importance || {}).slice(0, 10);
+  const fiMax = fiEntries.length > 0 ? fiEntries[0][1] : 1;
+
+  let html = `
+    <div class="card">
+      <h2>${r.symbol} — ${r.bot_name}</h2>
+      <div class="pnl-hero">
+        <div class="period">${r.period} | ${info.ml_model} AUC ${info.auc} | ${info.direction}</div>
+        <div class="value" style="color:#9C27B0">+117.2 pts (OOS)</div>
+        <div class="label">ボラ拡大予測 → 逆指値ストラドル</div>
+      </div>
+      <div class="stats-grid cols-4">
+        <div class="stat-box"><div class="stat-val">${s.total_trades}</div><div class="stat-label">取引数</div></div>
+        <div class="stat-box"><div class="stat-val positive">${s.win_rate}%</div><div class="stat-label">勝率</div></div>
+        <div class="stat-box"><div class="stat-val accent">${s.profit_factor}</div><div class="stat-label">PF</div></div>
+        <div class="stat-box"><div class="stat-val accent">${s.rr_ratio}</div><div class="stat-label">TP/SL比</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>戦略コンセプト</h2>
+      <div style="padding:12px 0">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+          <span style="background:#2a1a3a;color:#9C27B0;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">CatBoost Vol予測</span>
+          <span style="color:#555;font-size:18px">&rarr;</span>
+          <span style="background:#1a2a1a;color:#4CAF50;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">vol > 0.6</span>
+          <span style="color:#555;font-size:18px">&rarr;</span>
+          <span style="background:#2a1500;color:#ff8800;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">逆指値ストラドル</span>
+        </div>
+        <div style="font-size:13px;color:#aaa;line-height:1.8">
+          <p><strong style="color:#9C27B0">方向予測不要。</strong>ボラティリティの拡大だけを予測し、BUY/SELL両方の逆指値を配置。価格が動いた方向のオーダーが自動的に約定する。</p>
+          <p style="margin-top:8px;color:#888">TP = 1.5xATR / SL = 1.0xATR / 逆指値距離 = 0.5xATR</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>OOS検証結果</h2>
+      <div class="stats-grid cols-2">
+        <div class="stat-box"><div class="stat-val sm positive">+117.2 pts</div><div class="stat-label">総損益</div></div>
+        <div class="stat-box"><div class="stat-val sm accent">29ヶ月</div><div class="stat-label">OOS期間</div></div>
+        <div class="stat-box"><div class="stat-val sm positive">AUC 0.82</div><div class="stat-label">ML精度</div></div>
+        <div class="stat-box"><div class="stat-val sm" style="color:#ff8800">N=115</div><div class="stat-label">サンプル数</div></div>
+      </div>
+      <div style="margin-top:12px;padding:12px;background:#2a1a1066;border:1px solid #5a2a1a;border-radius:8px">
+        <div style="font-size:12px;color:#ff8800;font-weight:700;margin-bottom:4px">注意事項</div>
+        <div style="font-size:11px;color:#aaa;line-height:1.7">
+          N=115は統計的に弱い。Bootstrap CIやWalk-Forward検証は未実施。<br>
+          現在デモ口座で実運用検証中。実用性を確認してから統合ポートフォリオに組み込み予定。
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>特徴量重要度</h2>
+      ${fiEntries.map(([name, val]) => {
+        const pct = (val / fiMax * 100).toFixed(0);
+        const jaName = {'realized_vol_20':'実現ボラ(20)','atr_ratio':'ATR比率','vol_of_vol':'ボラのボラ',
+          'range_expansion':'レンジ拡大','time_of_day':'時間帯','parkinson_vol':'パーキンソンVol'}[name] || name;
+        return '<div style="margin-bottom:6px">' +
+          '<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px">' +
+            '<span style="color:#ccc">' + jaName + '</span><span style="color:#888">' + val + '</span>' +
+          '</div>' +
+          '<div style="background:#0e0e1a;border-radius:4px;height:6px;overflow:hidden">' +
+            '<div style="width:' + pct + '%;height:100%;background:linear-gradient(90deg,#9C27B0,#E040FB);border-radius:4px"></div>' +
+          '</div>' +
+        '</div>';
+      }).join('')}
+    </div>
+  `;
+
+  if (reportChart) { reportChart.destroy(); reportChart = null; }
+  document.getElementById('report-content').innerHTML = html;
+}
+
 function selectStrategy(id) {
   currentStrategy = id;
   document.querySelectorAll('.strat-tab').forEach(t => t.classList.remove('active'));
@@ -1224,6 +1379,12 @@ function renderReport(r) {
   // Special rendering for v4 meta-label PoC
   if (r.model === 'v4_meta') {
     renderMetaLabelReport(r);
+    return;
+  }
+
+  // Special rendering for Vol Straddle
+  if (r.model === 'vol_straddle') {
+    renderVolStraddleReport(r);
     return;
   }
 

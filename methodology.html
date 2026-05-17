@@ -202,7 +202,7 @@ a { text-decoration: none; color: inherit; }
       </tr>
       <tr>
         <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">OOSパラメータ検証</td>
-        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">合格</span> <span style="color:#666;font-size:10px;margin-left:4px">4/4戦略</span></td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">合格</span> <span style="color:#666;font-size:10px;margin-left:4px">5/5戦略</span></td>
       </tr>
       <tr>
         <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">リークテスト (7項目)</td>
@@ -234,11 +234,13 @@ a { text-decoration: none; color: inherit; }
         <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#4CAF50">v3 H1</th>
         <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#4ea8de">H4 AVWAP</th>
         <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#aa88ff">M5 Scalp</th>
+        <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#9C27B0">Vol Straddle</th>
       </tr>
       <tr>
         <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">Walk-Forward OOS</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">Purged K-Fold</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">6mo/2mo rolling</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#f44336">未実施</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#f44336">未実施</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#f44336">未実施</td>
       </tr>
@@ -248,6 +250,7 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">ML無し</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">ML無し</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
       </tr>
       <tr>
         <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">レジーム検証</td>
@@ -255,11 +258,13 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#ff8800">artifact確定</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
       </tr>
       <tr>
         <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">Bootstrap CI</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">1000 resamples</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
       </tr>
@@ -269,11 +274,13 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">0.35固定</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">0.35固定</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">1.5pips</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">0.5xATR</td>
       </tr>
       <tr>
         <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">パラメータ最適化</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">CV内で学習</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">WF内で学習</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">OOS検証済</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">OOS検証済</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">OOS検証済</td>
       </tr>
@@ -283,6 +290,7 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#ff8800">BUY-only</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#ff8800">BUY-only</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">BUY+SELL</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">BUY+SELL</td>
       </tr>
       <tr>
         <td style="padding:8px 6px;color:#ccc">ML使用</td>
@@ -290,6 +298,7 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;color:#4CAF50">LightGBM</td>
         <td style="text-align:center;padding:8px;color:#888">ルールベース</td>
         <td style="text-align:center;padding:8px;color:#888">ルールベース</td>
+        <td style="text-align:center;padding:8px;color:#4CAF50">CatBoost</td>
       </tr>
     </table>
   </div>
@@ -348,6 +357,17 @@ a { text-decoration: none; color: inherit; }
     </ul>
   </div>
 
+  <div class="method-section" style="border-color:#9C27B044">
+    <h2>Vol Straddle <span style="background:#9C27B0;color:#fff;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700">新規・検証中</span></h2>
+    <ul>
+      <li>ボラ拡大予測(CatBoost AUC 0.82) + 逆指値ストラドル</li>
+      <li style="color:#4CAF50">OOS検証済み: 2024-2026 PF 1.64, WR 57%, 115取引</li>
+      <li>方向予測不要 — ボラ拡大だけ予測し、逆指値が正しい方向を自動選択</li>
+      <li style="color:#ff8800">N=115は統計的に弱い。デモ検証で実用性を確認中</li>
+      <li>学習期間: 2020-2023 → テスト期間: 2024-2026 (完全OOS)</li>
+    </ul>
+  </div>
+
   <!-- Monte Carlo -->
   <div class="method-section">
     <h2>Monte Carlo (1,000回)</h2>
@@ -373,12 +393,12 @@ a { text-decoration: none; color: inherit; }
   <div class="method-section" style="border-color:#3a2a1a">
     <h2>正直な限界</h2>
     <ul>
-      <li>全戦略が統計的に有意であるとは主張しない — v4 MetaとV3 H1のみPSR/Bootstrap検証済み</li>
+      <li>全戦略が統計的に有意であるとは主張しない — v4 MetaとV3 H1のみPSR/Bootstrap検証済み。Vol StraddleはN=115で統計的に弱い</li>
       <li>H4 AVWAP: OOS PF 4.28 だがBUY-only + 82取引でregime依存リスクあり</li>
       <li>M5 Scalp: OOS PF 1.60 は双方向640取引で比較的信頼性高い</li>
-      <li style="color:#f44336">統合ポートフォリオの+3,244%は信用すべきでない — (1) 4戦略加算で実効リスクは最大40% (2) 全戦略BUY-onlyで金bull前提 (3) 複利の増幅効果で見かけ上大きくなる</li>
-      <li>全戦略がBUY-only — 2020-2026の金上昇トレンドに依存。下落相場に転換した場合、全戦略が同時に損失を出すリスクがある</li>
-      <li>「各戦略MaxDD 10%」は個別の最大リスクであり、4戦略同時運用の最大リスクは理論上40%</li>
+      <li style="color:#f44336">統合ポートフォリオの+3,244%は信用すべきでない — (1) 5戦略加算で実効リスクは最大50% (2) 大半BUY-onlyで金bull前提 (3) 複利の増幅効果で見かけ上大きくなる</li>
+      <li>4/5戦略がBUY-only — 2020-2026の金上昇トレンドに依存。Vol Straddleのみ双方向だが下落相場での検証は不十分</li>
+      <li>「各戦略MaxDD 10%」は個別の最大リスクであり、5戦略同時運用の最大リスクは理論上50%</li>
       <li>BT結果は50%割引で見積もる — 実運用との乖離は過去に確認済み</li>
       <li>最低3ヶ月のデモ検証を経てからライブ移行する方針</li>
       <li>バックテスト結果は将来の利益を保証しない</li>
