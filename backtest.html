@@ -234,8 +234,8 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
 
   <!-- CTA -->
   <div class="ib-banner">
-    <p>パートナーブローカー口座で無料アクセス</p>
-    <a href="https://one.exnesstrack.org/a/newf0ex0jj" target="_blank">口座開設 (Exness) →</a>
+    <p>Exnessパートナー口座の開設で利用可能</p>
+    <a href="https://one.exnesstrack.org/a/newf0ex0jj" target="_blank">無料で検証ツールを使う →</a>
   </div>
 
   <div style="text-align:center;padding:20px;font-size:10px;color:#444">
@@ -649,6 +649,12 @@ function renderCombinedReport(r) {
     </div>
 
     <div class="card">
+      <h2>ドローダウン推移</h2>
+      <canvas id="underwater-chart" height="120"></canvas>
+      <div style="font-size:10px;color:#555;text-align:center;margin-top:8px">ピークからの下落率の推移。回復力と損失の集中度が分かる</div>
+    </div>
+
+    <div class="card">
       <h2>Monte Carlo Simulation (1,000回)</h2>
       <canvas id="monte-carlo-chart" height="200"></canvas>
       <div class="stats-grid cols-4" style="margin-top:12px" id="mc-stats-pct"></div>
@@ -797,6 +803,43 @@ function renderCombinedReport(r) {
         scales: {
           x: { ticks: { color: '#555', font: { size: 8 }, maxRotation: 45 }, grid: { color: '#1e1e30' } },
           y: { ticks: { color: '#555', font: { size: 10 }, callback: v => (v/10000).toFixed(0)+'万円' }, grid: { color: '#1e1e30' } }
+        }
+      }
+    });
+  }
+
+  // Draw underwater chart
+  const uwCtx = document.getElementById('underwater-chart');
+  if (uwCtx && ce && ce.length > 0) {
+    let peak = ce[0];
+    const dd = ce.map(v => {
+      if (v > peak) peak = v;
+      return ((v - peak) / peak) * 100;
+    });
+    new Chart(uwCtx, {
+      type: 'line',
+      data: {
+        labels: r.combined_monthly.map(m => m.month),
+        datasets: [{
+          label: 'ドローダウン',
+          data: dd.slice(1),
+          borderColor: '#f44336',
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: true,
+          backgroundColor: 'rgba(244,67,54,0.15)',
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: '#555', font: { size: 8 }, maxRotation: 45 }, grid: { color: '#1e1e30' } },
+          y: {
+            max: 0,
+            ticks: { color: '#555', font: { size: 10 }, callback: v => v.toFixed(0) + '%' },
+            grid: { color: '#1e1e30' }
+          }
         }
       }
     });
