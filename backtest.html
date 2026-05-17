@@ -139,13 +139,13 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       <span class="strat-tag-badge" style="background:#ff6644">ALL</span>
       <div class="strat-label">4戦略統合</div>
       <div class="strat-sub">100万円複利 (78ヶ月)</div>
-      <div class="strat-wr">+620.0%</div>
+      <div class="strat-wr">+420.4%</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v4_meta')" id="strat-tab-v4_meta">
       <span class="strat-tag-badge">v4</span>
       <div class="strat-label">Meta-Label PoC</div>
       <div class="strat-sub">CatBoost Filter</div>
-      <div class="strat-wr">WR 42.7%</div>
+      <div class="strat-wr">WR 45.9%</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v3_h1')" id="strat-tab-v3_h1">
       <span class="strat-tag-badge">v3</span>
@@ -184,19 +184,19 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       <tbody>
         <tr id="compare-row-combined" class="highlight">
           <td style="color:#ff6644;font-weight:700">4戦略統合</td>
-          <td class="compare-best" style="color:#ff6644">+620.0%</td>
-          <td>-9.8%</td>
+          <td class="compare-best" style="color:#ff6644">+420.4%</td>
+          <td>-8.2%</td>
           <td>---</td>
           <td>---</td>
-          <td class="compare-best" style="color:#ff6644">63.3</td>
+          <td class="compare-best" style="color:#ff6644">51.3</td>
         </tr>
         <tr id="compare-row-v4_meta">
           <td>v4 Meta</td>
-          <td class="positive">+115.3%</td>
-          <td>-9.8%</td>
-          <td>1.00</td>
-          <td>1.30</td>
-          <td class="compare-best">11.8</td>
+          <td class="positive">+31.6%</td>
+          <td>-9.6%</td>
+          <td class="compare-best">+0.934</td>
+          <td>---</td>
+          <td class="positive">3.3</td>
         </tr>
         <tr id="compare-row-v3_h1">
           <td>v3 H1 BUY</td>
@@ -253,57 +253,57 @@ const INLINE_BT_DATA = {
     "lot": "各戦略独立MaxDD10% (100万円複利)",
     "period": "2020-01 ~ 2026-05",
     "combined_summary": {
-      "start": 1000000, "end": 7200000, "return_pct": 620.0,
-      "maxdd_pct": -9.8, "pnl_dd": 63.3,
-      "pos_months": 52, "total_months": 78,
-      "best_month": 36.11, "worst_month": -6.57, "avg_month": 2.65
+      "start": 1000000, "end": 5203716, "return_pct": 420.4,
+      "maxdd_pct": -8.2, "pnl_dd": 51.3,
+      "pos_months": 45, "total_months": 77,
+      "best_month": 27.33, "worst_month": -3.09, "avg_month": 2.29
     },
     "combined_monthly": [
-      {"month":"2020-01","pnl_pct":-0.5},{"month":"2020-02","pnl_pct":1.2},{"month":"2020-03","pnl_pct":1.8},
-      {"month":"2020-04","pnl_pct":0.8},{"month":"2020-05","pnl_pct":-0.3},{"month":"2020-06","pnl_pct":-0.3},
-      {"month":"2020-07","pnl_pct":2.5},{"month":"2020-08","pnl_pct":0.4},{"month":"2020-09","pnl_pct":-1.2},
-      {"month":"2020-10","pnl_pct":0.6},{"month":"2020-11","pnl_pct":-0.5},{"month":"2020-12","pnl_pct":0.8},
-      {"month":"2021-01","pnl_pct":0.5},{"month":"2021-02","pnl_pct":-0.3},{"month":"2021-03","pnl_pct":1.5},
-      {"month":"2021-04","pnl_pct":0.4},{"month":"2021-05","pnl_pct":-1.2},{"month":"2021-06","pnl_pct":1.2},
-      {"month":"2021-07","pnl_pct":-0.2},{"month":"2021-08","pnl_pct":0.2},{"month":"2021-09","pnl_pct":0.2},
-      {"month":"2021-10","pnl_pct":0.3},{"month":"2021-11","pnl_pct":-1.5},{"month":"2021-12","pnl_pct":0.2},
-      {"month":"2022-01","pnl_pct":-0.8},{"month":"2022-02","pnl_pct":1.5},{"month":"2022-03","pnl_pct":0.5},
-      {"month":"2022-04","pnl_pct":0.8},{"month":"2022-05","pnl_pct":-0.1},{"month":"2022-06","pnl_pct":-1.0},
-      {"month":"2022-07","pnl_pct":-0.4},{"month":"2022-08","pnl_pct":-0.6},{"month":"2022-09","pnl_pct":-0.3},
-      {"month":"2022-10","pnl_pct":-0.7},{"month":"2022-11","pnl_pct":-1.0},{"month":"2022-12","pnl_pct":0.4},
-      {"month":"2023-01","pnl_pct":3.2},{"month":"2023-02","pnl_pct":-0.2},{"month":"2023-03","pnl_pct":4.8},
-      {"month":"2023-04","pnl_pct":-0.4},{"month":"2023-05","pnl_pct":-0.3},{"month":"2023-06","pnl_pct":-0.4},
-      {"month":"2023-07","pnl_pct":1.46},{"month":"2023-08","pnl_pct":0.02},{"month":"2023-09","pnl_pct":1.8},
-      {"month":"2023-10","pnl_pct":-1.5},{"month":"2023-11","pnl_pct":1.28},{"month":"2023-12","pnl_pct":1.49},
-      {"month":"2024-01","pnl_pct":-5.5},{"month":"2024-02","pnl_pct":-2.8},{"month":"2024-03","pnl_pct":5.5},
-      {"month":"2024-04","pnl_pct":3.2},{"month":"2024-05","pnl_pct":1.0},{"month":"2024-06","pnl_pct":3.0},
-      {"month":"2024-07","pnl_pct":5.8},{"month":"2024-08","pnl_pct":-0.2},{"month":"2024-09","pnl_pct":4.5},
-      {"month":"2024-10","pnl_pct":3.0},{"month":"2024-11","pnl_pct":3.0},{"month":"2024-12","pnl_pct":0.1},
-      {"month":"2025-01","pnl_pct":4.0},{"month":"2025-02","pnl_pct":6.5},{"month":"2025-03","pnl_pct":7.5},
-      {"month":"2025-04","pnl_pct":14.0},{"month":"2025-05","pnl_pct":13.5},{"month":"2025-06","pnl_pct":0.8},
-      {"month":"2025-07","pnl_pct":9.0},{"month":"2025-08","pnl_pct":2.0},{"month":"2025-09","pnl_pct":19.5},
-      {"month":"2025-10","pnl_pct":28.0},{"month":"2025-11","pnl_pct":1.5},{"month":"2025-12","pnl_pct":15.0},
-      {"month":"2026-01","pnl_pct":38.0},{"month":"2026-02","pnl_pct":4.5},{"month":"2026-03","pnl_pct":8.0},
-      {"month":"2026-04","pnl_pct":5.5},{"month":"2026-05","pnl_pct":12.5}
+      {"month":"2020-01","pnl_pct":0.1},{"month":"2020-02","pnl_pct":1.57},{"month":"2020-03","pnl_pct":0.32},
+      {"month":"2020-04","pnl_pct":2.51},{"month":"2020-05","pnl_pct":2.23},{"month":"2020-06","pnl_pct":-0.3},
+      {"month":"2020-07","pnl_pct":1.79},{"month":"2020-08","pnl_pct":0.27},{"month":"2020-09","pnl_pct":-1.26},
+      {"month":"2020-10","pnl_pct":-0.12},{"month":"2020-11","pnl_pct":-0.7},{"month":"2020-12","pnl_pct":-0.01},
+      {"month":"2021-01","pnl_pct":-0.15},{"month":"2021-02","pnl_pct":-0.76},{"month":"2021-03","pnl_pct":2.52},
+      {"month":"2021-04","pnl_pct":-0.76},{"month":"2021-05","pnl_pct":-1.12},{"month":"2021-06","pnl_pct":0.19},
+      {"month":"2021-07","pnl_pct":-0.41},{"month":"2021-08","pnl_pct":-2.06},{"month":"2021-09","pnl_pct":-0.37},
+      {"month":"2021-10","pnl_pct":2.53},{"month":"2021-11","pnl_pct":0.25},{"month":"2021-12","pnl_pct":1.48},
+      {"month":"2022-01","pnl_pct":-0.97},{"month":"2022-02","pnl_pct":1.5},{"month":"2022-03","pnl_pct":-1.19},
+      {"month":"2022-04","pnl_pct":1.14},{"month":"2022-05","pnl_pct":0.28},{"month":"2022-06","pnl_pct":-0.62},
+      {"month":"2022-07","pnl_pct":-0.3},{"month":"2022-08","pnl_pct":1.76},{"month":"2022-09","pnl_pct":0.64},
+      {"month":"2022-10","pnl_pct":-0.97},{"month":"2022-11","pnl_pct":3.09},{"month":"2022-12","pnl_pct":3.97},
+      {"month":"2023-01","pnl_pct":3.19},{"month":"2023-02","pnl_pct":-0.21},{"month":"2023-03","pnl_pct":4.78},
+      {"month":"2023-04","pnl_pct":-0.11},{"month":"2023-05","pnl_pct":-0.54},{"month":"2023-06","pnl_pct":0.11},
+      {"month":"2023-07","pnl_pct":-0.0},{"month":"2023-08","pnl_pct":-1.12},{"month":"2023-09","pnl_pct":-1.86},
+      {"month":"2023-10","pnl_pct":-3.09},{"month":"2023-11","pnl_pct":-0.27},{"month":"2023-12","pnl_pct":1.84},
+      {"month":"2024-01","pnl_pct":-1.5},{"month":"2024-02","pnl_pct":-1.92},{"month":"2024-03","pnl_pct":2.21},
+      {"month":"2024-04","pnl_pct":0.93},{"month":"2024-05","pnl_pct":-0.88},{"month":"2024-06","pnl_pct":1.6},
+      {"month":"2024-07","pnl_pct":-0.78},{"month":"2024-08","pnl_pct":-0.88},{"month":"2024-09","pnl_pct":7.86},
+      {"month":"2024-10","pnl_pct":-2.11},{"month":"2024-11","pnl_pct":8.33},{"month":"2024-12","pnl_pct":-2.29},
+      {"month":"2025-01","pnl_pct":5.44},{"month":"2025-02","pnl_pct":5.65},{"month":"2025-03","pnl_pct":16.28},
+      {"month":"2025-04","pnl_pct":9.93},{"month":"2025-05","pnl_pct":9.12},{"month":"2025-06","pnl_pct":0.55},
+      {"month":"2025-07","pnl_pct":4.73},{"month":"2025-08","pnl_pct":2.73},{"month":"2025-09","pnl_pct":13.44},
+      {"month":"2025-10","pnl_pct":25.24},{"month":"2025-11","pnl_pct":2.93},{"month":"2025-12","pnl_pct":7.14},
+      {"month":"2026-01","pnl_pct":27.33},{"month":"2026-02","pnl_pct":2.35},{"month":"2026-03","pnl_pct":0.63},
+      {"month":"2026-04","pnl_pct":5.71},{"month":"2026-05","pnl_pct":7.75}
     ],
-    "combined_equity": [1000000,995000,1006940,1025064,1033265,1030167,1027078,1052680,1056891,1044192,1050454,1045201,1053563,1058831,1055653,1071487,1075786,1062860,1075641,1073488,1075636,1077786,1079022,1062843,1065013,1056498,1072345,1077719,1086343,1085258,1074410,1070114,1063656,1060466,1053032,1042482,1046649,1080171,1077943,1129804,1125312,1121940,1117459,1133792,1134019,1154233,1137003,1151573,1167429,1103067,1072143,1131029,1167237,1178817,1214323,1284767,1282197,1339926,1380127,1394528,1408273,1464606,1559711,1666615,1680002,1831962,1868638,2233050,2857702,2900548,3335630,4269606,4462405,4752124,4985730,5234766,5892618,6157587,7200000]
+    "combined_equity": [1000000,1001000,1016716,1019969,1045570,1068886,1065679,1084755,1087684,1073979,1072690,1065181,1065074,1063476,1055394,1081990,1073767,1061741,1063758,1059397,1037573,1033734,1059887,1062537,1078263,1067804,1083821,1070924,1083133,1086166,1079432,1076194,1095135,1102144,1091453,1125179,1169849,1207167,1204632,1262213,1260825,1254017,1255396,1255396,1241336,1218247,1180603,1177415,1199079,1181093,1158416,1184017,1195028,1184512,1203464,1194077,1183569,1276598,1249662,1353759,1322758,1394716,1473517,1713406,1883547,2055326,2066630,2164382,2223470,2522304,3158934,3251491,3483647,4435728,4539968,4568570,4829435,5203716]
   },
   'v4_meta': {
     "symbol": "XAUUSD",
     "model": "v4_meta",
     "bot_name": "v4 Meta-Label PoC",
     "lot": "EMA+RSI + CatBoost filter",
-    "period": "Meta-Labeling Research",
+    "period": "2020-01 ~ 2026-05",
     "summary": {
-      "total_trades": 1422,
-      "wins": 607,
-      "losses": 815,
-      "win_rate": 42.7,
+      "total_trades": 1153,
+      "wins": 340,
+      "losses": 401,
+      "win_rate": 45.9,
       "profit_factor": 1.30,
       "sharpe": 1.00,
-      "net_pnl_pts": 58151,
-      "maxdd_pts": -5900,
-      "pnl_maxdd": 9.9,
+      "net_pnl_pts": 315993,
+      "maxdd_pts": -96000,
+      "pnl_maxdd": 3.3,
       "avg_win_pts": null,
       "avg_loss_pts": null,
       "rr_ratio": null,
@@ -313,8 +313,8 @@ const INLINE_BT_DATA = {
       "max_loss_streak": null
     },
     "meta_label_results": {
-      "delta_sharpe": 0.495,
-      "psr": 0.995,
+      "delta_sharpe": 0.934,
+      "psr": 0.998,
       "neg_folds": "0/5",
       "cond_wr_lift": "+3.4pp",
       "total_features": 14,
@@ -326,20 +326,34 @@ const INLINE_BT_DATA = {
     },
     "long_short": { "buy_trades":0,"buy_wr":0,"buy_pf":0,"buy_pnl_pts":0,"sell_trades":0,"sell_wr":0,"sell_pf":0,"sell_pnl_pts":0 },
     "monthly": [
-      {"month":"2023-07","pnl_pct":1.36},{"month":"2023-08","pnl_pct":1.28},{"month":"2023-09","pnl_pct":3.58},
-      {"month":"2023-10","pnl_pct":1.57},{"month":"2023-11","pnl_pct":1.63},{"month":"2023-12","pnl_pct":-0.23},
-      {"month":"2024-01","pnl_pct":-3.93},{"month":"2024-02","pnl_pct":-0.96},{"month":"2024-03","pnl_pct":3.00},
-      {"month":"2024-04","pnl_pct":2.28},{"month":"2024-05","pnl_pct":1.88},{"month":"2024-06","pnl_pct":1.71},
-      {"month":"2024-07","pnl_pct":4.89},{"month":"2024-08","pnl_pct":0.77},{"month":"2024-09","pnl_pct":-0.94},
-      {"month":"2024-10","pnl_pct":0.58},{"month":"2024-11","pnl_pct":2.93},{"month":"2024-12","pnl_pct":1.93},
-      {"month":"2025-01","pnl_pct":1.69},{"month":"2025-02","pnl_pct":1.19},{"month":"2025-03","pnl_pct":-0.18},
-      {"month":"2025-04","pnl_pct":0.74},{"month":"2025-05","pnl_pct":4.33},{"month":"2025-06","pnl_pct":0.20},
-      {"month":"2025-07","pnl_pct":4.03},{"month":"2025-08","pnl_pct":-0.03},{"month":"2025-09","pnl_pct":6.95},
-      {"month":"2025-10","pnl_pct":2.98},{"month":"2025-11","pnl_pct":-1.50},{"month":"2025-12","pnl_pct":8.18},
-      {"month":"2026-01","pnl_pct":11.49},{"month":"2026-02","pnl_pct":1.10},{"month":"2026-03","pnl_pct":7.99},
-      {"month":"2026-04","pnl_pct":0.03},{"month":"2026-05","pnl_pct":6.55}
+      {"month":"2020-01","pnl_pct":0.6},{"month":"2020-02","pnl_pct":0.37},{"month":"2020-03","pnl_pct":-1.48},
+      {"month":"2020-04","pnl_pct":1.71},{"month":"2020-05","pnl_pct":2.53},{"month":"2020-06","pnl_pct":0.0},
+      {"month":"2020-07","pnl_pct":-0.71},{"month":"2020-08","pnl_pct":-0.13},{"month":"2020-09","pnl_pct":-0.06},
+      {"month":"2020-10","pnl_pct":-0.72},{"month":"2020-11","pnl_pct":-0.2},{"month":"2020-12","pnl_pct":-0.81},
+      {"month":"2021-01","pnl_pct":-0.65},{"month":"2021-02","pnl_pct":-0.46},{"month":"2021-03","pnl_pct":1.02},
+      {"month":"2021-04","pnl_pct":-1.16},{"month":"2021-05","pnl_pct":0.08},{"month":"2021-06","pnl_pct":-1.01},
+      {"month":"2021-07","pnl_pct":-0.21},{"month":"2021-08","pnl_pct":-2.26},{"month":"2021-09","pnl_pct":-0.57},
+      {"month":"2021-10","pnl_pct":2.23},{"month":"2021-11","pnl_pct":1.75},{"month":"2021-12","pnl_pct":1.28},
+      {"month":"2022-01","pnl_pct":-0.17},{"month":"2022-02","pnl_pct":0.0},{"month":"2022-03","pnl_pct":-1.69},
+      {"month":"2022-04","pnl_pct":0.34},{"month":"2022-05","pnl_pct":0.38},{"month":"2022-06","pnl_pct":0.38},
+      {"month":"2022-07","pnl_pct":0.1},{"month":"2022-08","pnl_pct":2.36},{"month":"2022-09","pnl_pct":0.94},
+      {"month":"2022-10","pnl_pct":-0.27},{"month":"2022-11","pnl_pct":4.09},{"month":"2022-12","pnl_pct":3.57},
+      {"month":"2023-01","pnl_pct":-0.01},{"month":"2023-02","pnl_pct":-0.01},{"month":"2023-03","pnl_pct":-0.02},
+      {"month":"2023-04","pnl_pct":0.29},{"month":"2023-05","pnl_pct":-0.24},{"month":"2023-06","pnl_pct":0.51},
+      {"month":"2023-07","pnl_pct":-0.1},{"month":"2023-08","pnl_pct":0.14},{"month":"2023-09","pnl_pct":-0.08},
+      {"month":"2023-10","pnl_pct":-0.02},{"month":"2023-11","pnl_pct":0.08},{"month":"2023-12","pnl_pct":0.12},
+      {"month":"2024-01","pnl_pct":0.07},{"month":"2024-02","pnl_pct":-0.08},{"month":"2024-03","pnl_pct":-0.29},
+      {"month":"2024-04","pnl_pct":0.01},{"month":"2024-05","pnl_pct":0.0},{"month":"2024-06","pnl_pct":0.31},
+      {"month":"2024-07","pnl_pct":-1.69},{"month":"2024-08","pnl_pct":0.09},{"month":"2024-09","pnl_pct":2.42},
+      {"month":"2024-10","pnl_pct":-4.53},{"month":"2024-11","pnl_pct":8.26},{"month":"2024-12","pnl_pct":-0.46},
+      {"month":"2025-01","pnl_pct":3.13},{"month":"2025-02","pnl_pct":0.34},{"month":"2025-03","pnl_pct":8.6},
+      {"month":"2025-04","pnl_pct":-3.33},{"month":"2025-05","pnl_pct":-0.05},{"month":"2025-06","pnl_pct":-0.05},
+      {"month":"2025-07","pnl_pct":-0.24},{"month":"2025-08","pnl_pct":0.7},{"month":"2025-09","pnl_pct":0.89},
+      {"month":"2025-10","pnl_pct":0.22},{"month":"2025-11","pnl_pct":-0.07},{"month":"2025-12","pnl_pct":0.32},
+      {"month":"2026-01","pnl_pct":0.82},{"month":"2026-02","pnl_pct":-1.05},{"month":"2026-03","pnl_pct":0.62},
+      {"month":"2026-04","pnl_pct":0.24},{"month":"2026-05","pnl_pct":1.8}
     ],
-    "equity_curve": {"dates":["2023-07","2023-10","2024-01","2024-04","2024-07","2024-10","2025-01","2025-04","2025-07","2025-10","2026-01","2026-05"],"baseline":[1000000,1026510,959040,959640,1017100,1005490,1056300,1030330,1168280,1188480,1384720,1488280],"meta":[1000000,1088060,1006420,1139020,1235180,1256730,1400270,1410470,1618740,1739480,1979060,2152569]},
+    "equity_curve": {"dates":["2020-01","2020-05","2020-08","2020-12","2021-03","2021-06","2021-08","2021-11","2022-01","2022-04","2022-07","2022-11","2023-01","2023-05","2023-07","2023-08","2023-11","2024-03","2024-06","2024-08","2024-10","2024-11","2025-02","2025-03","2025-04","2025-06","2025-08","2025-10","2025-12","2026-02","2026-04","2026-05"],"baseline":[1000000,1018801,1028910,1026740,1006925,988080,960848,974665,1007913,997413,1002765,1069686,1119142,1116187,1119524,1120027,1119539,1120994,1121759,1126665,1100530,1182546,1202675,1258727,1309647,1260179,1266952,1275683,1282576,1283592,1291789,1315993],"meta":[1000000,1018801,1028910,1026740,1006925,988080,960848,974665,1007913,997413,1002765,1069686,1119142,1116187,1119524,1120027,1119539,1120994,1121759,1126665,1100530,1182546,1202675,1258727,1309647,1260179,1266952,1275683,1282576,1283592,1291789,1315993]},
     "bootstrap_pf": {"p5":0,"p25":0,"p50":0,"p75":0,"p95":0},
     "feature_importance": {"lower_wick_ratio":113,"compression_ratio":110,"upper_wick_ratio":73,"body_ratio":43,"consec_dir":26,"atr_norm":95,"rsi_14":88,"ema_slope":82,"volatility_ratio":78,"price_vs_ema":72,"bb_width":65,"momentum":58,"dist_to_high":52,"dist_to_low":45}
   },
@@ -650,7 +664,7 @@ function renderCombinedReport(r) {
       <div class="stats-grid cols-4">
         <div class="stat-box" style="border:1px solid #ff660044">
           <div class="stat-val sm accent">v4 Meta</div>
-          <div class="stat-label">M5 CatBoost<br>+115.3% / DD-9.8%</div>
+          <div class="stat-label">CatBoost Filter<br>+31.6% / DD-9.6%</div>
         </div>
         <div class="stat-box" style="border:1px solid #2a6630">
           <div class="stat-val sm positive">v3 H1 BUY</div>
@@ -929,21 +943,21 @@ function renderMetaLabelReport(r) {
     <div class="card">
       <h2>${r.symbol} - ${r.bot_name}</h2>
       <div class="pnl-hero">
-        <div class="period">2023-07 ~ 2026-05 | OOS検証 | 100万円スタート</div>
-        <div class="value" style="color:#4CAF50">+1,152,569円 (+115.3%)</div>
-        <div class="label">100万円 → 2,152,569円 (メタフィルタ適用後)</div>
+        <div class="period">2020-01 ~ 2026-05 | OOS検証 | 100万円スタート</div>
+        <div class="value" style="color:#4CAF50">+315,993円 (+31.6%)</div>
+        <div class="label">100万円 → 131.6万円 (メタフィルタ適用後)</div>
       </div>
       <div class="stats-grid cols-4">
-        <div class="stat-box"><div class="stat-val accent">1,422</div><div class="stat-label">取引数</div></div>
-        <div class="stat-box"><div class="stat-val positive">42.7%</div><div class="stat-label">勝率</div></div>
-        <div class="stat-box"><div class="stat-val positive">1.30</div><div class="stat-label">PF</div></div>
-        <div class="stat-box"><div class="stat-val positive">1.00</div><div class="stat-label">Sharpe</div></div>
+        <div class="stat-box"><div class="stat-val accent">1,153</div><div class="stat-label">シグナル数</div></div>
+        <div class="stat-box"><div class="stat-val positive">45.9%</div><div class="stat-label">勝率</div></div>
+        <div class="stat-box"><div class="stat-val positive">741</div><div class="stat-label">採用トレード</div></div>
+        <div class="stat-box"><div class="stat-val positive">-9.6%</div><div class="stat-label">MaxDD</div></div>
       </div>
       <div class="stats-grid cols-4" style="margin-top:8px">
-        <div class="stat-box"><div class="stat-val accent">+0.495</div><div class="stat-label">Delta Sharpe</div></div>
-        <div class="stat-box"><div class="stat-val positive">0.995</div><div class="stat-label">PSR</div></div>
-        <div class="stat-box"><div class="stat-val positive">-9.8%</div><div class="stat-label">最大DD</div></div>
-        <div class="stat-box"><div class="stat-val positive">11.8</div><div class="stat-label">損益/DD比</div></div>
+        <div class="stat-box"><div class="stat-val accent">+0.934</div><div class="stat-label">Delta Sharpe</div></div>
+        <div class="stat-box"><div class="stat-val positive">0.998</div><div class="stat-label">PSR</div></div>
+        <div class="stat-box"><div class="stat-val positive">+31.6%</div><div class="stat-label">リターン</div></div>
+        <div class="stat-box"><div class="stat-val positive">3.3</div><div class="stat-label">損益/DD比</div></div>
       </div>
     </div>
 
@@ -952,14 +966,9 @@ function renderMetaLabelReport(r) {
       <canvas id="v4-equity-chart" height="200"></canvas>
       <div style="margin-top:8px;display:flex;justify-content:space-around;font-size:11px">
         <div style="text-align:center">
-          <div style="color:#666">全シグナル (ベースライン)</div>
-          <div style="color:#888">1,000,000 → 1,488,281円</div>
-          <div style="color:#888">+48.8% / MaxDD -11.7%</div>
-        </div>
-        <div style="text-align:center">
           <div style="color:#ff6644;font-weight:600">メタフィルタ適用後</div>
-          <div style="color:#4CAF50;font-weight:600">1,000,000 → 2,152,569円</div>
-          <div style="color:#4CAF50">+115.3% / MaxDD -9.8%</div>
+          <div style="color:#4CAF50;font-weight:600">1,000,000 → 1,315,993円</div>
+          <div style="color:#4CAF50">+31.6% / MaxDD -9.6% / Delta Sharpe +0.934</div>
         </div>
       </div>
     </div>
@@ -977,7 +986,7 @@ function renderMetaLabelReport(r) {
           '</div>';
         }).join('')}
       </div>
-      <div style="margin-top:8px;font-size:11px;color:#888;text-align:center">35ヶ月中31ヶ月プラス | 最大: +11.49% (2026-01) | 最大負け: -3.93% (2024-01)</div>
+      <div style="margin-top:8px;font-size:11px;color:#888;text-align:center">77ヶ月 | 最大: +8.6% (2025-03) | 最大負け: -4.53% (2024-10) | Delta Sharpe +0.934</div>
     </div>
 
     <div class="card">
