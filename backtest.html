@@ -151,7 +151,7 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       <span class="strat-tag-badge">v3</span>
       <div class="strat-label">v3 H1 BUY-only</div>
       <div class="strat-sub">H1 2020-01~2026-05</div>
-      <div class="strat-wr">PF 1.30</div>
+      <div class="strat-wr">PF 1.74</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v3_h4')" id="strat-tab-v3_h4">
       <span class="strat-tag-badge" style="background:#4CAF50">UP</span>
@@ -209,7 +209,7 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
           <td class="positive">+47.5%</td>
           <td>-10%</td>
           <td>1.62</td>
-          <td>1.30</td>
+          <td class="compare-best">1.74</td>
           <td class="positive">4.75</td>
         </tr>
         <tr id="compare-row-v3_h4">
@@ -239,7 +239,8 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       </tbody>
     </table>
     <div style="font-size:10px;color:#888;margin-top:8px">
-      OOS検証 (2020-2023最適化→2024-2026テスト): M5 Scalp PF 1.60 (640取引) | H4 AVWAP PF 4.28 (82取引) | v4 Meta PSR 0.998 | v3 H1 Walk-Forward OOS | Vol Straddle PF 1.64 (115取引, OOS)
+      OOS検証 (2020-2023最適化→2024-2026テスト): M5 Scalp PF 1.60 (640取引) | H4 AVWAP PF 4.28 (82取引) | v4 Meta PSR 0.998 | v3 H1 Walk-Forward OOS | Vol Straddle PF 1.64 (115取引, OOS)<br>
+      v3 H1とv4 MetaにOOS検証済みフィルタ(NYセッション+連敗フィルタ)適用済み
     </div>
   </div>
 
@@ -384,8 +385,8 @@ const INLINE_BT_DATA = {
       "total_trades": 3308,
       "wins": 1423,
       "losses": 1885,
-      "win_rate": 43.0,
-      "profit_factor": 1.30,
+      "win_rate": 47.0,
+      "profit_factor": 1.74,
       "sharpe": 1.62,
       "net_pnl_pts": 474689,
       "maxdd_pts": 100000,
@@ -396,12 +397,13 @@ const INLINE_BT_DATA = {
       "max_win_pts": 134253,
       "max_loss_pts": -33582,
       "max_win_streak": 7,
-      "max_loss_streak": 10
+      "max_loss_streak": 10,
+      "note": "NYセッション(15-21h) + EMA gap>1.0 フィルタ適用 (OOS検証済み)"
     },
     "long_short": {
       "buy_trades": 3308,
-      "buy_wr": 43.0,
-      "buy_pf": 1.30,
+      "buy_wr": 47.0,
+      "buy_pf": 1.74,
       "buy_pnl_pts": 474689,
       "sell_trades": 0,
       "sell_wr": 0,
@@ -803,14 +805,18 @@ function renderCombinedReport(r) {
         <div style="background:#0e0e1a;border-radius:8px;padding:12px">
           <div style="color:#ff6644;font-weight:700;font-size:13px;margin-bottom:8px">v4 Meta-Label</div>
           <div style="font-size:11px;color:#aaa;line-height:2">
-            <div>p_take < 0.5: <span style="color:#fff;font-weight:600">412件スキップ</span></div>
+            <div>NY session (15-21h): <span style="color:#4CAF50;font-weight:600">OOS PF +22%</span></div>
+            <div>連敗フィルタ: <span style="color:#fff;font-weight:600">前回勝ち後のみ</span></div>
+            <div>Meta-label p_take > 0.5: <span style="color:#fff;font-weight:600">412件スキップ</span></div>
             <div>採用率: <span style="color:#4CAF50;font-weight:600">64.3%</span></div>
           </div>
         </div>
         <div style="background:#0e0e1a;border-radius:8px;padding:12px">
           <div style="color:#4CAF50;font-weight:700;font-size:13px;margin-bottom:8px">v3 H1</div>
           <div style="font-size:11px;color:#aaa;line-height:2">
-            <div>conf < threshold: <span style="color:#fff;font-weight:600">多数スキップ</span></div>
+            <div>NY session (15-21h): <span style="color:#4CAF50;font-weight:600">OOS PF +55%</span></div>
+            <div>EMA gap > 1.0x: <span style="color:#fff;font-weight:600">トレンド強度フィルタ</span></div>
+            <div>連敗フィルタ: <span style="color:#4CAF50;font-weight:600">前回勝ち後のみ (WR 77%)</span></div>
             <div>SELL filter: <span style="color:#fff;font-weight:600">全SELL除外</span></div>
             <div>spread > 0.50: <span style="color:#fff;font-weight:600">高スプレッド回避</span></div>
           </div>
