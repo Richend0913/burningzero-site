@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>BURNING ZERO — バックテスト結果</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="i18n.js" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
+<script src="i18n.js?v=20260517b" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';"></script>
 <script>if(typeof t==='undefined'){window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='en';}</script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -118,8 +118,9 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       <div id="lang-picker-slot"></div>
       <div class="nav-links">
         <a href="/" data-i18n="nav_home">ホーム</a>
+        <a href="backtest.html" data-i18n="nav_backtest">BT結果</a>
+        <a href="methodology.html" data-i18n="nav_methodology">検証内容</a>
         <a href="https://app.burningzero.com" data-i18n="nav_app">ダッシュボード</a>
-        <a href="methodology.html">検証方法論</a>
       </div>
     </div>
   </div>
@@ -127,8 +128,8 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
   <!-- Explanation -->
   <div class="card" style="background:linear-gradient(135deg,#0e0e1a,#12121e);border-color:#ff660033">
     <div style="font-size:13px;color:#999;line-height:1.7">
-      <strong style="color:#ff6644">5つのAI戦略を同時運用。</strong>
-      各戦略が独立してMaxDD 10%以内で運用し、異なるタイムフレーム(M5/H1/H4)と異なるアプローチ(方向予測/ボラ予測)で分散。
+      <strong style="color:#ff6644">4つのAI戦略を同時運用。</strong>
+      各戦略が独立してMaxDD 10%以内で運用し、異なるタイムフレーム(M5/H1/H4)で分散。
       全結果はOOS(アウトオブサンプル)で、学習データと評価データを完全に分離しています。
     </div>
   </div>
@@ -137,39 +138,33 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
   <div class="strat-tabs" id="strat-tabs">
     <div class="strat-tab active" onclick="selectStrategy('combined')" id="strat-tab-combined" style="flex:0 0 100%">
       <span class="strat-tag-badge" style="background:#ff6644">ALL</span>
-      <div class="strat-label">5戦略統合</div>
-      <div class="strat-sub">100万円複利 (78ヶ月)</div>
-      <div class="strat-wr">+3,244.5%</div>
+      <div class="strat-label">4戦略統合</div>
+      <div class="strat-sub">100万円複利</div>
+      <div class="strat-wr">+507.2%</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v4_meta')" id="strat-tab-v4_meta">
       <span class="strat-tag-badge">v4</span>
       <div class="strat-label">Meta-Label PoC</div>
       <div class="strat-sub">CatBoost Filter</div>
-      <div class="strat-wr">WR 45.9%</div>
+      <div class="strat-wr">PSR 0.995</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v3_h1')" id="strat-tab-v3_h1">
       <span class="strat-tag-badge">v3</span>
-      <div class="strat-label">v3 H1 BUY-only</div>
-      <div class="strat-sub">H1 2020-01~2026-05</div>
-      <div class="strat-wr">PF 1.89</div>
+      <div class="strat-label">v3 Full System</div>
+      <div class="strat-sub">H1 2023-07~2026-05</div>
+      <div class="strat-wr">WR 41.6%</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v3_h4')" id="strat-tab-v3_h4">
-      <span class="strat-tag-badge" style="background:#4CAF50">UP</span>
-      <div class="strat-label">H4 AVWAP BUY</div>
-      <div class="strat-sub">H4 2020-01~2026-05</div>
-      <div class="strat-wr">WR 69.3%</div>
+      <span class="strat-tag-badge">v3</span>
+      <div class="strat-label">H4 AVWAP Bot</div>
+      <div class="strat-sub">H4 2023-01~2026-05</div>
+      <div class="strat-wr">WR 45.8%</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('scalp')" id="strat-tab-scalp">
-      <span class="strat-tag-badge" style="background:#4CAF50">UP</span>
-      <div class="strat-label">M5 Scalp TP25/SL8</div>
-      <div class="strat-sub">2020-01~2026-05</div>
-      <div class="strat-wr">WR 36.3%</div>
-    </div>
-    <div class="strat-tab" onclick="selectStrategy('vol_straddle')" id="strat-tab-vol_straddle">
-      <span class="strat-tag-badge" style="background:#9C27B0">NEW</span>
-      <div class="strat-label">Vol Straddle</div>
-      <div class="strat-sub">ボラ予測+逆指値</div>
-      <div class="strat-wr">PF 1.64</div>
+      <span class="strat-tag-badge" style="background:#4CAF50">NEW</span>
+      <div class="strat-label">M5 Breakout Scalp</div>
+      <div class="strat-sub">TP20/SL10</div>
+      <div class="strat-wr">WR 44.6%</div>
     </div>
   </div>
 
@@ -189,59 +184,47 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       </thead>
       <tbody>
         <tr id="compare-row-combined" class="highlight">
-          <td style="color:#ff6644;font-weight:700">5戦略統合</td>
-          <td class="compare-best" style="color:#ff6644">+3,244.5%</td>
-          <td>-13.1%</td>
+          <td style="color:#ff6644;font-weight:700">4戦略統合</td>
+          <td class="compare-best" style="color:#ff6644">+507.2%</td>
+          <td>-9.8%</td>
           <td>---</td>
           <td>---</td>
-          <td class="compare-best" style="color:#ff6644">247.7</td>
+          <td class="compare-best" style="color:#ff6644">51.7</td>
         </tr>
         <tr id="compare-row-v4_meta">
           <td>v4 Meta</td>
-          <td class="positive">+31.6%</td>
-          <td>-9.6%</td>
-          <td class="compare-best">+0.934</td>
-          <td>---</td>
-          <td class="positive">3.3</td>
+          <td class="positive">+115.3%</td>
+          <td>-9.8%</td>
+          <td>1.00</td>
+          <td>1.30</td>
+          <td class="compare-best">11.8</td>
         </tr>
         <tr id="compare-row-v3_h1">
-          <td>v3 H1 BUY</td>
-          <td class="positive">+30.9%</td>
+          <td>v3 H1</td>
+          <td class="positive">+46.8%</td>
           <td>-10%</td>
-          <td>---</td>
-          <td class="compare-best">1.89</td>
-          <td class="positive">3.09</td>
+          <td>1.63</td>
+          <td>1.30</td>
+          <td class="positive">4.68</td>
         </tr>
         <tr id="compare-row-v3_h4">
-          <td>H4 AVWAP BUY</td>
-          <td class="positive">+285.0%</td>
+          <td>H4 AVWAP</td>
+          <td class="positive">+10.6%</td>
           <td>-10%</td>
-          <td class="compare-best">---</td>
-          <td class="compare-best">4.35</td>
-          <td class="positive">28.5</td>
+          <td class="compare-best">2.09</td>
+          <td>1.30</td>
+          <td class="positive">1.06</td>
         </tr>
         <tr id="compare-row-scalp">
           <td>M5 Scalp</td>
-          <td class="positive">+73.5%</td>
+          <td class="positive">+60.6%</td>
           <td>-10%</td>
           <td>---</td>
-          <td>1.38</td>
-          <td>7.35</td>
-        </tr>
-        <tr id="compare-row-vol_straddle">
-          <td style="color:#9C27B0">Vol Straddle</td>
-          <td>OOS</td>
-          <td>---</td>
-          <td>---</td>
-          <td class="compare-best">1.64</td>
-          <td>---</td>
+          <td>1.27</td>
+          <td>6.06</td>
         </tr>
       </tbody>
     </table>
-    <div style="font-size:10px;color:#888;margin-top:8px">
-      OOS検証 (2020-2023最適化→2024-2026テスト): M5 Scalp PF 1.60 (640取引) | H4 AVWAP PF 4.28 (82取引) | v4 Meta PSR 0.998 | v3 H1 OOS PF 1.89 (141取引) | Vol Straddle PF 1.64 (115取引, OOS)<br>
-      v3 H1に8フィルタ適用済み (NY+EMA+連敗+月初+モメンタム+バー形状). OOS PF +15.3%改善, WR 46.8%, MaxDD -23%削減
-    </div>
   </div>
 
   <!-- Report -->
@@ -249,8 +232,8 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
 
   <!-- CTA -->
   <div class="ib-banner">
-    <p>Exnessパートナー口座の開設で利用可能</p>
-    <a href="https://one.exnesstrack.org/a/newf0ex0jj" target="_blank">無料で検証ツールを使う →</a>
+    <p>パートナーブローカー口座で無料アクセス</p>
+    <a href="https://one.exnesstrack.org/a/newf0ex0jj" target="_blank">口座開設 (Exness) →</a>
   </div>
 
   <div style="text-align:center;padding:20px;font-size:10px;color:#444">
@@ -267,61 +250,47 @@ const INLINE_BT_DATA = {
   'combined': {
     "symbol": "XAUUSD",
     "model": "combined",
-    "bot_name": "5戦略統合ポートフォリオ",
+    "bot_name": "4戦略統合ポートフォリオ",
     "lot": "各戦略独立MaxDD10% (100万円複利)",
-    "period": "2020-01 ~ 2026-05",
+    "period": "2023-07 ~ 2026-05",
     "combined_summary": {
-      "start": 1000000, "end": 33444927, "return_pct": 3244.5,
-      "maxdd_pct": -13.1, "pnl_dd": 247.7,
-      "pos_months": 46, "total_months": 77,
-      "best_month": 98.77, "worst_month": -11.57, "avg_month": 5.64
+      "start": 1000000, "end": 6071835, "return_pct": 507.2,
+      "maxdd_pct": -9.8, "pnl_dd": 51.7,
+      "pos_months": 30, "total_months": 35,
+      "best_month": 36.11, "worst_month": -6.57, "avg_month": 5.57
     },
     "combined_monthly": [
-      {"month":"2020-01","pnl_pct":-1.31},{"month":"2020-02","pnl_pct":2.25},{"month":"2020-03","pnl_pct":0.59},
-      {"month":"2020-04","pnl_pct":-0.15},{"month":"2020-05","pnl_pct":1.57},{"month":"2020-06","pnl_pct":-1.14},
-      {"month":"2020-07","pnl_pct":16.65},{"month":"2020-08","pnl_pct":-2.13},{"month":"2020-09","pnl_pct":-0.66},
-      {"month":"2020-10","pnl_pct":0.77},{"month":"2020-11","pnl_pct":-0.6},{"month":"2020-12","pnl_pct":1.24},
-      {"month":"2021-01","pnl_pct":0.82},{"month":"2021-02","pnl_pct":-1.22},{"month":"2021-03","pnl_pct":5.54},
-      {"month":"2021-04","pnl_pct":0.07},{"month":"2021-05","pnl_pct":-8.96},{"month":"2021-06","pnl_pct":2.54},
-      {"month":"2021-07","pnl_pct":-0.81},{"month":"2021-08","pnl_pct":-1.7},{"month":"2021-09","pnl_pct":-0.14},
-      {"month":"2021-10","pnl_pct":2.95},{"month":"2021-11","pnl_pct":-0.64},{"month":"2021-12","pnl_pct":1.84},
-      {"month":"2022-01","pnl_pct":-2.46},{"month":"2022-02","pnl_pct":5.91},{"month":"2022-03","pnl_pct":-0.06},
-      {"month":"2022-04","pnl_pct":2.59},{"month":"2022-05","pnl_pct":0.16},{"month":"2022-06","pnl_pct":-0.38},
-      {"month":"2022-07","pnl_pct":-1.04},{"month":"2022-08","pnl_pct":0.63},{"month":"2022-09","pnl_pct":-0.02},
-      {"month":"2022-10","pnl_pct":-2.38},{"month":"2022-11","pnl_pct":2.77},{"month":"2022-12","pnl_pct":3.67},
-      {"month":"2023-01","pnl_pct":22.68},{"month":"2023-02","pnl_pct":-0.59},{"month":"2023-03","pnl_pct":25.27},
-      {"month":"2023-04","pnl_pct":-0.87},{"month":"2023-05","pnl_pct":-1.16},{"month":"2023-06","pnl_pct":-0.83},
-      {"month":"2023-07","pnl_pct":0.17},{"month":"2023-08","pnl_pct":0.37},{"month":"2023-09","pnl_pct":1.22},
-      {"month":"2023-10","pnl_pct":0.65},{"month":"2023-11","pnl_pct":0.95},{"month":"2023-12","pnl_pct":2.92},
-      {"month":"2024-01","pnl_pct":-0.61},{"month":"2024-02","pnl_pct":-1.11},{"month":"2024-03","pnl_pct":-11.57},
-      {"month":"2024-04","pnl_pct":17.13},{"month":"2024-05","pnl_pct":-2.31},{"month":"2024-06","pnl_pct":1.06},
-      {"month":"2024-07","pnl_pct":10.44},{"month":"2024-08","pnl_pct":-1.29},{"month":"2024-09","pnl_pct":5.5},
-      {"month":"2024-10","pnl_pct":-1.98},{"month":"2024-11","pnl_pct":8.77},{"month":"2024-12","pnl_pct":-2.64},
-      {"month":"2025-01","pnl_pct":6.46},{"month":"2025-02","pnl_pct":16.16},{"month":"2025-03","pnl_pct":8.53},
-      {"month":"2025-04","pnl_pct":14.8},{"month":"2025-05","pnl_pct":12.73},{"month":"2025-06","pnl_pct":-0.62},
-      {"month":"2025-07","pnl_pct":1.52},{"month":"2025-08","pnl_pct":3.35},{"month":"2025-09","pnl_pct":67.56},
-      {"month":"2025-10","pnl_pct":98.77},{"month":"2025-11","pnl_pct":2.43},{"month":"2025-12","pnl_pct":3.07},
-      {"month":"2026-01","pnl_pct":82.26},{"month":"2026-02","pnl_pct":-0.1},{"month":"2026-03","pnl_pct":8.34},
-      {"month":"2026-04","pnl_pct":3.08},{"month":"2026-05","pnl_pct":6.81}
+      {"month":"2023-07","pnl_pct":1.46},{"month":"2023-08","pnl_pct":-0.25},{"month":"2023-09","pnl_pct":0.44},
+      {"month":"2023-10","pnl_pct":-2.43},{"month":"2023-11","pnl_pct":1.28},{"month":"2023-12","pnl_pct":1.49},
+      {"month":"2024-01","pnl_pct":-6.57},{"month":"2024-02","pnl_pct":-3.46},{"month":"2024-03","pnl_pct":6.78},
+      {"month":"2024-04","pnl_pct":2.05},{"month":"2024-05","pnl_pct":1.71},{"month":"2024-06","pnl_pct":3.86},
+      {"month":"2024-07","pnl_pct":5.29},{"month":"2024-08","pnl_pct":-0.35},{"month":"2024-09","pnl_pct":3.54},
+      {"month":"2024-10","pnl_pct":2.82},{"month":"2024-11","pnl_pct":3.55},{"month":"2024-12","pnl_pct":0.42},
+      {"month":"2025-01","pnl_pct":4.02},{"month":"2025-02","pnl_pct":5.11},{"month":"2025-03","pnl_pct":8.09},
+      {"month":"2025-04","pnl_pct":12.57},{"month":"2025-05","pnl_pct":12.1},{"month":"2025-06","pnl_pct":1.22},
+      {"month":"2025-07","pnl_pct":8.6},{"month":"2025-08","pnl_pct":1.6},{"month":"2025-09","pnl_pct":17.13},
+      {"month":"2025-10","pnl_pct":24.84},{"month":"2025-11","pnl_pct":0.79},{"month":"2025-12","pnl_pct":14.12},
+      {"month":"2026-01","pnl_pct":36.11},{"month":"2026-02","pnl_pct":4.26},{"month":"2026-03","pnl_pct":6.68},
+      {"month":"2026-04","pnl_pct":4.35},{"month":"2026-05","pnl_pct":11.6}
     ],
-    "combined_equity": [1000000,986900,1009105,1015059,1013536,1029449,1017713,1187162,1161876,1154207,1163095,1156116,1170452,1180050,1165653,1230230,1231092,1120786,1149254,1139945,1120566,1118997,1152007,1144635,1165696,1137020,1204218,1203495,1234666,1236641,1231942,1219130,1226810,1226565,1197372,1230540,1275701,1565029,1555796,1948945,1931989,1909578,1893729,1896948,1903967,1927195,1939722,1958149,2015327,2003034,1980800,1751622,2051674,2004281,2025526,2236991,2208134,2329581,2283456,2483715,2418145,2574357,2990373,3245451,3725778,4200070,4174029,4237475,4379430,7338173,14586087,14940529,15399203,28066587,28038520,30376933,31312542,33444927]
+    "combined_equity": [1000000,1014600,1012064,1016517,991816,1004511,1019478,952498,919542,981887,1002016,1019150,1058489,1114483,1110582,1149897,1182324,1224297,1229439,1278862,1344212,1452959,1635596,1833503,1855872,2015477,2047725,2398500,2994287,3017942,3444075,4687730,4887427,5213907,5440712,6071835]
   },
   'v4_meta': {
     "symbol": "XAUUSD",
     "model": "v4_meta",
     "bot_name": "v4 Meta-Label PoC",
     "lot": "EMA+RSI + CatBoost filter",
-    "period": "2020-01 ~ 2026-05",
+    "period": "Meta-Labeling Research",
     "summary": {
-      "total_trades": 1153,
-      "wins": 340,
-      "losses": 401,
-      "win_rate": 45.9,
+      "total_trades": 1422,
+      "wins": 607,
+      "losses": 815,
+      "win_rate": 42.7,
       "profit_factor": 1.30,
       "sharpe": 1.00,
-      "net_pnl_pts": 315993,
-      "maxdd_pts": -96000,
-      "pnl_maxdd": 3.3,
+      "net_pnl_pts": 58151,
+      "maxdd_pts": -5900,
+      "pnl_maxdd": 9.9,
       "avg_win_pts": null,
       "avg_loss_pts": null,
       "rr_ratio": null,
@@ -331,8 +300,8 @@ const INLINE_BT_DATA = {
       "max_loss_streak": null
     },
     "meta_label_results": {
-      "delta_sharpe": 0.934,
-      "psr": 0.998,
+      "delta_sharpe": 0.495,
+      "psr": 0.995,
       "neg_folds": "0/5",
       "cond_wr_lift": "+3.4pp",
       "total_features": 14,
@@ -344,353 +313,253 @@ const INLINE_BT_DATA = {
     },
     "long_short": { "buy_trades":0,"buy_wr":0,"buy_pf":0,"buy_pnl_pts":0,"sell_trades":0,"sell_wr":0,"sell_pf":0,"sell_pnl_pts":0 },
     "monthly": [
-      {"month":"2020-01","pnl_pct":0.6},{"month":"2020-02","pnl_pct":0.37},{"month":"2020-03","pnl_pct":-1.48},
-      {"month":"2020-04","pnl_pct":1.71},{"month":"2020-05","pnl_pct":2.53},{"month":"2020-06","pnl_pct":0.0},
-      {"month":"2020-07","pnl_pct":-0.71},{"month":"2020-08","pnl_pct":-0.13},{"month":"2020-09","pnl_pct":-0.06},
-      {"month":"2020-10","pnl_pct":-0.72},{"month":"2020-11","pnl_pct":-0.2},{"month":"2020-12","pnl_pct":-0.81},
-      {"month":"2021-01","pnl_pct":-0.65},{"month":"2021-02","pnl_pct":-0.46},{"month":"2021-03","pnl_pct":1.02},
-      {"month":"2021-04","pnl_pct":-1.16},{"month":"2021-05","pnl_pct":0.08},{"month":"2021-06","pnl_pct":-1.01},
-      {"month":"2021-07","pnl_pct":-0.21},{"month":"2021-08","pnl_pct":-2.26},{"month":"2021-09","pnl_pct":-0.57},
-      {"month":"2021-10","pnl_pct":2.23},{"month":"2021-11","pnl_pct":1.75},{"month":"2021-12","pnl_pct":1.28},
-      {"month":"2022-01","pnl_pct":-0.17},{"month":"2022-02","pnl_pct":0.0},{"month":"2022-03","pnl_pct":-1.69},
-      {"month":"2022-04","pnl_pct":0.34},{"month":"2022-05","pnl_pct":0.38},{"month":"2022-06","pnl_pct":0.38},
-      {"month":"2022-07","pnl_pct":0.1},{"month":"2022-08","pnl_pct":2.36},{"month":"2022-09","pnl_pct":0.94},
-      {"month":"2022-10","pnl_pct":-0.27},{"month":"2022-11","pnl_pct":4.09},{"month":"2022-12","pnl_pct":3.57},
-      {"month":"2023-01","pnl_pct":-0.01},{"month":"2023-02","pnl_pct":-0.01},{"month":"2023-03","pnl_pct":-0.02},
-      {"month":"2023-04","pnl_pct":0.29},{"month":"2023-05","pnl_pct":-0.24},{"month":"2023-06","pnl_pct":0.51},
-      {"month":"2023-07","pnl_pct":-0.1},{"month":"2023-08","pnl_pct":0.14},{"month":"2023-09","pnl_pct":-0.08},
-      {"month":"2023-10","pnl_pct":-0.02},{"month":"2023-11","pnl_pct":0.08},{"month":"2023-12","pnl_pct":0.12},
-      {"month":"2024-01","pnl_pct":0.07},{"month":"2024-02","pnl_pct":-0.08},{"month":"2024-03","pnl_pct":-0.29},
-      {"month":"2024-04","pnl_pct":0.01},{"month":"2024-05","pnl_pct":0.0},{"month":"2024-06","pnl_pct":0.31},
-      {"month":"2024-07","pnl_pct":-1.69},{"month":"2024-08","pnl_pct":0.09},{"month":"2024-09","pnl_pct":2.42},
-      {"month":"2024-10","pnl_pct":-4.53},{"month":"2024-11","pnl_pct":8.26},{"month":"2024-12","pnl_pct":-0.46},
-      {"month":"2025-01","pnl_pct":3.13},{"month":"2025-02","pnl_pct":0.34},{"month":"2025-03","pnl_pct":8.6},
-      {"month":"2025-04","pnl_pct":-3.33},{"month":"2025-05","pnl_pct":-0.05},{"month":"2025-06","pnl_pct":-0.05},
-      {"month":"2025-07","pnl_pct":-0.24},{"month":"2025-08","pnl_pct":0.7},{"month":"2025-09","pnl_pct":0.89},
-      {"month":"2025-10","pnl_pct":0.22},{"month":"2025-11","pnl_pct":-0.07},{"month":"2025-12","pnl_pct":0.32},
-      {"month":"2026-01","pnl_pct":0.82},{"month":"2026-02","pnl_pct":-1.05},{"month":"2026-03","pnl_pct":0.62},
-      {"month":"2026-04","pnl_pct":0.24},{"month":"2026-05","pnl_pct":1.8}
+      {"month":"2023-07","pnl_pct":1.36},{"month":"2023-08","pnl_pct":1.28},{"month":"2023-09","pnl_pct":3.58},
+      {"month":"2023-10","pnl_pct":1.57},{"month":"2023-11","pnl_pct":1.63},{"month":"2023-12","pnl_pct":-0.23},
+      {"month":"2024-01","pnl_pct":-3.93},{"month":"2024-02","pnl_pct":-0.96},{"month":"2024-03","pnl_pct":3.00},
+      {"month":"2024-04","pnl_pct":2.28},{"month":"2024-05","pnl_pct":1.88},{"month":"2024-06","pnl_pct":1.71},
+      {"month":"2024-07","pnl_pct":4.89},{"month":"2024-08","pnl_pct":0.77},{"month":"2024-09","pnl_pct":-0.94},
+      {"month":"2024-10","pnl_pct":0.58},{"month":"2024-11","pnl_pct":2.93},{"month":"2024-12","pnl_pct":1.93},
+      {"month":"2025-01","pnl_pct":1.69},{"month":"2025-02","pnl_pct":1.19},{"month":"2025-03","pnl_pct":-0.18},
+      {"month":"2025-04","pnl_pct":0.74},{"month":"2025-05","pnl_pct":4.33},{"month":"2025-06","pnl_pct":0.20},
+      {"month":"2025-07","pnl_pct":4.03},{"month":"2025-08","pnl_pct":-0.03},{"month":"2025-09","pnl_pct":6.95},
+      {"month":"2025-10","pnl_pct":2.98},{"month":"2025-11","pnl_pct":-1.50},{"month":"2025-12","pnl_pct":8.18},
+      {"month":"2026-01","pnl_pct":11.49},{"month":"2026-02","pnl_pct":1.10},{"month":"2026-03","pnl_pct":7.99},
+      {"month":"2026-04","pnl_pct":0.03},{"month":"2026-05","pnl_pct":6.55}
     ],
-    "equity_curve": {"dates":["2020-01","2020-05","2020-08","2020-12","2021-03","2021-06","2021-08","2021-11","2022-01","2022-04","2022-07","2022-11","2023-01","2023-05","2023-07","2023-08","2023-11","2024-03","2024-06","2024-08","2024-10","2024-11","2025-02","2025-03","2025-04","2025-06","2025-08","2025-10","2025-12","2026-02","2026-04","2026-05"],"baseline":[1000000,1018801,1028910,1026740,1006925,988080,960848,974665,1007913,997413,1002765,1069686,1119142,1116187,1119524,1120027,1119539,1120994,1121759,1126665,1100530,1182546,1202675,1258727,1309647,1260179,1266952,1275683,1282576,1283592,1291789,1315993],"meta":[1000000,1018801,1028910,1026740,1006925,988080,960848,974665,1007913,997413,1002765,1069686,1119142,1116187,1119524,1120027,1119539,1120994,1121759,1126665,1100530,1182546,1202675,1258727,1309647,1260179,1266952,1275683,1282576,1283592,1291789,1315993]},
+    "equity_curve": {"dates":["2023-07","2023-10","2024-01","2024-04","2024-07","2024-10","2025-01","2025-04","2025-07","2025-10","2026-01","2026-05"],"baseline":[1000000,1026510,959040,959640,1017100,1005490,1056300,1030330,1168280,1188480,1384720,1488280],"meta":[1000000,1088060,1006420,1139020,1235180,1256730,1400270,1410470,1618740,1739480,1979060,2152569]},
     "bootstrap_pf": {"p5":0,"p25":0,"p50":0,"p75":0,"p95":0},
     "feature_importance": {"lower_wick_ratio":113,"compression_ratio":110,"upper_wick_ratio":73,"body_ratio":43,"consec_dir":26,"atr_norm":95,"rsi_14":88,"ema_slope":82,"volatility_ratio":78,"price_vs_ema":72,"bb_width":65,"momentum":58,"dist_to_high":52,"dist_to_low":45}
   },
   'v3_h1': {
     "symbol": "XAUUSD",
     "model": "v3_h1",
-    "bot_name": "v3 Full System H1 (BUY-only, 8 Filters)",
+    "bot_name": "v3 Full System (H1)",
     "lot": "100万円スタート",
-    "period": "2020-01 ~ 2026-05",
+    "period": "2023-07 ~ 2026-05",
     "summary": {
-      "total_trades": 317,
-      "wins": 127,
-      "losses": 190,
-      "win_rate": 40.1,
-      "profit_factor": 1.40,
-      "sharpe": null,
-      "net_pnl_pts": 309013,
+      "total_trades": 2659,
+      "wins": 1106,
+      "losses": 1553,
+      "win_rate": 41.6,
+      "profit_factor": 1.30,
+      "sharpe": 1.63,
+      "net_pnl_pts": 467601,
       "maxdd_pts": 100000,
-      "pnl_maxdd": 3.09,
-      "avg_win_pts": 8503,
-      "avg_loss_pts": -4064,
-      "rr_ratio": 2.09,
-      "max_win_pts": 151863,
-      "max_loss_pts": -20322,
-      "max_win_streak": 5,
-      "max_loss_streak": 8,
-      "note": "8フィルタ適用: NY(15-21h)+EMA gap>1.0+連敗+月初(1-5日)+モメンタム加速+バー形状(0.3)+BUY-only. OOS PF 1.89 (+15.3%改善)"
+      "pnl_maxdd": 4.68,
+      "avg_win_pts": 1978,
+      "avg_loss_pts": -1127,
+      "rr_ratio": 1.76,
+      "max_win_pts": 134253,
+      "max_loss_pts": -33582,
+      "max_win_streak": 7,
+      "max_loss_streak": 10
     },
     "long_short": {
-      "buy_trades": 317,
-      "buy_wr": 40.1,
-      "buy_pf": 1.40,
-      "buy_pnl_pts": 309013,
-      "sell_trades": 0,
-      "sell_wr": 0,
-      "sell_pf": 0,
-      "sell_pnl_pts": 0
+      "buy_trades": 2314,
+      "buy_wr": 42.0,
+      "buy_pf": 1.32,
+      "buy_pnl_pts": 455682,
+      "sell_trades": 345,
+      "sell_wr": 38.6,
+      "sell_pf": 1.10,
+      "sell_pnl_pts": 11892
     },
     "monthly": [
-      {"month":"2024-01","trades":3,"wr":33.3,"pf":0.35,"pnl":-3210},
-      {"month":"2024-02","trades":2,"wr":50.0,"pf":1.71,"pnl":1605},
-      {"month":"2024-03","trades":7,"wr":42.9,"pf":1.54,"pnl":7490},
-      {"month":"2024-04","trades":2,"wr":50.0,"pf":3.68,"pnl":7490},
-      {"month":"2024-05","trades":4,"wr":25.0,"pf":0.61,"pnl":-4815},
-      {"month":"2024-06","trades":2,"wr":50.0,"pf":0.85,"pnl":-535},
-      {"month":"2024-07","trades":8,"wr":50.0,"pf":1.92,"pnl":13910},
-      {"month":"2024-08","trades":5,"wr":20.0,"pf":0.41,"pnl":-9095},
-      {"month":"2024-09","trades":8,"wr":50.0,"pf":2.18,"pnl":14980},
-      {"month":"2024-10","trades":8,"wr":62.5,"pf":2.92,"pnl":22470},
-      {"month":"2024-11","trades":5,"wr":80.0,"pf":7.30,"pnl":25145},
-      {"month":"2024-12","trades":2,"wr":0.0,"pf":0.00,"pnl":-8560},
-      {"month":"2025-01","trades":8,"wr":37.5,"pf":0.72,"pnl":-4815},
-      {"month":"2025-02","trades":4,"wr":50.0,"pf":1.22,"pnl":1605},
-      {"month":"2025-03","trades":9,"wr":55.6,"pf":2.46,"pnl":22470},
-      {"month":"2025-04","trades":5,"wr":80.0,"pf":5.65,"pnl":45475},
-      {"month":"2025-05","trades":5,"wr":60.0,"pf":2.75,"pnl":26215},
-      {"month":"2025-06","trades":2,"wr":50.0,"pf":1.90,"pnl":6420},
-      {"month":"2025-07","trades":2,"wr":0.0,"pf":0.00,"pnl":-8560},
-      {"month":"2025-08","trades":4,"wr":0.0,"pf":0.00,"pnl":-16050},
-      {"month":"2025-09","trades":6,"wr":50.0,"pf":2.50,"pnl":23540},
-      {"month":"2025-10","trades":8,"wr":50.0,"pf":2.16,"pnl":40125},
-      {"month":"2025-11","trades":6,"wr":33.3,"pf":0.82,"pnl":-6420},
-      {"month":"2025-12","trades":6,"wr":33.3,"pf":0.84,"pnl":-5350},
-      {"month":"2026-01","trades":13,"wr":61.5,"pf":3.66,"pnl":151940},
-      {"month":"2026-02","trades":3,"wr":33.3,"pf":0.73,"pnl":-9095},
-      {"month":"2026-03","trades":1,"wr":100.0,"pf":999.00,"pnl":35310},
-      {"month":"2026-04","trades":1,"wr":0.0,"pf":0.00,"pnl":-10700},
-      {"month":"2026-05","trades":2,"wr":50.0,"pf":44.19,"pnl":22470}
+      {"month":"2023-07","trades":23,"wr":52.2,"pf":2.08,"pnl":4710},
+      {"month":"2023-08","trades":41,"wr":46.3,"pf":1.19,"pnl":1426},
+      {"month":"2023-09","trades":80,"wr":20.0,"pf":0.31,"pnl":-13529},
+      {"month":"2023-10","trades":36,"wr":30.6,"pf":0.66,"pnl":-4547},
+      {"month":"2023-11","trades":43,"wr":65.1,"pf":3.08,"pnl":13397},
+      {"month":"2023-12","trades":101,"wr":40.6,"pf":1.28,"pnl":7300},
+      {"month":"2024-01","trades":85,"wr":24.7,"pf":0.37,"pnl":-19868},
+      {"month":"2024-02","trades":87,"wr":24.1,"pf":0.41,"pnl":-15908},
+      {"month":"2024-03","trades":57,"wr":52.6,"pf":2.43,"pnl":20215},
+      {"month":"2024-04","trades":53,"wr":35.8,"pf":0.82,"pnl":-5166},
+      {"month":"2024-05","trades":93,"wr":43.0,"pf":1.09,"pnl":3840},
+      {"month":"2024-06","trades":41,"wr":39.0,"pf":1.01,"pnl":85},
+      {"month":"2024-07","trades":79,"wr":29.1,"pf":0.78,"pnl":-7932},
+      {"month":"2024-08","trades":111,"wr":33.3,"pf":0.84,"pnl":-7975},
+      {"month":"2024-09","trades":113,"wr":46.0,"pf":1.52,"pnl":19746},
+      {"month":"2024-10","trades":78,"wr":46.2,"pf":1.60,"pnl":16862},
+      {"month":"2024-11","trades":7,"wr":42.9,"pf":1.64,"pnl":1700},
+      {"month":"2024-12","trades":65,"wr":27.7,"pf":0.68,"pnl":-10327},
+      {"month":"2025-01","trades":90,"wr":56.7,"pf":2.43,"pnl":31659},
+      {"month":"2025-02","trades":110,"wr":37.3,"pf":1.07,"pnl":3843},
+      {"month":"2025-03","trades":74,"wr":58.1,"pf":2.11,"pnl":28716},
+      {"month":"2025-04","trades":38,"wr":89.5,"pf":15.98,"pnl":86993},
+      {"month":"2025-05","trades":115,"wr":49.6,"pf":1.79,"pnl":62423},
+      {"month":"2025-06","trades":123,"wr":39.0,"pf":1.22,"pnl":19400},
+      {"month":"2025-07","trades":70,"wr":37.1,"pf":0.87,"pnl":-4695},
+      {"month":"2025-08","trades":149,"wr":36.2,"pf":1.03,"pnl":1974},
+      {"month":"2025-09","trades":54,"wr":64.8,"pf":3.39,"pnl":42784},
+      {"month":"2025-10","trades":123,"wr":50.4,"pf":1.74,"pnl":87636},
+      {"month":"2025-11","trades":81,"wr":35.8,"pf":0.91,"pnl":-8703},
+      {"month":"2025-12","trades":159,"wr":39.0,"pf":1.06,"pnl":9277},
+      {"month":"2026-01","trades":142,"wr":54.2,"pf":2.20,"pnl":134253},
+      {"month":"2026-02","trades":41,"wr":29.3,"pf":0.93,"pnl":-5313},
+      {"month":"2026-03","trades":18,"wr":27.8,"pf":0.59,"pnl":-15089},
+      {"month":"2026-04","trades":53,"wr":30.2,"pf":0.67,"pnl":-33582},
+      {"month":"2026-05","trades":26,"wr":46.2,"pf":1.77,"pnl":21996}
     ],
-    "equity_curve": [1000000,996790,998395,1005885,1013375,1008560,1008025,1021935,1012840,1027820,1050290,1075435,1066875,1062060,1063665,1086135,1131610,1157825,1164245,1155685,1139635,1163175,1203300,1196880,1191530,1343470,1334375,1369685,1358985,1381455],
-    "bootstrap_pf": {"p5":1.12,"p25":1.28,"p50":1.40,"p75":1.58,"p95":1.89},
+    "equity_curve": [1000000,1004710,1006136,992607,988060,1001457,1008757,988889,972981,993196,988030,991870,991955,984023,976048,995794,1012656,1014356,1004029,1035688,1039531,1068247,1155240,1217663,1237063,1232368,1234342,1277126,1364762,1356059,1365336,1499589,1494276,1479187,1445605,1467601],
+    "bootstrap_pf": {"p5":1.078,"p25":1.251,"p50":1.387,"p75":1.541,"p95":1.777},
     "feature_importance": {"hours_to_next_event":203,"hours_since_last_event":189,"bb_width":161,"dist_daily_low":140,"atr_norm":129,"vol_at_high":126,"day_of_week":120,"vol_trend":115,"d1_trend_strength":112,"h4_price_vs_ema21":101,"compression":100,"macd_hist_norm":98,"d1_rsi":89,"regime_prob_3":89,"momentum_5":87}
   },
   'v3_h4': {
     "symbol": "XAUUSD",
     "model": "v3_h4",
-    "bot_name": "H4 AVWAP BUY-only (Improved)",
+    "bot_name": "H4 AVWAP Bot",
     "lot": "100万円スタート",
-    "period": "2020-01 ~ 2026-05",
+    "period": "2023-01 ~ 2026-05",
     "summary": {
-      "total_trades": 150,
-      "wins": 104,
-      "losses": 46,
-      "win_rate": 69.3,
-      "profit_factor": 4.35,
-      "sharpe": null,
-      "net_pnl_pts": 2849900,
+      "total_trades": 408,
+      "wins": 187,
+      "losses": 221,
+      "win_rate": 45.8,
+      "profit_factor": 1.30,
+      "sharpe": 2.09,
+      "net_pnl_pts": 105770,
       "maxdd_pts": 100000,
-      "pnl_maxdd": 28.5,
-      "avg_win_pts": null,
-      "avg_loss_pts": null,
-      "rr_ratio": null,
-      "max_win_pts": null,
-      "max_loss_pts": null,
-      "max_win_streak": null,
-      "max_loss_streak": null
+      "pnl_maxdd": 1.06,
+      "avg_win_pts": 2451,
+      "avg_loss_pts": -1596,
+      "rr_ratio": 1.54,
+      "max_win_pts": 23303,
+      "max_loss_pts": -15423,
+      "max_win_streak": 5,
+      "max_loss_streak": 4
     },
     "long_short": {
-      "buy_trades": 150,
-      "buy_wr": 69.3,
-      "buy_pf": 4.35,
-      "buy_pnl_pts": 2849900,
-      "sell_trades": 0,
-      "sell_wr": 0,
-      "sell_pf": 0,
-      "sell_pnl_pts": 0
+      "buy_trades": 349,
+      "buy_wr": 46.1,
+      "buy_pf": 1.32,
+      "buy_pnl_pts": 90474,
+      "sell_trades": 59,
+      "sell_wr": 44.1,
+      "sell_pf": 1.18,
+      "sell_pnl_pts": 15296
     },
     "monthly": [
-      {"month":"2020-02","trades":1,"wr":100.0,"pf":99,"pnl":13600},
-      {"month":"2020-04","trades":2,"wr":0.0,"pf":0.00,"pnl":-31600},
-      {"month":"2020-07","trades":13,"wr":85.0,"pf":10.0,"pnl":173900},
-      {"month":"2020-08","trades":7,"wr":29.0,"pf":0.5,"pnl":-34700},
-      {"month":"2021-05","trades":9,"wr":0.0,"pf":0.00,"pnl":-88400},
-      {"month":"2022-02","trades":1,"wr":100.0,"pf":99,"pnl":14700},
-      {"month":"2022-03","trades":3,"wr":67.0,"pf":3.0,"pnl":37400},
-      {"month":"2022-12","trades":1,"wr":0.0,"pf":0.00,"pnl":-11100},
-      {"month":"2023-01","trades":22,"wr":77.0,"pf":6.5,"pnl":223300},
-      {"month":"2023-03","trades":9,"wr":100.0,"pf":99,"pnl":232200},
-      {"month":"2024-03","trades":11,"wr":9.0,"pf":0.1,"pnl":-102500},
-      {"month":"2024-04","trades":14,"wr":64.0,"pf":3.5,"pnl":157900},
-      {"month":"2024-07","trades":5,"wr":100.0,"pf":99,"pnl":107000},
-      {"month":"2025-02","trades":6,"wr":100.0,"pf":99,"pnl":181200},
-      {"month":"2025-03","trades":1,"wr":0.0,"pf":0.00,"pnl":-19600},
-      {"month":"2025-04","trades":6,"wr":50.0,"pf":1.8,"pnl":38100},
-      {"month":"2025-09","trades":17,"wr":100.0,"pf":99,"pnl":556500},
-      {"month":"2025-10","trades":11,"wr":100.0,"pf":99,"pnl":802100},
-      {"month":"2026-01","trades":11,"wr":82.0,"pf":6.5,"pnl":599900}
+      {"month":"2023-01","trades":6,"wr":33.0,"pf":0.97,"pnl":-90},
+      {"month":"2023-02","trades":3,"wr":33.0,"pf":1.00,"pnl":7},
+      {"month":"2023-03","trades":18,"wr":83.0,"pf":15.04,"pnl":23295},
+      {"month":"2023-04","trades":8,"wr":38.0,"pf":1.05,"pnl":202},
+      {"month":"2023-05","trades":8,"wr":0.0,"pf":0.00,"pnl":-6811},
+      {"month":"2023-06","trades":15,"wr":53.0,"pf":2.19,"pnl":5005},
+      {"month":"2023-07","trades":5,"wr":40.0,"pf":1.32,"pnl":547},
+      {"month":"2023-08","trades":0,"wr":0.0,"pf":0.00,"pnl":0},
+      {"month":"2023-09","trades":4,"wr":75.0,"pf":5.19,"pnl":1678},
+      {"month":"2023-10","trades":10,"wr":10.0,"pf":0.03,"pnl":-5118},
+      {"month":"2023-11","trades":2,"wr":50.0,"pf":1.70,"pnl":465},
+      {"month":"2023-12","trades":18,"wr":39.0,"pf":0.87,"pnl":-1461},
+      {"month":"2024-01","trades":3,"wr":67.0,"pf":3.81,"pnl":1798},
+      {"month":"2024-02","trades":12,"wr":0.0,"pf":0.00,"pnl":-7493},
+      {"month":"2024-03","trades":21,"wr":52.0,"pf":2.16,"pnl":9164},
+      {"month":"2024-04","trades":30,"wr":37.0,"pf":1.01,"pnl":135},
+      {"month":"2024-05","trades":2,"wr":50.0,"pf":1.47,"pnl":525},
+      {"month":"2024-06","trades":8,"wr":0.0,"pf":0.00,"pnl":-6571},
+      {"month":"2024-07","trades":18,"wr":72.0,"pf":4.93,"pnl":15450},
+      {"month":"2024-08","trades":7,"wr":0.0,"pf":0.00,"pnl":-7058},
+      {"month":"2024-09","trades":12,"wr":75.0,"pf":5.40,"pnl":11899},
+      {"month":"2024-10","trades":5,"wr":40.0,"pf":1.27,"pnl":787},
+      {"month":"2024-11","trades":5,"wr":20.0,"pf":0.28,"pnl":-3342},
+      {"month":"2024-12","trades":16,"wr":31.0,"pf":0.57,"pnl":-4661},
+      {"month":"2025-01","trades":5,"wr":40.0,"pf":1.29,"pnl":712},
+      {"month":"2025-02","trades":19,"wr":74.0,"pf":5.89,"pnl":26233},
+      {"month":"2025-03","trades":13,"wr":38.0,"pf":1.10,"pnl":989},
+      {"month":"2025-04","trades":9,"wr":33.0,"pf":0.76,"pnl":-2450},
+      {"month":"2025-05","trades":6,"wr":0.0,"pf":0.00,"pnl":-13862},
+      {"month":"2025-06","trades":14,"wr":14.0,"pf":0.25,"pnl":-14730},
+      {"month":"2025-07","trades":11,"wr":91.0,"pf":16.39,"pnl":19736},
+      {"month":"2025-08","trades":4,"wr":0.0,"pf":0.00,"pnl":-4129},
+      {"month":"2025-09","trades":19,"wr":79.0,"pf":7.14,"pnl":35299},
+      {"month":"2025-10","trades":16,"wr":81.0,"pf":5.91,"pnl":58287},
+      {"month":"2025-11","trades":3,"wr":0.0,"pf":0.00,"pnl":-8789},
+      {"month":"2025-12","trades":15,"wr":67.0,"pf":2.19,"pnl":16424},
+      {"month":"2026-01","trades":11,"wr":82.0,"pf":4.43,"pnl":47722},
+      {"month":"2026-02","trades":3,"wr":0.0,"pf":0.00,"pnl":-15413},
+      {"month":"2026-03","trades":17,"wr":6.0,"pf":0.01,"pnl":-84587},
+      {"month":"2026-04","trades":6,"wr":83.0,"pf":7.47,"pnl":18912},
+      {"month":"2026-05","trades":1,"wr":0.0,"pf":0.00,"pnl":-2937}
     ],
-    "equity_curve": [1000000,1000000,1013600,1013600,982000,982000,982000,982000,1155900,1121200,1121200,1121200,1121200,1121200,1121200,1121200,1121200,1032800,1032800,1032800,1032800,1032800,1032800,1032800,1032800,1047500,1084900,1084900,1084900,1084900,1084900,1084900,1084900,1084900,1073800,1073800,1073800,1297100,1297100,1529300,1529300,1529300,1529300,1529300,1529300,1529300,1529300,1529300,1529300,1426800,1584700,1691700,1691700,1691700,1798700,1798700,1798700,1798700,1798700,1798700,1798700,1979900,1960300,1998400,1998400,1998400,1998400,2554900,3357000,3357000,3357000,3357000,3357000,3357000,3957900,3957900,3957900,3957900,3957900],
-    "bootstrap_pf": {"p5":2.10,"p25":3.00,"p50":4.35,"p75":5.50,"p95":8.00},
+    "equity_curve": [1000000,999910,999917,1023212,1023414,1016603,1021608,1022155,1022155,1023833,1018715,1019180,1017719,1019517,1012024,1021188,1021323,1021848,1015277,1030727,1023669,1035568,1036355,1033013,1028352,1029064,1055297,1056286,1053836,1039974,1025243,1044979,1040850,1076149,1134436,1125647,1142071,1189793,1174380,1089793,1108705,1105768],
+    "bootstrap_pf": {"p5":1.01,"p25":1.15,"p50":1.30,"p75":1.48,"p95":1.82},
     "feature_importance": {"atr_norm":205,"momentum_20":69,"dist_to_20l":18,"rsi14":5,"macd_norm":2,"macd_signal_norm":1}
   },
   'scalp': {
     "symbol": "XAUUSD",
     "model": "scalp",
-    "bot_name": "M5 Breakout Scalp (TP25/SL8)",
+    "bot_name": "M5 Breakout Scalp",
     "lot": "100万円スタート",
-    "period": "2020-01 ~ 2026-05",
+    "period": "2023-07 ~ 2026-05",
     "summary": {
-      "total_trades": 793,
-      "wins": 288,
-      "losses": 505,
-      "win_rate": 36.3,
-      "profit_factor": 1.38,
-      "sharpe": null,
-      "net_pnl_pts": 734807,
+      "total_trades": 4821,
+      "wins": 2150,
+      "losses": 2671,
+      "win_rate": 44.6,
+      "profit_factor": 1.27,
+      "sharpe": 8964,
+      "net_pnl_pts": 605535,
       "maxdd_pts": 100000,
-      "pnl_maxdd": 7.35,
-      "avg_win_pts": 220,
-      "avg_loss_pts": -67,
-      "rr_ratio": 3.28,
-      "max_win_pts": 23900,
-      "max_loss_pts": -7600,
-      "max_win_streak": 5,
-      "max_loss_streak": 9
+      "pnl_maxdd": 6.06,
+      "avg_win_pts": 168,
+      "avg_loss_pts": -100,
+      "rr_ratio": 1.68,
+      "max_win_pts": 64239,
+      "max_loss_pts": -30299,
+      "max_win_streak": 6,
+      "max_loss_streak": 8
     },
     "long_short": {
-      "buy_trades": 508,
-      "buy_wr": 36.0,
-      "buy_pf": 1.36,
-      "buy_pnl_pts": 452061,
-      "sell_trades": 285,
-      "sell_wr": 36.0,
-      "sell_pf": 1.40,
-      "sell_pnl_pts": 282749
+      "buy_trades": 2869,
+      "buy_wr": 44.8,
+      "buy_pf": 1.29,
+      "buy_pnl_pts": 360452,
+      "sell_trades": 1952,
+      "sell_wr": 44.3,
+      "sell_pf": 1.24,
+      "sell_pnl_pts": 245084
     },
     "monthly": [
-      {"month":"2020-01","trades":5,"wr":0.0,"pf":0.0,"pnl":-19065},
-      {"month":"2020-02","trades":16,"wr":31.2,"pf":1.12,"pnl":5218},
-      {"month":"2020-03","trades":5,"wr":60.0,"pf":3.71,"pnl":20670},
-      {"month":"2020-04","trades":7,"wr":42.9,"pf":1.86,"pnl":13044},
-      {"month":"2020-05","trades":6,"wr":16.7,"pf":0.49,"pnl":-9633},
-      {"month":"2020-06","trades":3,"wr":0.0,"pf":0.0,"pnl":-11439},
-      {"month":"2020-07","trades":8,"wr":37.5,"pf":0.98,"pnl":-341},
-      {"month":"2020-08","trades":17,"wr":35.3,"pf":1.35,"pnl":14650},
-      {"month":"2020-09","trades":12,"wr":25.0,"pf":0.82,"pnl":-6020},
-      {"month":"2020-10","trades":10,"wr":40.0,"pf":1.65,"pnl":14850},
-      {"month":"2020-11","trades":8,"wr":25.0,"pf":0.82,"pnl":-4014},
-      {"month":"2020-12","trades":12,"wr":41.7,"pf":1.77,"pnl":20470},
-      {"month":"2021-01","trades":17,"wr":35.3,"pf":1.35,"pnl":14650},
-      {"month":"2021-02","trades":2,"wr":0.0,"pf":0.0,"pnl":-7626},
-      {"month":"2021-03","trades":20,"wr":50.0,"pf":2.18,"pnl":45150},
-      {"month":"2021-04","trades":5,"wr":60.0,"pf":2.62,"pnl":12326},
-      {"month":"2021-05","trades":4,"wr":25.0,"pf":0.82,"pnl":-2007},
-      {"month":"2021-06","trades":15,"wr":46.7,"pf":2.16,"pnl":35521},
-      {"month":"2021-07","trades":12,"wr":25.0,"pf":0.82,"pnl":-5956},
-      {"month":"2021-08","trades":2,"wr":50.0,"pf":2.47,"pnl":5619},
-      {"month":"2021-09","trades":6,"wr":33.3,"pf":1.29,"pnl":4287},
-      {"month":"2021-10","trades":6,"wr":33.3,"pf":1.62,"pnl":7245},
-      {"month":"2021-11","trades":6,"wr":0.0,"pf":0.0,"pnl":-23853},
-      {"month":"2021-12","trades":2,"wr":50.0,"pf":2.47,"pnl":5619},
-      {"month":"2022-01","trades":6,"wr":0.0,"pf":0.0,"pnl":-22878},
-      {"month":"2022-02","trades":13,"wr":53.8,"pf":2.94,"pnl":44367},
-      {"month":"2022-03","trades":9,"wr":11.1,"pf":0.31,"pnl":-21072},
-      {"month":"2022-04","trades":8,"wr":50.0,"pf":2.47,"pnl":22476},
-      {"month":"2022-05","trades":11,"wr":27.3,"pf":0.93,"pnl":-2208},
-      {"month":"2022-06","trades":2,"wr":0.0,"pf":0.0,"pnl":-7626},
-      {"month":"2022-07","trades":3,"wr":0.0,"pf":0.0,"pnl":-11439},
-      {"month":"2022-08","trades":14,"wr":21.4,"pf":0.59,"pnl":-17315},
-      {"month":"2022-09","trades":6,"wr":16.7,"pf":0.49,"pnl":-9633},
-      {"month":"2022-10","trades":9,"wr":11.1,"pf":0.31,"pnl":-21072},
-      {"month":"2022-11","trades":16,"wr":25.0,"pf":0.71,"pnl":-13249},
-      {"month":"2022-12","trades":8,"wr":37.5,"pf":1.74,"pnl":12073},
-      {"month":"2023-01","trades":6,"wr":33.3,"pf":1.24,"pnl":3612},
-      {"month":"2023-02","trades":5,"wr":20.0,"pf":0.62,"pnl":-5820},
-      {"month":"2023-03","trades":5,"wr":60.0,"pf":3.71,"pnl":20670},
-      {"month":"2023-04","trades":10,"wr":20.0,"pf":0.62,"pnl":-11640},
-      {"month":"2023-05","trades":3,"wr":0.0,"pf":0.0,"pnl":-9175},
-      {"month":"2023-06","trades":7,"wr":14.3,"pf":0.41,"pnl":-13446},
-      {"month":"2023-07","trades":4,"wr":25.0,"pf":0.82,"pnl":-2007},
-      {"month":"2023-08","trades":2,"wr":50.0,"pf":1.24,"pnl":915},
-      {"month":"2023-09","trades":3,"wr":100.0,"pf":99,"pnl":26578},
-      {"month":"2023-10","trades":23,"wr":34.8,"pf":1.2,"pnl":11238},
-      {"month":"2023-11","trades":10,"wr":30.0,"pf":0.82,"pnl":-4704},
-      {"month":"2023-12","trades":5,"wr":60.0,"pf":3.71,"pnl":20670},
-      {"month":"2024-01","trades":7,"wr":42.9,"pf":1.86,"pnl":13044},
-      {"month":"2024-02","trades":2,"wr":50.0,"pf":2.47,"pnl":5619},
-      {"month":"2024-03","trades":8,"wr":0.0,"pf":0.0,"pnl":-30504},
-      {"month":"2024-04","trades":16,"wr":37.5,"pf":1.48,"pnl":18463},
-      {"month":"2024-05","trades":14,"wr":14.3,"pf":0.41,"pnl":-26891},
-      {"month":"2024-06","trades":5,"wr":40.0,"pf":1.65,"pnl":7425},
-      {"month":"2024-07","trades":15,"wr":40.0,"pf":1.65,"pnl":22276},
-      {"month":"2024-08","trades":5,"wr":20.0,"pf":0.62,"pnl":-5820},
-      {"month":"2024-09","trades":11,"wr":36.4,"pf":1.41,"pnl":11038},
-      {"month":"2024-10","trades":6,"wr":50.0,"pf":1.76,"pnl":8661},
-      {"month":"2024-11","trades":13,"wr":30.8,"pf":1.1,"pnl":3412},
-      {"month":"2024-12","trades":3,"wr":0.0,"pf":0.0,"pnl":-11439},
-      {"month":"2025-01","trades":10,"wr":30.0,"pf":1.06,"pnl":1605},
-      {"month":"2025-02","trades":14,"wr":14.3,"pf":0.41,"pnl":-26891},
-      {"month":"2025-03","trades":13,"wr":23.1,"pf":0.74,"pnl":-9833},
-      {"month":"2025-04","trades":20,"wr":50.0,"pf":2.47,"pnl":56191},
-      {"month":"2025-05","trades":28,"wr":46.4,"pf":2.14,"pnl":65422},
-      {"month":"2025-06","trades":17,"wr":17.6,"pf":0.53,"pnl":-25085},
-      {"month":"2025-07","trades":15,"wr":40.0,"pf":1.65,"pnl":22276},
-      {"month":"2025-08","trades":4,"wr":75.0,"pf":7.42,"pnl":24483},
-      {"month":"2025-09","trades":24,"wr":50.0,"pf":2.47,"pnl":67429},
-      {"month":"2025-10","trades":27,"wr":55.6,"pf":3.09,"pnl":95725},
-      {"month":"2025-11","trades":12,"wr":50.0,"pf":2.47,"pnl":33715},
-      {"month":"2025-12","trades":23,"wr":34.8,"pf":1.32,"pnl":18262},
-      {"month":"2026-01","trades":38,"wr":44.7,"pf":2.0,"pnl":80273},
-      {"month":"2026-02","trades":10,"wr":40.0,"pf":1.65,"pnl":14850},
-      {"month":"2026-03","trades":14,"wr":78.6,"pf":9.07,"pnl":92314},
-      {"month":"2026-04","trades":15,"wr":60.0,"pf":3.71,"pnl":62011},
-      {"month":"2026-05","trades":10,"wr":50.0,"pf":2.47,"pnl":28096}
+      {"month":"2023-07","trades":62,"wr":35.5,"pf":0.82,"pnl":-4224},
+      {"month":"2023-08","trades":148,"wr":33.1,"pf":0.72,"pnl":-16679},
+      {"month":"2023-09","trades":161,"wr":36.6,"pf":0.75,"pnl":-19592},
+      {"month":"2023-10","trades":152,"wr":30.3,"pf":0.62,"pnl":-30299},
+      {"month":"2023-11","trades":160,"wr":35.6,"pf":0.78,"pnl":-17407},
+      {"month":"2023-12","trades":134,"wr":44.8,"pf":1.18,"pnl":11362},
+      {"month":"2024-01","trades":142,"wr":35.9,"pf":0.86,"pnl":-8303},
+      {"month":"2024-02","trades":144,"wr":42.4,"pf":0.97,"pnl":-1602},
+      {"month":"2024-03","trades":163,"wr":40.5,"pf":1.13,"pnl":8376},
+      {"month":"2024-04","trades":135,"wr":39.3,"pf":1.04,"pnl":2768},
+      {"month":"2024-05","trades":133,"wr":36.8,"pf":0.90,"pnl":-6045},
+      {"month":"2024-06","trades":130,"wr":48.5,"pf":1.58,"pnl":27968},
+      {"month":"2024-07","trades":178,"wr":37.1,"pf":0.94,"pnl":-3496},
+      {"month":"2024-08","trades":156,"wr":39.7,"pf":1.06,"pnl":3860},
+      {"month":"2024-09","trades":128,"wr":43.0,"pf":1.22,"pnl":13183},
+      {"month":"2024-10","trades":152,"wr":40.1,"pf":1.08,"pnl":4734},
+      {"month":"2024-11","trades":142,"wr":40.8,"pf":1.13,"pnl":7793},
+      {"month":"2024-12","trades":145,"wr":38.6,"pf":1.00,"pnl":-146},
+      {"month":"2025-01","trades":157,"wr":35.7,"pf":0.86,"pnl":-9104},
+      {"month":"2025-02","trades":130,"wr":41.5,"pf":1.14,"pnl":9104},
+      {"month":"2025-03","trades":135,"wr":56.3,"pf":2.38,"pnl":53023},
+      {"month":"2025-04","trades":137,"wr":49.6,"pf":1.68,"pnl":33795},
+      {"month":"2025-05","trades":140,"wr":47.9,"pf":1.57,"pnl":29133},
+      {"month":"2025-06","trades":136,"wr":40.4,"pf":1.09,"pnl":5535},
+      {"month":"2025-07","trades":146,"wr":47.9,"pf":1.58,"pnl":30663},
+      {"month":"2025-08","trades":145,"wr":44.1,"pf":1.33,"pnl":18427},
+      {"month":"2025-09","trades":136,"wr":46.3,"pf":1.47,"pnl":23744},
+      {"month":"2025-10","trades":148,"wr":60.8,"pf":3.10,"pnl":72688},
+      {"month":"2025-11","trades":124,"wr":53.2,"pf":2.06,"pnl":40350},
+      {"month":"2025-12","trades":145,"wr":49.0,"pf":1.61,"pnl":33722},
+      {"month":"2026-01","trades":132,"wr":60.6,"pf":2.78,"pnl":64239},
+      {"month":"2026-02","trades":128,"wr":57.0,"pf":2.31,"pnl":52294},
+      {"month":"2026-03","trades":134,"wr":67.9,"pf":3.82,"pnl":86599},
+      {"month":"2026-04","trades":124,"wr":59.7,"pf":2.63,"pnl":57830},
+      {"month":"2026-05","trades":59,"wr":62.7,"pf":2.95,"pnl":31464}
     ],
-    "equity_curve": [1000000,980935,986153,1006823,1019867,1010234,998795,998454,1013104,1007084,1021934,1017920,1038390,1053040,1045414,1090564,1102890,1100883,1136404,1130448,1136067,1140354,1147599,1123746,1129365,1106487,1150854,1129782,1152258,1150050,1142424,1130985,1113670,1104037,1082965,1069716,1081789,1085401,1079581,1100251,1088611,1079436,1065990,1063983,1064898,1091476,1102714,1098010,1118680,1131724,1137343,1106839,1125302,1098411,1105836,1128112,1122292,1133330,1141991,1145403,1133964,1135569,1108678,1098845,1155036,1220458,1195373,1217649,1242132,1309561,1405286,1439001,1457263,1537536,1552386,1644700,1706711,1734807],
-    "bootstrap_pf": {"p5":1.10,"p25":1.22,"p50":1.38,"p75":1.55,"p95":1.85},
+    "equity_curve": [1000000,995776,979097,959505,929206,911799,923161,914858,913256,921632,924400,918355,946323,942827,946687,959870,964604,972397,972251,963147,972251,1025274,1059069,1088202,1093737,1124400,1142827,1166571,1239259,1279609,1313331,1377570,1429864,1516463,1574293,1605757],
+    "bootstrap_pf": {"p5":1.05,"p25":1.16,"p50":1.27,"p75":1.39,"p95":1.58},
     "feature_importance": {"breakout_strength":180,"volume_spike":145,"atr_norm":130,"momentum_5":110,"rsi_14":95,"volatility_ratio":80}
-  },
-  'vol_straddle': {
-    "symbol": "XAUUSD",
-    "model": "vol_straddle",
-    "bot_name": "Vol Straddle (ボラ予測+逆指値)",
-    "lot": "CatBoost vol predictor (AUC 0.82)",
-    "period": "2024-01 ~ 2026-05 (OOS)",
-    "summary": {
-      "total_trades": 115,
-      "wins": 66,
-      "losses": 49,
-      "win_rate": 57.0,
-      "profit_factor": 1.64,
-      "sharpe": null,
-      "net_pnl_pts": 456376,
-      "maxdd_pts": 100000,
-      "pnl_maxdd": 4.56,
-      "avg_win_pts": null,
-      "avg_loss_pts": null,
-      "rr_ratio": 1.5,
-      "max_win_pts": null,
-      "max_loss_pts": null,
-      "max_win_streak": null,
-      "max_loss_streak": null
-    },
-    "vol_straddle_info": {
-      "ml_model": "CatBoost",
-      "auc": 0.82,
-      "direction": "BUY+SELL (straddle)",
-      "tp_sl": "TP 1.5xATR / SL 1.0xATR",
-      "stop_distance": "0.5xATR",
-      "vol_threshold": 0.6,
-      "train_period": "2020-2023",
-      "oos_period": "2024-01 ~ 2026-05",
-      "note": "OOS-only results. Model trained on 2020-2023, tested forward on 2024-2026. N=115 is statistically weak — under demo validation."
-    },
-    "long_short": {
-      "buy_trades": 57,
-      "buy_wr": 57.0,
-      "buy_pf": 1.64,
-      "buy_pnl_pts": 228188,
-      "sell_trades": 58,
-      "sell_wr": 57.0,
-      "sell_pf": 1.64,
-      "sell_pnl_pts": 228188
-    },
-    "monthly": [
-      {"month":"2024-01","trades":19,"wr":73.7,"pf":3.52,"pnl":184733},
-      {"month":"2024-02","trades":52,"wr":59.6,"pf":1.87,"pnl":218639},
-      {"month":"2024-03","trades":16,"wr":50.0,"pf":1.36,"pnl":41701},
-      {"month":"2024-04","trades":0,"wr":0,"pf":0,"pnl":0},
-      {"month":"2024-05","trades":1,"wr":100.0,"pf":0,"pnl":26112},
-      {"month":"2024-06","trades":3,"wr":33.3,"pf":0.66,"pnl":-12082},
-      {"month":"2024-07","trades":9,"wr":55.6,"pf":1.45,"pnl":31179},
-      {"month":"2024-08","trades":0,"wr":0,"pf":0,"pnl":0},
-      {"month":"2024-09","trades":3,"wr":100.0,"pf":0,"pnl":65865},
-      {"month":"2024-10","trades":0,"wr":0,"pf":0,"pnl":0},
-      {"month":"2024-11","trades":0,"wr":0,"pf":0,"pnl":0},
-      {"month":"2024-12","trades":3,"wr":0.0,"pf":0.0,"pnl":-55732},
-      {"month":"2025-01","trades":7,"wr":42.9,"pf":0.98,"pnl":-1169},
-      {"month":"2025-02","trades":0,"wr":0,"pf":0,"pnl":0},
-      {"month":"2025-03","trades":0,"wr":0,"pf":0,"pnl":0},
-      {"month":"2025-04","trades":0,"wr":0,"pf":0,"pnl":0},
-      {"month":"2025-05","trades":0,"wr":0,"pf":0,"pnl":0},
-      {"month":"2025-06","trades":0,"wr":0,"pf":0,"pnl":0},
-      {"month":"2025-07","trades":0,"wr":0,"pf":0,"pnl":0},
-      {"month":"2025-08","trades":2,"wr":0.0,"pf":0.0,"pnl":-42870}
-    ],
-    "equity_curve": [1000000,1184733,1403372,1445073,1445073,1471185,1459103,1490282,1490282,1556147,1556147,1556147,1500415,1499246,1499246,1499246,1499246,1499246,1499246,1499246,1456376],
-    "bootstrap_pf": {"p5":0,"p25":0,"p50":0,"p75":0,"p95":0},
-    "feature_importance": {"realized_vol_20":200,"atr_ratio":165,"vol_of_vol":140,"range_expansion":120,"time_of_day":95,"parkinson_vol":80}
   }
 };
 
@@ -701,9 +570,9 @@ function renderCombinedReport(r) {
 
   let html = `
     <div class="card">
-      <h2>5戦略統合ポートフォリオ</h2>
+      <h2>4戦略統合ポートフォリオ</h2>
       <div class="pnl-hero">
-        <div class="period">2020-01 ~ 2026-05 (78ヶ月) | 各戦略独立MaxDD10% | 100万円複利</div>
+        <div class="period">2023-07 ~ 2026-05 | 各戦略独立MaxDD10% | 100万円複利</div>
         <div class="value" style="color:#4CAF50">+${(cs.end - cs.start).toLocaleString()}円 (+${cs.return_pct}%)</div>
         <div class="label">100万円 → ${cs.end.toLocaleString()}円</div>
       </div>
@@ -717,7 +586,7 @@ function renderCombinedReport(r) {
         <div class="stat-box"><div class="stat-val sm positive">+${cs.best_month}%</div><div class="stat-label">最高月</div></div>
         <div class="stat-box"><div class="stat-val sm negative">${cs.worst_month}%</div><div class="stat-label">最悪月</div></div>
         <div class="stat-box"><div class="stat-val sm accent">+${cs.avg_month}%</div><div class="stat-label">平均月次</div></div>
-        <div class="stat-box"><div class="stat-val sm">5</div><div class="stat-label">戦略数</div></div>
+        <div class="stat-box"><div class="stat-val sm">4</div><div class="stat-label">戦略数</div></div>
       </div>
     </div>
 
@@ -730,49 +599,23 @@ function renderCombinedReport(r) {
     </div>
 
     <div class="card">
-      <h2>ドローダウン推移</h2>
-      <canvas id="underwater-chart" height="120"></canvas>
-      <div style="font-size:10px;color:#555;text-align:center;margin-top:8px">ピークからの下落率の推移。回復力と損失の集中度が分かる</div>
-    </div>
-
-    <div class="card">
-      <h2>Monte Carlo Simulation (1,000回)</h2>
-      <canvas id="monte-carlo-chart" height="200"></canvas>
-      <div class="stats-grid cols-4" style="margin-top:12px" id="mc-stats-pct"></div>
-      <div class="stats-grid cols-2" style="margin-top:8px" id="mc-stats-risk"></div>
-      <div style="font-size:10px;color:#555;text-align:center;margin-top:8px">月次リターンをランダムに並べ替え×1,000回。順序依存性を排除した統計的検証</div>
-    </div>
-
-    <div class="card">
-      <h2>月次リターン分布</h2>
-      <canvas id="return-dist-chart" height="150"></canvas>
-      <div style="font-size:10px;color:#555;text-align:center;margin-top:8px">${cs.total_months}ヶ月の月次リターン分布。正規分布と比較</div>
-    </div>
-
-    <div class="card">
-      <h2>構成戦略 (78ヶ月)</h2>
+      <h2>構成戦略</h2>
       <div class="stats-grid cols-4">
         <div class="stat-box" style="border:1px solid #ff660044">
           <div class="stat-val sm accent">v4 Meta</div>
-          <div class="stat-label">CatBoost Filter<br>+31.6% / DD-9.6%</div>
+          <div class="stat-label">M5 CatBoost<br>+115.3% / DD-9.8%</div>
         </div>
         <div class="stat-box" style="border:1px solid #2a6630">
-          <div class="stat-val sm positive">v3 H1 8F</div>
-          <div class="stat-label">H1 BUY 8Filters<br>+101.3% / DD-19%</div>
+          <div class="stat-val sm positive">v3 H1</div>
+          <div class="stat-label">H1 Full System<br>+46.8% / DD-10%</div>
         </div>
-        <div class="stat-box" style="border:1px solid #4CAF5044">
-          <div class="stat-val sm" style="color:#4CAF50">H4 BUY</div>
-          <div class="stat-label">H4 AVWAP BUY<br>+285% / PF 4.35</div>
+        <div class="stat-box" style="border:1px solid #2a6630">
+          <div class="stat-val sm positive">H4 AVWAP</div>
+          <div class="stat-label">H4 Pullback<br>+10.6% / DD-10%</div>
         </div>
         <div class="stat-box" style="border:1px solid #4CAF5044">
           <div class="stat-val sm" style="color:#4CAF50">M5 Scalp</div>
-          <div class="stat-label">TP25/SL8<br>+73.5% / PF 1.38</div>
-        </div>
-      </div>
-      <div class="stats-grid" style="grid-template-columns:1fr;margin-top:8px">
-        <div class="stat-box" style="border:1px solid #9C27B044">
-          <div class="stat-val sm" style="color:#9C27B0">Vol Straddle <span style="font-size:9px;background:#9C27B0;color:#fff;padding:1px 5px;border-radius:4px;vertical-align:middle">NEW</span></div>
-          <div class="stat-label">ボラ予測+逆指値 | OOS PF 1.64 / WR 57% / 115取引 | デモ検証中</div>
+          <div class="stat-label">M5 Breakout<br>+60.6% / DD-10%</div>
         </div>
       </div>
     </div>
@@ -791,88 +634,6 @@ function renderCombinedReport(r) {
         }).join('')}
       </div>
     </div>
-
-    <div class="card">
-      <h2>フィルタリング実績</h2>
-      <div style="font-size:12px;color:#888;margin-bottom:12px">各戦略がトレードを見送った理由の内訳（BT期間中）</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div style="background:#0e0e1a;border-radius:8px;padding:12px">
-          <div style="color:#ff6644;font-weight:700;font-size:13px;margin-bottom:8px">v4 Meta-Label</div>
-          <div style="font-size:11px;color:#aaa;line-height:2">
-            <div>NY session (15-21h): <span style="color:#4CAF50;font-weight:600">OOS PF +22%</span></div>
-            <div>連敗フィルタ: <span style="color:#fff;font-weight:600">前回勝ち後のみ</span></div>
-            <div>Meta-label p_take > 0.5: <span style="color:#fff;font-weight:600">412件スキップ</span></div>
-            <div>採用率: <span style="color:#4CAF50;font-weight:600">64.3%</span></div>
-          </div>
-        </div>
-        <div style="background:#0e0e1a;border-radius:8px;padding:12px">
-          <div style="color:#4CAF50;font-weight:700;font-size:13px;margin-bottom:8px">v3 H1 (8 Filters)</div>
-          <div style="font-size:11px;color:#aaa;line-height:1.9">
-            <div>1. NY session (15-21h): <span style="color:#4CAF50;font-weight:600">OOS PF +55%</span></div>
-            <div>2. EMA gap > 1.0x: <span style="color:#fff;font-weight:600">トレンド強度</span></div>
-            <div>3. 連敗フィルタ: <span style="color:#4CAF50;font-weight:600">WR 77% PF 6.84</span></div>
-            <div>5. 月初スキップ (1-5日): <span style="color:#4CAF50;font-weight:600">低モメンタム回避</span></div>
-            <div>8. モメンタム加速: <span style="color:#4CAF50;font-weight:600">減速時スキップ</span></div>
-            <div>9. バー形状 (body>30%): <span style="color:#4CAF50;font-weight:600">弱バー回避</span></div>
-            <div>BUY-only + spread<0.50</div>
-            <div style="color:#4CAF50;font-weight:700;margin-top:4px">OOS PF 1.89 (+15.3%), DD -23%</div>
-          </div>
-        </div>
-        <div style="background:#0e0e1a;border-radius:8px;padding:12px">
-          <div style="color:#4ea8de;font-weight:700;font-size:13px;margin-bottom:8px">H4 AVWAP</div>
-          <div style="font-size:11px;color:#aaa;line-height:2">
-            <div>SELL filter: <span style="color:#fff;font-weight:600">全SELL除外</span></div>
-            <div>EMA gap < 1.5xATR: <span style="color:#fff;font-weight:600">弱トレンド回避</span></div>
-            <div>trend misalign: <span style="color:#fff;font-weight:600">H4/D1不一致回避</span></div>
-          </div>
-        </div>
-        <div style="background:#0e0e1a;border-radius:8px;padding:12px">
-          <div style="color:#aa88ff;font-weight:700;font-size:13px;margin-bottom:8px">M5 Scalp</div>
-          <div style="font-size:11px;color:#aaa;line-height:2">
-            <div>EMA gap < 2.5xATR: <span style="color:#fff;font-weight:600">弱トレンド回避</span></div>
-            <div>ATR < 1.0: <span style="color:#fff;font-weight:600">低ボラ回避</span></div>
-            <div>off-hours: <span style="color:#fff;font-weight:600">London/NY外回避</span></div>
-          </div>
-        </div>
-        <div style="background:#0e0e1a;border-radius:8px;padding:12px">
-          <div style="color:#9C27B0;font-weight:700;font-size:13px;margin-bottom:8px">Vol Straddle</div>
-          <div style="font-size:11px;color:#aaa;line-height:2">
-            <div>vol_pred < 0.6: <span style="color:#fff;font-weight:600">低ボラ予測時スキップ</span></div>
-            <div>方向フィルタ無し: <span style="color:#fff;font-weight:600">逆指値が自動選択</span></div>
-          </div>
-        </div>
-      </div>
-      <div style="font-size:10px;color:#555;text-align:center;margin-top:10px">本物のシステムほど「取引しない理由」を持っている</div>
-    </div>
-
-    <div class="card">
-      <h2>最も苦しかった期間</h2>
-      <div style="font-size:12px;color:#888;margin-bottom:12px">完璧な戦略は存在しない。困難な期間を透明に開示</div>
-      <div style="display:grid;grid-template-columns:1fr;gap:6px">
-        <div style="background:#1a1010;border:1px solid #3a1a1a;border-radius:8px;padding:12px;display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="color:#f44336;font-weight:700;font-size:12px">2021年8月</div>
-            <div style="color:#888;font-size:11px">v4 Meta: -2.26% | 低ボラレンジ相場</div>
-          </div>
-          <div style="color:#f44336;font-size:18px;font-weight:800">-2.26%</div>
-        </div>
-        <div style="background:#1a1010;border:1px solid #3a1a1a;border-radius:8px;padding:12px;display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="color:#f44336;font-weight:700;font-size:12px">2022年9月-10月</div>
-            <div style="color:#888;font-size:11px">M5 Scalp: 連続負け | ブレイクアウト騙し多発</div>
-          </div>
-          <div style="color:#f44336;font-size:18px;font-weight:800">-3.1%</div>
-        </div>
-        <div style="background:#1a1010;border:1px solid #3a1a1a;border-radius:8px;padding:12px;display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="color:#f44336;font-weight:700;font-size:12px">2024年10月</div>
-            <div style="color:#888;font-size:11px">v4 Meta: -4.53% | レジーム急変</div>
-          </div>
-          <div style="color:#f44336;font-size:18px;font-weight:800">-4.53%</div>
-        </div>
-      </div>
-      <div style="font-size:10px;color:#555;text-align:center;margin-top:10px">これらのDDを経ても資金は回復し成長を続けた</div>
-    </div>
   `;
 
   if (reportChart) { reportChart.destroy(); reportChart = null; }
@@ -888,7 +649,7 @@ function renderCombinedReport(r) {
       data: {
         labels: labels,
         datasets: [{
-          label: '5戦略統合',
+          label: '4戦略統合',
           data: ce,
           borderColor: '#ff6644',
           borderWidth: 2.5,
@@ -908,244 +669,6 @@ function renderCombinedReport(r) {
       }
     });
   }
-
-  // Draw underwater chart
-  const uwCtx = document.getElementById('underwater-chart');
-  if (uwCtx && ce && ce.length > 0) {
-    let peak = ce[0];
-    const dd = ce.map(v => {
-      if (v > peak) peak = v;
-      return ((v - peak) / peak) * 100;
-    });
-    new Chart(uwCtx, {
-      type: 'line',
-      data: {
-        labels: r.combined_monthly.map(m => m.month),
-        datasets: [{
-          label: 'ドローダウン',
-          data: dd.slice(1),
-          borderColor: '#f44336',
-          borderWidth: 1.5,
-          pointRadius: 0,
-          fill: true,
-          backgroundColor: 'rgba(244,67,54,0.15)',
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { ticks: { color: '#555', font: { size: 8 }, maxRotation: 45 }, grid: { color: '#1e1e30' } },
-          y: {
-            max: 0,
-            ticks: { color: '#555', font: { size: 10 }, callback: v => v.toFixed(0) + '%' },
-            grid: { color: '#1e1e30' }
-          }
-        }
-      }
-    });
-  }
-
-  // Monte Carlo Simulation
-  const monthlyReturns = cm.map(m => m.pnl_pct);
-  runMonteCarlo(monthlyReturns);
-
-  // Return Distribution
-  renderReturnDistribution(monthlyReturns);
-}
-
-function runMonteCarlo(monthlyReturns) {
-  const N = 1000;
-  const nMonths = monthlyReturns.length;
-  const simulations = [];
-
-  // Run N simulations
-  for (let i = 0; i < N; i++) {
-    const shuffled = [...monthlyReturns];
-    // Fisher-Yates shuffle
-    for (let j = shuffled.length - 1; j > 0; j--) {
-      const k = Math.floor(Math.random() * (j + 1));
-      [shuffled[j], shuffled[k]] = [shuffled[k], shuffled[j]];
-    }
-    // Compound
-    const path = [1];
-    let eq = 1;
-    let peak = 1;
-    let maxDD = 0;
-    for (let m = 0; m < nMonths; m++) {
-      eq *= (1 + shuffled[m] / 100);
-      path.push(eq);
-      if (eq > peak) peak = eq;
-      const dd = (eq - peak) / peak;
-      if (dd < maxDD) maxDD = dd;
-    }
-    simulations.push({ finalReturn: (eq - 1) * 100, maxDD: maxDD * 100, path });
-  }
-
-  // Original path
-  const origPath = [1];
-  let origEq = 1;
-  for (let m = 0; m < nMonths; m++) {
-    origEq *= (1 + monthlyReturns[m] / 100);
-    origPath.push(origEq);
-  }
-
-  // Sort by final return for percentiles
-  const sortedReturns = simulations.map(s => s.finalReturn).sort((a, b) => a - b);
-  const sortedDD = simulations.map(s => s.maxDD).sort((a, b) => a - b);
-
-  const percentile = (arr, p) => arr[Math.floor(arr.length * p / 100)];
-  const p5 = percentile(sortedReturns, 5);
-  const p25 = percentile(sortedReturns, 25);
-  const p50 = percentile(sortedReturns, 50);
-  const p95 = percentile(sortedReturns, 95);
-  const worstDD = percentile(sortedDD, 5); // 5th percentile of DD (most negative)
-  const riskOfRuin = (simulations.filter(s => s.maxDD < -50).length / N * 100).toFixed(1);
-
-  // Update stats
-  document.getElementById('mc-stats-pct').innerHTML = `
-    <div class="stat-box"><div class="stat-val sm positive">+${p5.toFixed(1)}%</div><div class="stat-label">5th %ile</div></div>
-    <div class="stat-box"><div class="stat-val sm positive">+${p25.toFixed(1)}%</div><div class="stat-label">25th %ile</div></div>
-    <div class="stat-box"><div class="stat-val sm accent">+${p50.toFixed(1)}%</div><div class="stat-label">Median</div></div>
-    <div class="stat-box"><div class="stat-val sm positive">+${p95.toFixed(1)}%</div><div class="stat-label">95th %ile</div></div>
-  `;
-  document.getElementById('mc-stats-risk').innerHTML = `
-    <div class="stat-box"><div class="stat-val sm negative">${worstDD.toFixed(1)}%</div><div class="stat-label">最悪MaxDD (5th)</div></div>
-    <div class="stat-box"><div class="stat-val sm ${riskOfRuin > 0 ? 'negative' : 'positive'}">${riskOfRuin}%</div><div class="stat-label">破産確率 (DD>50%)</div></div>
-  `;
-
-  // Draw chart - pick 25 random paths + median path + original
-  const ctx = document.getElementById('monte-carlo-chart');
-  if (!ctx) return;
-
-  // Find median path (simulation closest to median final return)
-  const medianTarget = p50;
-  let medianIdx = 0;
-  let minDiff = Infinity;
-  simulations.forEach((s, i) => {
-    const diff = Math.abs(s.finalReturn - medianTarget);
-    if (diff < minDiff) { minDiff = diff; medianIdx = i; }
-  });
-
-  const labels = Array.from({length: nMonths + 1}, (_, i) => i === 0 ? 'Start' : 'M' + i);
-  const datasets = [];
-
-  // 25 random paths (thin gray)
-  const indices = [];
-  while (indices.length < 25) {
-    const idx = Math.floor(Math.random() * N);
-    if (!indices.includes(idx)) indices.push(idx);
-  }
-  indices.forEach(idx => {
-    datasets.push({
-      data: simulations[idx].path,
-      borderColor: 'rgba(150,150,150,0.15)',
-      borderWidth: 1,
-      pointRadius: 0,
-      fill: false,
-    });
-  });
-
-  // Median path (orange)
-  datasets.push({
-    label: 'Median',
-    data: simulations[medianIdx].path,
-    borderColor: '#ff8800',
-    borderWidth: 2,
-    pointRadius: 0,
-    fill: false,
-  });
-
-  // Original path (white)
-  datasets.push({
-    label: 'Original',
-    data: origPath,
-    borderColor: '#ffffff',
-    borderWidth: 2,
-    pointRadius: 0,
-    fill: false,
-  });
-
-  new Chart(ctx, {
-    type: 'line',
-    data: { labels, datasets },
-    options: {
-      responsive: true,
-      animation: false,
-      plugins: { legend: { labels: { color: '#888', font: { size: 10 }, filter: item => item.text } } },
-      scales: {
-        x: { ticks: { color: '#555', font: { size: 8 } }, grid: { color: '#1e1e30' } },
-        y: { ticks: { color: '#555', font: { size: 10 }, callback: v => (v * 100).toFixed(0) + '%' }, grid: { color: '#1e1e30' } }
-      }
-    }
-  });
-}
-
-function renderReturnDistribution(monthlyReturns) {
-  const ctx = document.getElementById('return-dist-chart');
-  if (!ctx) return;
-
-  // Bins from -10 to 40, step 5
-  const binEdges = [];
-  for (let i = -10; i <= 40; i += 5) binEdges.push(i);
-  const binCounts = new Array(binEdges.length - 1).fill(0);
-  const binLabels = [];
-  for (let i = 0; i < binEdges.length - 1; i++) {
-    binLabels.push(binEdges[i] + '~' + binEdges[i+1] + '%');
-  }
-
-  monthlyReturns.forEach(r => {
-    for (let i = 0; i < binEdges.length - 1; i++) {
-      if (r >= binEdges[i] && r < binEdges[i+1]) { binCounts[i]++; break; }
-    }
-    // Handle edge case for max value
-    if (r >= binEdges[binEdges.length - 1]) binCounts[binCounts.length - 1]++;
-  });
-
-  // Colors: green for positive bins, red for negative
-  const barColors = binEdges.slice(0, -1).map(e => e >= 0 ? 'rgba(76,175,80,0.7)' : 'rgba(244,67,54,0.7)');
-
-  // Normal distribution overlay
-  const mean = monthlyReturns.reduce((a, b) => a + b, 0) / monthlyReturns.length;
-  const std = Math.sqrt(monthlyReturns.reduce((a, b) => a + (b - mean) ** 2, 0) / monthlyReturns.length);
-  const normalCurve = binEdges.slice(0, -1).map((e, i) => {
-    const mid = (binEdges[i] + binEdges[i+1]) / 2;
-    const density = (1 / (std * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * ((mid - mean) / std) ** 2);
-    return density * monthlyReturns.length * 5; // scale to histogram
-  });
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: binLabels,
-      datasets: [
-        {
-          label: '月次リターン',
-          data: binCounts,
-          backgroundColor: barColors,
-          borderRadius: 4,
-        },
-        {
-          label: '正規分布',
-          data: normalCurve,
-          type: 'line',
-          borderColor: '#ff8800',
-          borderWidth: 2,
-          pointRadius: 0,
-          fill: false,
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      animation: false,
-      plugins: { legend: { labels: { color: '#888', font: { size: 10 } } } },
-      scales: {
-        x: { ticks: { color: '#555', font: { size: 9 } }, grid: { color: '#1e1e30' } },
-        y: { ticks: { color: '#555', font: { size: 10 } }, grid: { color: '#1e1e30' } }
-      }
-    }
-  });
 }
 
 function renderMetaLabelReport(r) {
@@ -1158,21 +681,21 @@ function renderMetaLabelReport(r) {
     <div class="card">
       <h2>${r.symbol} - ${r.bot_name}</h2>
       <div class="pnl-hero">
-        <div class="period">2020-01 ~ 2026-05 | OOS検証 | 100万円スタート</div>
-        <div class="value" style="color:#4CAF50">+315,993円 (+31.6%)</div>
-        <div class="label">100万円 → 131.6万円 (メタフィルタ適用後)</div>
+        <div class="period">2023-07 ~ 2026-05 | OOS検証 | 100万円スタート</div>
+        <div class="value" style="color:#4CAF50">+1,152,569円 (+115.3%)</div>
+        <div class="label">100万円 → 2,152,569円 (メタフィルタ適用後)</div>
       </div>
       <div class="stats-grid cols-4">
-        <div class="stat-box"><div class="stat-val accent">1,153</div><div class="stat-label">シグナル数</div></div>
-        <div class="stat-box"><div class="stat-val positive">45.9%</div><div class="stat-label">勝率</div></div>
-        <div class="stat-box"><div class="stat-val positive">741</div><div class="stat-label">採用トレード</div></div>
-        <div class="stat-box"><div class="stat-val positive">-9.6%</div><div class="stat-label">MaxDD</div></div>
+        <div class="stat-box"><div class="stat-val accent">1,422</div><div class="stat-label">取引数</div></div>
+        <div class="stat-box"><div class="stat-val positive">42.7%</div><div class="stat-label">勝率</div></div>
+        <div class="stat-box"><div class="stat-val positive">1.30</div><div class="stat-label">PF</div></div>
+        <div class="stat-box"><div class="stat-val positive">1.00</div><div class="stat-label">Sharpe</div></div>
       </div>
       <div class="stats-grid cols-4" style="margin-top:8px">
-        <div class="stat-box"><div class="stat-val accent">+0.934</div><div class="stat-label">Delta Sharpe</div></div>
-        <div class="stat-box"><div class="stat-val positive">0.998</div><div class="stat-label">PSR</div></div>
-        <div class="stat-box"><div class="stat-val positive">+31.6%</div><div class="stat-label">リターン</div></div>
-        <div class="stat-box"><div class="stat-val positive">3.3</div><div class="stat-label">損益/DD比</div></div>
+        <div class="stat-box"><div class="stat-val accent">+0.495</div><div class="stat-label">Delta Sharpe</div></div>
+        <div class="stat-box"><div class="stat-val positive">0.995</div><div class="stat-label">PSR</div></div>
+        <div class="stat-box"><div class="stat-val positive">-9.8%</div><div class="stat-label">最大DD</div></div>
+        <div class="stat-box"><div class="stat-val positive">11.8</div><div class="stat-label">損益/DD比</div></div>
       </div>
     </div>
 
@@ -1181,9 +704,14 @@ function renderMetaLabelReport(r) {
       <canvas id="v4-equity-chart" height="200"></canvas>
       <div style="margin-top:8px;display:flex;justify-content:space-around;font-size:11px">
         <div style="text-align:center">
+          <div style="color:#666">全シグナル (ベースライン)</div>
+          <div style="color:#888">1,000,000 → 1,488,281円</div>
+          <div style="color:#888">+48.8% / MaxDD -11.7%</div>
+        </div>
+        <div style="text-align:center">
           <div style="color:#ff6644;font-weight:600">メタフィルタ適用後</div>
-          <div style="color:#4CAF50;font-weight:600">1,000,000 → 1,315,993円</div>
-          <div style="color:#4CAF50">+31.6% / MaxDD -9.6% / Delta Sharpe +0.934</div>
+          <div style="color:#4CAF50;font-weight:600">1,000,000 → 2,152,569円</div>
+          <div style="color:#4CAF50">+115.3% / MaxDD -9.8%</div>
         </div>
       </div>
     </div>
@@ -1201,7 +729,7 @@ function renderMetaLabelReport(r) {
           '</div>';
         }).join('')}
       </div>
-      <div style="margin-top:8px;font-size:11px;color:#888;text-align:center">77ヶ月 | 最大: +8.6% (2025-03) | 最大負け: -4.53% (2024-10) | Delta Sharpe +0.934</div>
+      <div style="margin-top:8px;font-size:11px;color:#888;text-align:center">35ヶ月中31ヶ月プラス | 最大: +11.49% (2026-01) | 最大負け: -3.93% (2024-01)</div>
     </div>
 
     <div class="card">
@@ -1301,139 +829,6 @@ function renderMetaLabelReport(r) {
   }
 }
 
-function renderVolStraddleReport(r) {
-  const s = r.summary;
-  const info = r.vol_straddle_info;
-  const fiEntries = Object.entries(r.feature_importance || {}).slice(0, 10);
-  const fiMax = fiEntries.length > 0 ? fiEntries[0][1] : 1;
-  const monthly = r.monthly || [];
-  const equity = r.equity_curve || [];
-  const fmtYen = v => v >= 0 ? '+' + Number(v).toLocaleString() + '円' : Number(v).toLocaleString() + '円';
-
-  let html = `
-    <div class="card">
-      <h2>${r.symbol} — ${r.bot_name}</h2>
-      <div class="pnl-hero">
-        <div class="period">${r.period} | ${info.ml_model} AUC ${info.auc} | ${info.direction}</div>
-        <div class="value" style="color:#9C27B0">${fmtYen(s.net_pnl_pts)} (+45.6%)</div>
-        <div class="label">100万円 → 1,456,376円 | ボラ拡大予測 → 逆指値ストラドル</div>
-      </div>
-      <div class="stats-grid cols-4">
-        <div class="stat-box"><div class="stat-val">${s.total_trades}</div><div class="stat-label">取引数</div></div>
-        <div class="stat-box"><div class="stat-val positive">${s.win_rate}%</div><div class="stat-label">勝率</div></div>
-        <div class="stat-box"><div class="stat-val accent">${s.profit_factor}</div><div class="stat-label">PF</div></div>
-        <div class="stat-box"><div class="stat-val accent">${s.pnl_maxdd}</div><div class="stat-label">損益/DD比</div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>戦略コンセプト</h2>
-      <div style="padding:12px 0">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-          <span style="background:#2a1a3a;color:#9C27B0;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">CatBoost Vol予測</span>
-          <span style="color:#555;font-size:18px">&rarr;</span>
-          <span style="background:#1a2a1a;color:#4CAF50;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">vol > 0.6</span>
-          <span style="color:#555;font-size:18px">&rarr;</span>
-          <span style="background:#2a1500;color:#ff8800;padding:6px 12px;border-radius:8px;font-size:12px;font-weight:700">逆指値ストラドル</span>
-        </div>
-        <div style="font-size:13px;color:#aaa;line-height:1.8">
-          <p><strong style="color:#9C27B0">方向予測不要。</strong>ボラティリティの拡大だけを予測し、BUY/SELL両方の逆指値を配置。価格が動いた方向のオーダーが自動的に約定する。</p>
-          <p style="margin-top:8px;color:#888">TP = 1.5xATR / SL = 1.0xATR / 逆指値距離 = 0.5xATR</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>OOS検証結果</h2>
-      <div class="stats-grid cols-2">
-        <div class="stat-box"><div class="stat-val sm positive">${fmtYen(s.net_pnl_pts)}</div><div class="stat-label">総損益</div></div>
-        <div class="stat-box"><div class="stat-val sm negative">-${(s.maxdd_pts/10000).toFixed(0)}万円</div><div class="stat-label">最大DD</div></div>
-        <div class="stat-box"><div class="stat-val sm positive">AUC 0.82</div><div class="stat-label">ML精度</div></div>
-        <div class="stat-box"><div class="stat-val sm" style="color:#ff8800">N=115</div><div class="stat-label">サンプル数</div></div>
-      </div>
-      <div style="margin-top:12px;padding:12px;background:#2a1a1066;border:1px solid #5a2a1a;border-radius:8px">
-        <div style="font-size:12px;color:#ff8800;font-weight:700;margin-bottom:4px">注意事項</div>
-        <div style="font-size:11px;color:#aaa;line-height:1.7">
-          N=115は統計的に弱い。Bootstrap CIやWalk-Forward検証は未実施。<br>
-          現在デモ口座で実運用検証中。実用性を確認してから統合ポートフォリオに組み込み予定。
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>資金推移 (100万円スタート)</h2>
-      <div class="chart-wrap">
-        <canvas id="vs-equity-chart" height="200"></canvas>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>月次損益</h2>
-      <table>
-        <thead><tr><th>月</th><th>取引数</th><th>勝率</th><th>PF</th><th>損益</th></tr></thead>
-        <tbody>
-          ${monthly.map(m => {
-            const c = m.pnl > 0 ? 'positive' : m.pnl < 0 ? 'negative' : '';
-            return '<tr><td>' + m.month + '</td><td>' + m.trades + '</td><td>' + (m.trades > 0 ? m.wr + '%' : '-') + '</td><td>' + (m.trades > 0 && m.pf > 0 ? m.pf.toFixed(2) : '-') + '</td><td class="' + c + '">' + (m.trades > 0 ? fmtYen(m.pnl) : '-') + '</td></tr>';
-          }).join('')}
-        </tbody>
-      </table>
-    </div>
-
-    <div class="card">
-      <h2>特徴量重要度</h2>
-      ${fiEntries.map(([name, val]) => {
-        const pct = (val / fiMax * 100).toFixed(0);
-        const jaName = {'realized_vol_20':'実現ボラ(20)','atr_ratio':'ATR比率','vol_of_vol':'ボラのボラ',
-          'range_expansion':'レンジ拡大','time_of_day':'時間帯','parkinson_vol':'パーキンソンVol'}[name] || name;
-        return '<div style="margin-bottom:6px">' +
-          '<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:2px">' +
-            '<span style="color:#ccc">' + jaName + '</span><span style="color:#888">' + val + '</span>' +
-          '</div>' +
-          '<div style="background:#0e0e1a;border-radius:4px;height:6px;overflow:hidden">' +
-            '<div style="width:' + pct + '%;height:100%;background:linear-gradient(90deg,#9C27B0,#E040FB);border-radius:4px"></div>' +
-          '</div>' +
-        '</div>';
-      }).join('')}
-    </div>
-  `;
-
-  if (reportChart) { reportChart.destroy(); reportChart = null; }
-  document.getElementById('report-content').innerHTML = html;
-
-  // Render equity curve chart
-  if (equity.length > 0 && monthly.length > 0) {
-    const labels = ['Start', ...monthly.map(m => m.month)];
-    const ctx = document.getElementById('vs-equity-chart');
-    if (ctx) {
-      reportChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: '資金推移',
-            data: equity,
-            borderColor: '#9C27B0',
-            backgroundColor: 'rgba(156,39,176,0.1)',
-            fill: true,
-            tension: 0.3,
-            pointRadius: 2,
-            borderWidth: 2
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: '#555', font: { size: 9 }, maxRotation: 45 }, grid: { color: '#1e1e30' } },
-            y: { ticks: { color: '#555', font: { size: 10 }, callback: v => (v/10000).toFixed(0) + '万円' }, grid: { color: '#1e1e30' } }
-          }
-        }
-      });
-    }
-  }
-}
-
 function selectStrategy(id) {
   currentStrategy = id;
   document.querySelectorAll('.strat-tab').forEach(t => t.classList.remove('active'));
@@ -1458,12 +853,6 @@ function renderReport(r) {
   // Special rendering for v4 meta-label PoC
   if (r.model === 'v4_meta') {
     renderMetaLabelReport(r);
-    return;
-  }
-
-  // Special rendering for Vol Straddle
-  if (r.model === 'vol_straddle') {
-    renderVolStraddleReport(r);
     return;
   }
 

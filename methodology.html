@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BURNING ZERO — 検証方法論</title>
+<script src="i18n.js?v=20260517b" onerror="window.t=function(k){return k};window.setLang=function(){};window.renderLangPicker=function(){return ''};window.currentLang='ja';"></script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -178,9 +179,10 @@ a { text-decoration: none; color: inherit; }
   <header class="header">
     <a href="/" class="header-logo">BURNING ZERO</a>
     <div class="header-right">
-      <a href="/" class="nav-link">ホーム</a>
-      <a href="backtest.html" class="nav-link">バックテスト</a>
-      <a href="https://app.burningzero.com" class="nav-link">ダッシュボード</a>
+      <a href="/" class="nav-link" data-i18n="nav_home">ホーム</a>
+      <a href="backtest.html" class="nav-link" data-i18n="nav_backtest">BT結果</a>
+      <a href="methodology.html" class="nav-link" data-i18n="nav_methodology">検証内容</a>
+      <a href="https://app.burningzero.com" class="nav-link" data-i18n="nav_app">ダッシュボード</a>
     </div>
   </header>
 
@@ -202,7 +204,7 @@ a { text-decoration: none; color: inherit; }
       </tr>
       <tr>
         <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">OOSパラメータ検証</td>
-        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">合格</span> <span style="color:#666;font-size:10px;margin-left:4px">5/5戦略</span></td>
+        <td style="text-align:right;padding:10px 8px;border-bottom:1px solid #1a1a2a"><span style="background:#1a3a1a;color:#4CAF50;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700">合格</span> <span style="color:#666;font-size:10px;margin-left:4px">4/4戦略</span></td>
       </tr>
       <tr>
         <td style="padding:10px 8px;border-bottom:1px solid #1a1a2a;color:#ccc">リークテスト (7項目)</td>
@@ -234,13 +236,11 @@ a { text-decoration: none; color: inherit; }
         <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#4CAF50">v3 H1</th>
         <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#4ea8de">H4 AVWAP</th>
         <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#aa88ff">M5 Scalp</th>
-        <th style="text-align:center;padding:8px 6px;border-bottom:1px solid #1e1e30;color:#9C27B0">Vol Straddle</th>
       </tr>
       <tr>
         <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">Walk-Forward OOS</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">Purged K-Fold</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">6mo/2mo rolling</td>
-        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#f44336">未実施</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#f44336">未実施</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#f44336">未実施</td>
       </tr>
@@ -250,7 +250,6 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">ML無し</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">ML無し</td>
-        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
       </tr>
       <tr>
         <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">レジーム検証</td>
@@ -258,13 +257,11 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#ff8800">artifact確定</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
-        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
       </tr>
       <tr>
         <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">Bootstrap CI</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">1000 resamples</td>
-        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#888">---</td>
       </tr>
@@ -274,13 +271,11 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">0.35固定</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">0.35固定</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">1.5pips</td>
-        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">0.5xATR</td>
       </tr>
       <tr>
         <td style="padding:8px 6px;border-bottom:1px solid #1a1a2a;color:#ccc">パラメータ最適化</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">CV内で学習</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">WF内で学習</td>
-        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">OOS検証済</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">OOS検証済</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">OOS検証済</td>
       </tr>
@@ -290,7 +285,6 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#ff8800">BUY-only</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#ff8800">BUY-only</td>
         <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">BUY+SELL</td>
-        <td style="text-align:center;padding:8px;border-bottom:1px solid #1a1a2a;color:#4CAF50">BUY+SELL</td>
       </tr>
       <tr>
         <td style="padding:8px 6px;color:#ccc">ML使用</td>
@@ -298,7 +292,6 @@ a { text-decoration: none; color: inherit; }
         <td style="text-align:center;padding:8px;color:#4CAF50">LightGBM</td>
         <td style="text-align:center;padding:8px;color:#888">ルールベース</td>
         <td style="text-align:center;padding:8px;color:#888">ルールベース</td>
-        <td style="text-align:center;padding:8px;color:#4CAF50">CatBoost</td>
       </tr>
     </table>
   </div>
@@ -316,13 +309,11 @@ a { text-decoration: none; color: inherit; }
   </div>
 
   <div class="method-section">
-    <h2>v3 H1 Full System (Walk-Forward OOS + 8 Filters)</h2>
+    <h2>v3 H1 Full System (Walk-Forward OOS検証)</h2>
     <ul>
       <li>6ヶ月学習 → 2ヶ月テスト → ローリング（全35ヶ月分OOS）</li>
       <li>Bootstrap 1000回 — 5th percentile PF > 1.0 を確認</li>
       <li>レジーム分類器 (KMeans) でStrong Trend Up / Volatility Expansion を識別</li>
-      <li style="color:#4CAF50">8フィルタ統合: NY(15-21h) + EMA gap>1.0 + 連敗 + 月初(1-5日)スキップ + モメンタム加速 + バー形状(body>30%) + BUY-only + spread</li>
-      <li style="color:#4CAF50">OOS結果: PF 1.89 (141取引, WR 46.8%), Baseline比 PF +15.3%, MaxDD -23%削減</li>
     </ul>
     <div class="timeline-diagram">
       <div class="timeline-block train">Train 6M</div>
@@ -359,36 +350,6 @@ a { text-decoration: none; color: inherit; }
     </ul>
   </div>
 
-  <div class="method-section" style="border-color:#9C27B044">
-    <h2>Vol Straddle <span style="background:#9C27B0;color:#fff;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700">新規・検証中</span></h2>
-    <ul>
-      <li>ボラ拡大予測(CatBoost AUC 0.82) + 逆指値ストラドル</li>
-      <li style="color:#4CAF50">OOS検証済み: 2024-2026 PF 1.64, WR 57%, 115取引</li>
-      <li>方向予測不要 — ボラ拡大だけ予測し、逆指値が正しい方向を自動選択</li>
-      <li style="color:#ff8800">N=115は統計的に弱い。デモ検証で実用性を確認中</li>
-      <li>学習期間: 2020-2023 → テスト期間: 2024-2026 (完全OOS)</li>
-    </ul>
-  </div>
-
-  <!-- Research Top 10 Findings -->
-  <div class="method-section" style="border-color:#2a4a2a">
-    <h2>研究トップ10の知見 <span style="background:#4CAF50;color:#fff;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700">2026-05 適用</span></h2>
-    <p style="margin-bottom:16px;color:#888">XAU/USD H1データに対する系統的リサーチから導出した10項目。OOSで有効性を確認したフィルタをライブBotに適用しています。</p>
-    <ul>
-      <li style="color:#4CAF50"><strong>1. NYセッション (15-21h UTC)</strong> — NY時間帯のみエントリー。OOSで PF +22% 改善。流動性が厚く、トレンド方向の継続性が高い時間帯に限定 <span style="font-size:10px;color:#888">[v3 H1, v4 Meta適用]</span></li>
-      <li style="color:#4CAF50"><strong>2. EMA gap &gt; 1.0x ATR</strong> — EMA21とEMA50の乖離がATRの1倍以上の場合のみエントリー。OOSで PF +55% 改善。トレンド強度が十分な局面を選別 <span style="font-size:10px;color:#888">[v3 H1適用]</span></li>
-      <li style="color:#4CAF50"><strong>3. 連敗フィルタ</strong> — 前回トレードが勝ちの場合のみ次のエントリーを許可。負けた直後はスキップし、次の勝ちまで待機。OOS WR 77%、PF 6.84。ドローダウンを大幅に削減 <span style="font-size:10px;color:#888">[v3 H1, v4 Meta適用]</span></li>
-      <li style="color:#4CAF50"><strong>4. v4 Meta-Label</strong> — CatBoostによるメタラベリング。Purged K-Fold OOS検証済み、PSR 0.998 <span style="font-size:10px;color:#888">[v4 Meta適用]</span></li>
-      <li style="color:#4CAF50"><strong>5. 月初スキップ (day 1-5)</strong> — 月初はモメンタムが弱く勝率低下。日付1-5日をスキップすることでノイズトレード回避 <span style="font-size:10px;color:#888">[v3 H1適用]</span></li>
-      <li style="color:#888"><strong>6. Engulfingパターン</strong> — N=54で統計的に弱い。実装見送り</li>
-      <li style="color:#888"><strong>7. 週フィルタ (Week 3-4)</strong> — フィルタが制限的すぎる。実装見送り</li>
-      <li style="color:#4CAF50"><strong>8. モメンタム加速フィルタ</strong> — 直近3本リターン vs 前3本リターンを比較。明確な減速時(recent &lt; prev*0.5)をスキップ。トレンド継続局面のみ選別 <span style="font-size:10px;color:#888">[v3 H1適用]</span></li>
-      <li style="color:#4CAF50"><strong>9. エントリーバー形状 (body &gt; 30%)</strong> — ローソク足の実体がレンジの30%未満の場合スキップ。十字線やコマ足での弱いエントリーを回避 <span style="font-size:10px;color:#888">[v3 H1適用]</span></li>
-      <li style="color:#4CAF50"><strong>10. M5 Scalp</strong> — M15トレンド方向にM5ブレイクアウト。OOS PF 1.60 (640取引) <span style="font-size:10px;color:#888">[M5 Scalp Bot適用]</span></li>
-    </ul>
-    <p style="margin-top:12px;color:#4CAF50;font-size:12px;font-weight:700">v3 H1 全フィルタ統合結果: OOS PF 1.89 (141取引, WR 46.8%), Baseline比 PF +15.3%, MaxDD -23% 削減</p>
-  </div>
-
   <!-- Monte Carlo -->
   <div class="method-section">
     <h2>Monte Carlo (1,000回)</h2>
@@ -414,12 +375,12 @@ a { text-decoration: none; color: inherit; }
   <div class="method-section" style="border-color:#3a2a1a">
     <h2>正直な限界</h2>
     <ul>
-      <li>全戦略が統計的に有意であるとは主張しない — v4 MetaとV3 H1のみPSR/Bootstrap検証済み。Vol StraddleはN=115で統計的に弱い</li>
+      <li>全戦略が統計的に有意であるとは主張しない — v4 MetaとV3 H1のみPSR/Bootstrap検証済み</li>
       <li>H4 AVWAP: OOS PF 4.28 だがBUY-only + 82取引でregime依存リスクあり</li>
       <li>M5 Scalp: OOS PF 1.60 は双方向640取引で比較的信頼性高い</li>
-      <li style="color:#f44336">統合ポートフォリオの+3,244%は信用すべきでない — (1) 5戦略加算で実効リスクは最大50% (2) 大半BUY-onlyで金bull前提 (3) 複利の増幅効果で見かけ上大きくなる</li>
-      <li>4/5戦略がBUY-only — 2020-2026の金上昇トレンドに依存。Vol Straddleのみ双方向だが下落相場での検証は不十分</li>
-      <li>「各戦略MaxDD 10%」は個別の最大リスクであり、5戦略同時運用の最大リスクは理論上50%</li>
+      <li style="color:#f44336">統合ポートフォリオの+3,244%は信用すべきでない — (1) 4戦略加算で実効リスクは最大40% (2) 全戦略BUY-onlyで金bull前提 (3) 複利の増幅効果で見かけ上大きくなる</li>
+      <li>全戦略がBUY-only — 2020-2026の金上昇トレンドに依存。下落相場に転換した場合、全戦略が同時に損失を出すリスクがある</li>
+      <li>「各戦略MaxDD 10%」は個別の最大リスクであり、4戦略同時運用の最大リスクは理論上40%</li>
       <li>BT結果は50%割引で見積もる — 実運用との乖離は過去に確認済み</li>
       <li>最低3ヶ月のデモ検証を経てからライブ移行する方針</li>
       <li>バックテスト結果は将来の利益を保証しない</li>

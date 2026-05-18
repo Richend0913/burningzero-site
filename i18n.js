@@ -4,7 +4,7 @@ const TRANSLATIONS = {
     // Landing
     hero_title: "AI-Powered Gold Trading",
     hero_subtitle: "3 ML models vote unanimously. You profit automatically.",
-    hero_cta: "Access Validation Dashboard",
+    hero_cta: "Open Account (Free)",
     hero_stats_wr: "Win Rate",
     hero_stats_pf: "Profit Factor",
     hero_stats_trades: "Backtest Trades",
@@ -82,8 +82,8 @@ const TRANSLATIONS = {
     entry: "Entry",
     exit: "Exit",
     confidence: "Confidence",
-    open_account: "Access Validation Tools (Free)",
-    ib_desc: "Available with Exness partner broker account",
+    open_account: "Open Account (Exness)",
+    ib_desc: "Free access with partner broker account",
     loading: "Loading...",
     report_not_found: "Report not found",
     gold: "Gold",
@@ -97,6 +97,24 @@ const TRANSLATIONS = {
     nav_app: "App",
     nav_backtest: "Backtest",
     nav_methodology: "Methodology",
+    nav_register: "Register",
+    nav_login: "Login",
+    nav_mypage: "My Page",
+    nav_admin: "Admin",
+    overview_title: "Overview",
+    stat_status: "Status",
+    bot_control_title: "Bot Control",
+    auto_trading_label: "Auto-Trading",
+    auto_trading_desc: "Enable or disable signal execution",
+    settings_title: "Settings",
+    lot_mode_label: "Lot Mode",
+    lot_mode_fixed: "Fixed",
+    lot_mode_dynamic: "Dynamic (%)",
+    risk_pct_label: "Risk %",
+    settings_strategies_title: "Strategies",
+    save_settings_btn: "Save Settings",
+    open_positions_title: "Open Positions",
+    no_open_positions: "No open positions",
     nav_bt: "Backtest",
     // Hero stats
     hero_stats_strategies: "Strategies",
@@ -144,7 +162,7 @@ const TRANSLATIONS = {
   ja: {
     hero_title: "定量的ゴールドトレーディング",
     hero_subtitle: "4つの戦略を同時運用。78ヶ月OOS検証済み。統計的に検証されたエッジのみを運用。",
-    hero_cta: "検証ダッシュボードを利用する",
+    hero_cta: "口座開設（無料）",
     hero_stats_wr: "勝率",
     hero_stats_pf: "プロフィットファクター",
     hero_stats_trades: "BT取引数",
@@ -220,8 +238,8 @@ const TRANSLATIONS = {
     entry: "エントリー",
     exit: "決済",
     confidence: "確信度",
-    open_account: "無料で検証ツールを使う",
-    ib_desc: "Exnessパートナー口座の開設で利用可能",
+    open_account: "口座開設 (Exness)",
+    ib_desc: "提携ブローカーで口座開設すると無料で利用可能",
     loading: "読み込み中...",
     report_not_found: "レポートが見つかりません",
     gold: "ゴールド",
@@ -233,7 +251,25 @@ const TRANSLATIONS = {
     nav_home: "ホーム",
     nav_app: "App",
     nav_backtest: "BT結果",
-    nav_methodology: "検証",
+    nav_methodology: "検証内容",
+    nav_register: "新規登録",
+    nav_login: "ログイン",
+    nav_mypage: "マイページ",
+    nav_admin: "管理",
+    overview_title: "概要",
+    stat_status: "状態",
+    bot_control_title: "Bot制御",
+    auto_trading_label: "自動取引",
+    auto_trading_desc: "シグナル実行のON/OFF",
+    settings_title: "設定",
+    lot_mode_label: "ロットモード",
+    lot_mode_fixed: "固定",
+    lot_mode_dynamic: "動的(%)",
+    risk_pct_label: "リスク%",
+    settings_strategies_title: "戦略",
+    save_settings_btn: "設定を保存",
+    open_positions_title: "保有ポジション",
+    no_open_positions: "保有ポジションなし",
     nav_bt: "バックテスト",
     // Hero stats
     hero_stats_strategies: "戦略数",
@@ -336,7 +372,7 @@ const TRANSLATIONS = {
     gold: "Oro", gold_micro: "Oro (Micro)",
     bitcoin: "Bitcoin", bitcoin_micro: "Bitcoin (Micro)",
     logout: "Cerrar Sesión", lang_name: "Español",
-    nav_home: "Inicio", nav_app: "App", nav_backtest: "Backtest", nav_methodology: "Metodología", nav_bt: "Backtest",
+    nav_home: "Inicio", nav_app: "App", nav_backtest: "Backtest", nav_methodology: "Metodología", nav_bt: "Backtest", nav_register: "Registrarse", nav_login: "Iniciar sesión", nav_mypage: "Mi Página",
     hero_stats_strategies: "Estrategias",
     select_model: "Seleccionar Modelo", pf: "PF", hour_suffix: "h", currency_suffix: "",
     bot_trinity: "ZERO TRINITY",
@@ -429,7 +465,7 @@ const TRANSLATIONS = {
     gold: "黄金", gold_micro: "黄金 (Micro)",
     bitcoin: "比特币", bitcoin_micro: "比特币 (Micro)",
     logout: "退出", lang_name: "中文",
-    nav_home: "首页", nav_app: "App", nav_backtest: "回测", nav_methodology: "验证", nav_bt: "回测",
+    nav_home: "首页", nav_app: "App", nav_backtest: "回测", nav_methodology: "验证", nav_bt: "回测", nav_register: "注册", nav_login: "登录", nav_mypage: "我的页面",
     hero_stats_strategies: "策略数",
     select_model: "选择模型", pf: "PF", hour_suffix: "h", currency_suffix: "",
     bot_trinity: "ZERO TRINITY",
@@ -522,7 +558,7 @@ const TRANSLATIONS = {
     gold: "ذهب", gold_micro: "ذهب (Micro)",
     bitcoin: "بيتكوين", bitcoin_micro: "بيتكوين (Micro)",
     logout: "خروج", lang_name: "العربية",
-    nav_home: "الرئيسية", nav_app: "App", nav_backtest: "اختبار", nav_methodology: "المنهجية", nav_bt: "اختبار",
+    nav_home: "الرئيسية", nav_app: "App", nav_backtest: "اختبار", nav_methodology: "المنهجية", nav_bt: "اختبار", nav_register: "تسجيل", nav_login: "دخول", nav_mypage: "صفحتي",
     hero_stats_strategies: "الاستراتيجيات",
     select_model: "اختر نموذجاً", pf: "PF", hour_suffix: "h", currency_suffix: "",
     bot_trinity: "ZERO TRINITY",
@@ -597,6 +633,28 @@ function setLang(lang) {
   const picker = document.getElementById('lang-current');
   if (picker) picker.textContent = TRANSLATIONS[currentLang].lang_name;
 }
+
+// Global logout — clears auth state and redirects to home
+function bzLogout() {
+  localStorage.removeItem('bz_token');
+  localStorage.removeItem('bz_is_admin');
+  window.location.href = '/';
+}
+
+// Auth-aware nav visibility — runs on every page that loads i18n.js
+function applyNavAuth() {
+  const token = localStorage.getItem('bz_token');
+  const isAdmin = localStorage.getItem('bz_is_admin') === 'true' || localStorage.getItem('bz_is_admin') === '1';
+  document.querySelectorAll('[data-auth]').forEach(el => {
+    const role = el.dataset.auth;
+    let show = false;
+    if (role === 'guest') show = !token;
+    else if (role === 'user') show = !!token;
+    else if (role === 'admin') show = !!token && isAdmin;
+    el.style.display = show ? '' : 'none';
+  });
+}
+document.addEventListener('DOMContentLoaded', applyNavAuth);
 
 // Language picker HTML (call from page init)
 function renderLangPicker() {
