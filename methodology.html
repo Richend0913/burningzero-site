@@ -368,6 +368,17 @@ a { text-decoration: none; color: inherit; }
     </ul>
   </div>
 
+  <!-- OOS Validated Filters -->
+  <div class="method-section" style="border-color:#2a4a2a">
+    <h2>OOS検証済みフィルタ <span style="background:#4CAF50;color:#fff;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700">2026-05 適用</span></h2>
+    <p style="margin-bottom:16px;color:#888">OOSデータで有効性を確認したフィルタを全ライブBotに適用しています。</p>
+    <ul>
+      <li style="color:#4CAF50"><strong>NYセッション (15-21h UTC)</strong> — NY時間帯のみエントリー。OOSで PF +22% 改善。流動性が厚く、トレンド方向の継続性が高い時間帯に限定</li>
+      <li style="color:#4CAF50"><strong>EMA gap &gt; 1.0x ATR</strong> — EMA21とEMA50の乖離がATRの1倍以上の場合のみエントリー。OOSで PF +55% 改善。トレンド強度が十分な局面を選別</li>
+      <li style="color:#4CAF50"><strong>連敗フィルタ</strong> — 前回トレードが勝ちの場合のみ次のエントリーを許可。負けた直後はスキップし、次の勝ちまで待機。OOS WR 77%、PF 6.84。ドローダウンを大幅に削減</li>
+    </ul>
+  </div>
+
   <!-- Monte Carlo -->
   <div class="method-section">
     <h2>Monte Carlo (1,000回)</h2>
