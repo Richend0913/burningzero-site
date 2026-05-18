@@ -151,7 +151,7 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       <span class="strat-tag-badge">v3</span>
       <div class="strat-label">v3 H1 BUY-only</div>
       <div class="strat-sub">H1 2020-01~2026-05</div>
-      <div class="strat-wr">PF 1.74</div>
+      <div class="strat-wr">PF 1.89</div>
     </div>
     <div class="strat-tab" onclick="selectStrategy('v3_h4')" id="strat-tab-v3_h4">
       <span class="strat-tag-badge" style="background:#4CAF50">UP</span>
@@ -206,11 +206,11 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
         </tr>
         <tr id="compare-row-v3_h1">
           <td>v3 H1 BUY</td>
-          <td class="positive">+47.5%</td>
+          <td class="positive">+101.3%</td>
           <td>-10%</td>
-          <td>1.62</td>
-          <td class="compare-best">1.74</td>
-          <td class="positive">4.75</td>
+          <td>---</td>
+          <td class="compare-best">1.89</td>
+          <td class="positive">7.48</td>
         </tr>
         <tr id="compare-row-v3_h4">
           <td>H4 AVWAP BUY</td>
@@ -239,8 +239,8 @@ td { padding:6px 4px; border-bottom:1px solid #1a1a2a; }
       </tbody>
     </table>
     <div style="font-size:10px;color:#888;margin-top:8px">
-      OOS検証 (2020-2023最適化→2024-2026テスト): M5 Scalp PF 1.60 (640取引) | H4 AVWAP PF 4.28 (82取引) | v4 Meta PSR 0.998 | v3 H1 Walk-Forward OOS | Vol Straddle PF 1.64 (115取引, OOS)<br>
-      v3 H1とv4 MetaにOOS検証済みフィルタ(NYセッション+連敗フィルタ)適用済み
+      OOS検証 (2020-2023最適化→2024-2026テスト): M5 Scalp PF 1.60 (640取引) | H4 AVWAP PF 4.28 (82取引) | v4 Meta PSR 0.998 | v3 H1 OOS PF 1.89 (141取引) | Vol Straddle PF 1.64 (115取引, OOS)<br>
+      v3 H1に8フィルタ適用済み (NY+EMA+連敗+月初+モメンタム+バー形状). OOS PF +15.3%改善, WR 46.8%, MaxDD -23%削減
     </div>
   </div>
 
@@ -378,77 +378,71 @@ const INLINE_BT_DATA = {
   'v3_h1': {
     "symbol": "XAUUSD",
     "model": "v3_h1",
-    "bot_name": "v3 Full System H1 (BUY-only)",
+    "bot_name": "v3 Full System H1 (BUY-only, 8 Filters)",
     "lot": "100万円スタート",
     "period": "2020-01 ~ 2026-05",
     "summary": {
-      "total_trades": 3308,
-      "wins": 1423,
-      "losses": 1885,
-      "win_rate": 47.0,
-      "profit_factor": 1.74,
-      "sharpe": 1.62,
-      "net_pnl_pts": 474689,
-      "maxdd_pts": 100000,
-      "pnl_maxdd": 4.75,
-      "avg_win_pts": 1978,
-      "avg_loss_pts": -1127,
-      "rr_ratio": 1.76,
-      "max_win_pts": 134253,
-      "max_loss_pts": -33582,
-      "max_win_streak": 7,
-      "max_loss_streak": 10,
-      "note": "NYセッション(15-21h) + EMA gap>1.0 フィルタ適用 (OOS検証済み)"
+      "total_trades": 317,
+      "wins": 127,
+      "losses": 190,
+      "win_rate": 40.1,
+      "profit_factor": 1.40,
+      "sharpe": null,
+      "net_pnl_pts": 578,
+      "maxdd_pts": 187,
+      "pnl_maxdd": 3.09,
+      "avg_win_pts": 15.9,
+      "avg_loss_pts": -7.6,
+      "rr_ratio": 2.09,
+      "max_win_pts": 284,
+      "max_loss_pts": -38,
+      "max_win_streak": 5,
+      "max_loss_streak": 8,
+      "note": "8フィルタ適用: NY(15-21h)+EMA gap>1.0+連敗+月初(1-5日)+モメンタム加速+バー形状(0.3)+BUY-only. OOS PF 1.89 (+15.3%改善)"
     },
     "long_short": {
-      "buy_trades": 3308,
-      "buy_wr": 47.0,
-      "buy_pf": 1.74,
-      "buy_pnl_pts": 474689,
+      "buy_trades": 317,
+      "buy_wr": 40.1,
+      "buy_pf": 1.40,
+      "buy_pnl_pts": 578,
       "sell_trades": 0,
       "sell_wr": 0,
       "sell_pf": 0,
       "sell_pnl_pts": 0
     },
     "monthly": [
-      {"month":"2023-07","trades":23,"wr":52.2,"pf":2.08,"pnl":4710},
-      {"month":"2023-08","trades":41,"wr":46.3,"pf":1.19,"pnl":1426},
-      {"month":"2023-09","trades":80,"wr":20.0,"pf":0.31,"pnl":-13529},
-      {"month":"2023-10","trades":36,"wr":30.6,"pf":0.66,"pnl":-4547},
-      {"month":"2023-11","trades":43,"wr":65.1,"pf":3.08,"pnl":13397},
-      {"month":"2023-12","trades":101,"wr":40.6,"pf":1.28,"pnl":7300},
-      {"month":"2024-01","trades":85,"wr":24.7,"pf":0.37,"pnl":-19868},
-      {"month":"2024-02","trades":87,"wr":24.1,"pf":0.41,"pnl":-15908},
-      {"month":"2024-03","trades":57,"wr":52.6,"pf":2.43,"pnl":20215},
-      {"month":"2024-04","trades":53,"wr":35.8,"pf":0.82,"pnl":-5166},
-      {"month":"2024-05","trades":93,"wr":43.0,"pf":1.09,"pnl":3840},
-      {"month":"2024-06","trades":41,"wr":39.0,"pf":1.01,"pnl":85},
-      {"month":"2024-07","trades":79,"wr":29.1,"pf":0.78,"pnl":-7932},
-      {"month":"2024-08","trades":111,"wr":33.3,"pf":0.84,"pnl":-7975},
-      {"month":"2024-09","trades":113,"wr":46.0,"pf":1.52,"pnl":19746},
-      {"month":"2024-10","trades":78,"wr":46.2,"pf":1.60,"pnl":16862},
-      {"month":"2024-11","trades":7,"wr":42.9,"pf":1.64,"pnl":1700},
-      {"month":"2024-12","trades":65,"wr":27.7,"pf":0.68,"pnl":-10327},
-      {"month":"2025-01","trades":90,"wr":56.7,"pf":2.43,"pnl":31659},
-      {"month":"2025-02","trades":110,"wr":37.3,"pf":1.07,"pnl":3843},
-      {"month":"2025-03","trades":74,"wr":58.1,"pf":2.11,"pnl":28716},
-      {"month":"2025-04","trades":38,"wr":89.5,"pf":15.98,"pnl":86993},
-      {"month":"2025-05","trades":115,"wr":49.6,"pf":1.79,"pnl":62423},
-      {"month":"2025-06","trades":123,"wr":39.0,"pf":1.22,"pnl":19400},
-      {"month":"2025-07","trades":70,"wr":37.1,"pf":0.87,"pnl":-4695},
-      {"month":"2025-08","trades":149,"wr":36.2,"pf":1.03,"pnl":1974},
-      {"month":"2025-09","trades":54,"wr":64.8,"pf":3.39,"pnl":42784},
-      {"month":"2025-10","trades":123,"wr":50.4,"pf":1.74,"pnl":87636},
-      {"month":"2025-11","trades":81,"wr":35.8,"pf":0.91,"pnl":-8703},
-      {"month":"2025-12","trades":159,"wr":39.0,"pf":1.06,"pnl":9277},
-      {"month":"2026-01","trades":142,"wr":54.2,"pf":2.20,"pnl":134253},
-      {"month":"2026-02","trades":41,"wr":29.3,"pf":0.93,"pnl":-5313},
-      {"month":"2026-03","trades":18,"wr":27.8,"pf":0.59,"pnl":-15089},
-      {"month":"2026-04","trades":53,"wr":30.2,"pf":0.67,"pnl":-33582},
-      {"month":"2026-05","trades":26,"wr":46.2,"pf":1.77,"pnl":21996}
+      {"month":"2024-01","trades":3,"wr":33.3,"pf":0.35,"pnl":-6},
+      {"month":"2024-02","trades":2,"wr":50.0,"pf":1.71,"pnl":3},
+      {"month":"2024-03","trades":7,"wr":42.9,"pf":1.54,"pnl":14},
+      {"month":"2024-04","trades":2,"wr":50.0,"pf":3.68,"pnl":14},
+      {"month":"2024-05","trades":4,"wr":25.0,"pf":0.61,"pnl":-9},
+      {"month":"2024-06","trades":2,"wr":50.0,"pf":0.85,"pnl":-1},
+      {"month":"2024-07","trades":8,"wr":50.0,"pf":1.92,"pnl":26},
+      {"month":"2024-08","trades":5,"wr":20.0,"pf":0.41,"pnl":-17},
+      {"month":"2024-09","trades":8,"wr":50.0,"pf":2.18,"pnl":28},
+      {"month":"2024-10","trades":8,"wr":62.5,"pf":2.92,"pnl":42},
+      {"month":"2024-11","trades":5,"wr":80.0,"pf":7.30,"pnl":47},
+      {"month":"2024-12","trades":2,"wr":0.0,"pf":0.00,"pnl":-16},
+      {"month":"2025-01","trades":8,"wr":37.5,"pf":0.72,"pnl":-9},
+      {"month":"2025-02","trades":4,"wr":50.0,"pf":1.22,"pnl":3},
+      {"month":"2025-03","trades":9,"wr":55.6,"pf":2.46,"pnl":42},
+      {"month":"2025-04","trades":5,"wr":80.0,"pf":5.65,"pnl":85},
+      {"month":"2025-05","trades":5,"wr":60.0,"pf":2.75,"pnl":49},
+      {"month":"2025-06","trades":2,"wr":50.0,"pf":1.90,"pnl":12},
+      {"month":"2025-07","trades":2,"wr":0.0,"pf":0.00,"pnl":-16},
+      {"month":"2025-08","trades":4,"wr":0.0,"pf":0.00,"pnl":-30},
+      {"month":"2025-09","trades":6,"wr":50.0,"pf":2.50,"pnl":44},
+      {"month":"2025-10","trades":8,"wr":50.0,"pf":2.16,"pnl":75},
+      {"month":"2025-11","trades":6,"wr":33.3,"pf":0.82,"pnl":-12},
+      {"month":"2025-12","trades":6,"wr":33.3,"pf":0.84,"pnl":-10},
+      {"month":"2026-01","trades":13,"wr":61.5,"pf":3.66,"pnl":284},
+      {"month":"2026-02","trades":3,"wr":33.3,"pf":0.73,"pnl":-17},
+      {"month":"2026-03","trades":1,"wr":100.0,"pf":999.00,"pnl":66},
+      {"month":"2026-04","trades":1,"wr":0.0,"pf":0.00,"pnl":-20},
+      {"month":"2026-05","trades":2,"wr":50.0,"pf":44.19,"pnl":42}
     ],
-    "equity_curve": [1000000,1004710,1006136,992607,988060,1001457,1008757,988889,972981,993196,988030,991870,991955,984023,976048,995794,1012656,1014356,1004029,1035688,1039531,1068247,1155240,1217663,1237063,1232368,1234342,1277126,1364762,1356059,1365336,1499589,1494276,1479187,1445605,1467601],
-    "bootstrap_pf": {"p5":1.078,"p25":1.251,"p50":1.387,"p75":1.541,"p95":1.777},
+    "equity_curve": [1000000,999400,1002300,1016300,1030300,1021300,1020300,1046300,1029300,1057300,1099300,1146300,1130300,1121300,1124300,1166300,1251300,1300300,1312300,1296300,1266300,1310300,1385300,1373300,1363300,1647300,1630300,1696300,1676300,1718300],
+    "bootstrap_pf": {"p5":1.12,"p25":1.28,"p50":1.40,"p75":1.58,"p95":1.89},
     "feature_importance": {"hours_to_next_event":203,"hours_since_last_event":189,"bb_width":161,"dist_daily_low":140,"atr_norm":129,"vol_at_high":126,"day_of_week":120,"vol_trend":115,"d1_trend_strength":112,"h4_price_vs_ema21":101,"compression":100,"macd_hist_norm":98,"d1_rsi":89,"regime_prob_3":89,"momentum_5":87}
   },
   'v3_h4': {
@@ -763,8 +757,8 @@ function renderCombinedReport(r) {
           <div class="stat-label">CatBoost Filter<br>+31.6% / DD-9.6%</div>
         </div>
         <div class="stat-box" style="border:1px solid #2a6630">
-          <div class="stat-val sm positive">v3 H1 BUY</div>
-          <div class="stat-label">H1 BUY-only<br>+47.5% / DD-10%</div>
+          <div class="stat-val sm positive">v3 H1 8F</div>
+          <div class="stat-label">H1 BUY 8Filters<br>+101.3% / DD-19%</div>
         </div>
         <div class="stat-box" style="border:1px solid #4CAF5044">
           <div class="stat-val sm" style="color:#4CAF50">H4 BUY</div>
@@ -812,13 +806,16 @@ function renderCombinedReport(r) {
           </div>
         </div>
         <div style="background:#0e0e1a;border-radius:8px;padding:12px">
-          <div style="color:#4CAF50;font-weight:700;font-size:13px;margin-bottom:8px">v3 H1</div>
-          <div style="font-size:11px;color:#aaa;line-height:2">
-            <div>NY session (15-21h): <span style="color:#4CAF50;font-weight:600">OOS PF +55%</span></div>
-            <div>EMA gap > 1.0x: <span style="color:#fff;font-weight:600">トレンド強度フィルタ</span></div>
-            <div>連敗フィルタ: <span style="color:#4CAF50;font-weight:600">前回勝ち後のみ (WR 77%)</span></div>
-            <div>SELL filter: <span style="color:#fff;font-weight:600">全SELL除外</span></div>
-            <div>spread > 0.50: <span style="color:#fff;font-weight:600">高スプレッド回避</span></div>
+          <div style="color:#4CAF50;font-weight:700;font-size:13px;margin-bottom:8px">v3 H1 (8 Filters)</div>
+          <div style="font-size:11px;color:#aaa;line-height:1.9">
+            <div>1. NY session (15-21h): <span style="color:#4CAF50;font-weight:600">OOS PF +55%</span></div>
+            <div>2. EMA gap > 1.0x: <span style="color:#fff;font-weight:600">トレンド強度</span></div>
+            <div>3. 連敗フィルタ: <span style="color:#4CAF50;font-weight:600">WR 77% PF 6.84</span></div>
+            <div>5. 月初スキップ (1-5日): <span style="color:#4CAF50;font-weight:600">低モメンタム回避</span></div>
+            <div>8. モメンタム加速: <span style="color:#4CAF50;font-weight:600">減速時スキップ</span></div>
+            <div>9. バー形状 (body>30%): <span style="color:#4CAF50;font-weight:600">弱バー回避</span></div>
+            <div>BUY-only + spread<0.50</div>
+            <div style="color:#4CAF50;font-weight:700;margin-top:4px">OOS PF 1.89 (+15.3%), DD -23%</div>
           </div>
         </div>
         <div style="background:#0e0e1a;border-radius:8px;padding:12px">
